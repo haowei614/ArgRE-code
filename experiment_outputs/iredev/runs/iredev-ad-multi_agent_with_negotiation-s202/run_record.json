@@ -1,0 +1,566 @@
+{
+  "run_id": "iredev-ad-multi_agent_with_negotiation-s202",
+  "case_id": "AD",
+  "system": "iredev",
+  "setting": "multi_agent_with_negotiation",
+  "seed": 202,
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "round_cap": 3,
+  "system_identity": {
+    "system_name": "iredev",
+    "implementation": "deterministic-parity-pipeline",
+    "implementation_version": "0.1.0",
+    "python_version": "3.14.0",
+    "platform": "Linux-6.18.10-2-cachyos-lts-x86_64-with-glibc2.43",
+    "machine": "x86_64"
+  },
+  "provenance": {
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "seed": 202,
+    "prompt_hash": "1ba498b78c21560fc469408ecdee90f5774ae6b6f95d0ad4bcdf6ed15c653a9e",
+    "corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "corpus_path": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base"
+  },
+  "execution_flags": {
+    "rag_fallback_used": false,
+    "llm_fallback_used": true,
+    "fallback_tainted": true,
+    "retry_used": true,
+    "retry_count": 4
+  },
+  "comparability": {
+    "is_comparable": false,
+    "non_comparable_reasons": [
+      "verification_not_executed_for_setting"
+    ]
+  },
+  "max_tokens": 4000,
+  "rag_enabled": true,
+  "rag_backend": "local_tfidf",
+  "rag_fallback_used": false,
+  "start_timestamp": "2026-02-17T09:25:02Z",
+  "end_timestamp": "2026-02-17T09:27:46Z",
+  "runtime_seconds": 164.342438,
+  "artifacts_dir": "experiment_outputs/iredev/runs/iredev-ad-multi_agent_with_negotiation-s202",
+  "artifact_paths": {
+    "phase1_initial_models.json": "experiment_outputs/iredev/runs/iredev-ad-multi_agent_with_negotiation-s202/phase1_initial_models.json",
+    "phase2_negotiation_trace.json": "experiment_outputs/iredev/runs/iredev-ad-multi_agent_with_negotiation-s202/phase2_negotiation_trace.json",
+    "phase3_integrated_kaos_model.json": "experiment_outputs/iredev/runs/iredev-ad-multi_agent_with_negotiation-s202/phase3_integrated_kaos_model.json",
+    "phase4_verification_report.json": "experiment_outputs/iredev/runs/iredev-ad-multi_agent_with_negotiation-s202/phase4_verification_report.json"
+  },
+  "artifact_blinded": false,
+  "blinding_scheme_version": "",
+  "blind_eval_run_id": "",
+  "judge_pipeline_hash": "aca4416c757997fb3f3688c03e0d361b94a59adaca560b6cc5221f89f386eebd",
+  "trace_audit_path": "",
+  "notes": {
+    "phase_a_b": true,
+    "generation_mode": "deterministic-parity-pipeline",
+    "runtime_semantics": {
+      "mode": "iredev_knowledge_driven_v1",
+      "workflow_version": "1",
+      "paper_workflow_enabled": true,
+      "setting": "multi_agent_with_negotiation",
+      "llm_required": true,
+      "llm_source": "openai",
+      "llm_enabled": true,
+      "llm_seed": 202,
+      "llm_seed_applied_turns": 29,
+      "llm_turns": 29,
+      "llm_fallback_turns": 4,
+      "llm_retry_count": 4,
+      "llm_parse_recoveries": 0,
+      "execution_mode": "llm_hybrid_fallback",
+      "llm_actions": [
+        "DialogueWithEndUser",
+        "DialogueWithEndUser",
+        "DialogueWithEndUser",
+        "RespondEndUser",
+        "RespondEndUser",
+        "RespondEndUser",
+        "RaiseQuestionEndUser",
+        "RaiseQuestionEndUser",
+        "RaiseQuestionEndUser",
+        "ConfirmOrRefineEndUser",
+        "ConfirmOrRefineEndUser",
+        "ConfirmOrRefineEndUser",
+        "DialogueWithDeployer",
+        "DialogueWithDeployer",
+        "DialogueWithDeployer",
+        "RespondDeployer",
+        "RespondDeployer",
+        "RespondDeployer",
+        "RaiseQuestionDeployer",
+        "RaiseQuestionDeployer",
+        "RaiseQuestionDeployer",
+        "ConfirmOrRefineDeployer",
+        "ConfirmOrRefineDeployer",
+        "ConfirmOrRefineDeployer",
+        "WriteOperatingEnvironmentList",
+        "WriteSystemRequirementsList",
+        "SelectRequirementModel",
+        "BuildRequirementModel",
+        "ConfirmClosure"
+      ],
+      "fallback_actions": [
+        "WriteInterviewRecords",
+        "WriteUserRequirementsList",
+        "WriteSRS",
+        "Evaluate"
+      ],
+      "roles_executed": [
+        "Interviewer",
+        "EndUser",
+        "Deployer",
+        "Analyst",
+        "Archivist",
+        "Reviewer"
+      ],
+      "actions_executed": [
+        "DialogueWithEndUser",
+        "WriteInterviewRecords",
+        "WriteUserRequirementsList",
+        "DialogueWithDeployer",
+        "WriteOperatingEnvironmentList",
+        "RespondEndUser",
+        "RaiseQuestionEndUser",
+        "ConfirmOrRefineEndUser",
+        "RespondDeployer",
+        "RaiseQuestionDeployer",
+        "ConfirmOrRefineDeployer",
+        "WriteSystemRequirementsList",
+        "SelectRequirementModel",
+        "BuildRequirementModel",
+        "WriteSRS",
+        "Evaluate",
+        "ConfirmClosure"
+      ],
+      "role_action_map": {
+        "Interviewer": [
+          "DialogueWithEndUser",
+          "WriteInterviewRecords",
+          "WriteUserRequirementsList",
+          "DialogueWithDeployer",
+          "WriteOperatingEnvironmentList"
+        ],
+        "EndUser": [
+          "RespondEndUser",
+          "RaiseQuestionEndUser",
+          "ConfirmOrRefineEndUser"
+        ],
+        "Deployer": [
+          "RespondDeployer",
+          "RaiseQuestionDeployer",
+          "ConfirmOrRefineDeployer"
+        ],
+        "Analyst": [
+          "WriteSystemRequirementsList",
+          "SelectRequirementModel",
+          "BuildRequirementModel"
+        ],
+        "Archivist": [
+          "WriteSRS"
+        ],
+        "Reviewer": [
+          "Evaluate",
+          "ConfirmClosure"
+        ]
+      },
+      "action_trace": [
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The interview questions aim to uncover user goals, pain points, and acceptance criteria by exploring performance expectations, trade-offs between safety and efficiency, and specific features needed for optimal system design."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The interview questions aim to uncover user goals, pain points, and acceptance criteria related to passenger comfort and safety, focusing on Jerk minimization and balancing safety with efficiency."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The generated interview questions aim to uncover user goals, pain points, and acceptance criteria by exploring comfort, safety, and efficiency needs through 5W1H and Socratic questioning."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The end user highlights critical pain points regarding passenger comfort, safety in curved paths, handling unexpected obstacles, and balancing safety with efficiency in vehicle operations."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The end user's responses highlight significant pain points regarding passenger discomfort due to acceleration, the critical nature of safety in sharp curves, the unpredictability of obstacles requiring advanced handling, and the ongoing conflict between safety and efficiency in operations."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The end user emphasizes the importance of minimizing passenger discomfort, ensuring vehicle safety in sharp curves, effectively handling unpredictable obstacles, and balancing safety with efficiency."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The questions aim to clarify the balance between safety and efficiency, the handling of curvature constraints, the management of non-convex obstacles, and the impact of rapid acceleration on passenger comfort."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The end user raises critical questions to clarify how the system will address conflicts between safety and efficiency, ensure adherence to curvature constraints, and effectively manage non-convex obstacles while maintaining passenger comfort."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The end user raises critical questions regarding the balance between safety and efficiency, the integrity of curvature constraints, and the handling of non-convex obstacles to ensure passenger comfort."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requirements have been confirmed with emphasis on minimizing 'Jerk' for comfort, ensuring curvature constraints for safety, effectively handling non-convex obstacles, and addressing the balance between safety and efficiency."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The existing requirements have been validated, emphasizing the need for minimizing 'Jerk', enforcing curvature constraints for safety, and effectively handling non-convex obstacles using QP."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The requirements have been validated and refined based on user feedback, emphasizing the critical need to balance passenger comfort, safety, and efficiency in system operations."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteInterviewRecords",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 4,
+          "summary": "Interview record 1: One significant pain point we face is the discomfort experienced by passengers during rapid acceleration and deceleration. The requiremen..."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteUserRequirementsList",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 6,
+          "summary": "UR-1: The system shall The system must minimize \"Jerk\" (rate of change of acceleration) to ensure passenger comfort UR-2: The system shall - Curvature constr..."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Targeted questions for the Deployer focus on infrastructure constraints, security mandates, and scalability expectations related to safety and efficiency in the system."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Targeted questions for the Deployer focus on infrastructure constraints, security mandates, and scalability expectations, relating to the system requirements."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Targeted questions for the Deployer focus on infrastructure constraints, security mandates, and scalability expectations, relating to the system requirements."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The deployment must address computational capacity, security, scalability, and conflict resolution between safety and efficiency in operations."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The deployment must ensure strong computational resources for QP, enforce security protocols, meet scalability targets, and maintain operational procedures for safety and efficiency."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment strategy includes infrastructure constraints for computational resources, security mandates for data protection, scalability targets for adaptability, and operational procedures for dynamic priority balancing."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requesting clarification on how to balance conflicting priorities between safety and efficiency, ensure adherence to curvature constraints, and effectively manage non-convex obstacles in the system."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "A request for clarification on the specific algorithms used to balance curvature constraints while optimizing for smoothness and speed."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "Request clarification on balancing safety and efficiency priorities in the system's design."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Key deployment requirements have been validated based on user feedback, emphasizing the need for passenger comfort, vehicle safety, and the effective handling of non-convex obstacles. Balancing conflicting priorities between safety and efficiency remains a challenge to address."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "Validation of key deployment requirements emphasizes passenger comfort, safety in curvature scenarios, and effective management of obstacles."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The deployment requirements are confirmed with emphasis on balancing safety and efficiency, specifically addressing the interplay between the SafetyAgent and EfficiencyAgent."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteOperatingEnvironmentList",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The operating environment requires advanced hardware for real-time QP processing, a reliable network for timely communication, and compliance with safety standards to ensure secure and efficient operation."
+        },
+        {
+          "role": "Analyst",
+          "action": "WriteSystemRequirementsList",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 5,
+          "summary": "This requirements list consolidates user-level and environmental requirements into IEEE 830 format, ensuring passenger comfort, safety, and efficiency through specific performance criteria."
+        },
+        {
+          "role": "Analyst",
+          "action": "SelectRequirementModel",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "Selecting SysML is justified due to its capability to model complex interactions and constraints effectively, addressing the multifaceted requirements of the system."
+        },
+        {
+          "role": "Analyst",
+          "action": "BuildRequirementModel",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The requirements model captures system requirements, agent priorities, and conflicts, emphasizing the need to balance safety and efficiency."
+        },
+        {
+          "role": "Archivist",
+          "action": "WriteSRS",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 4,
+          "summary": "SRS-1 Purpose and Scope SRS-2 Functional Requirements SRS-3 Non-Functional Requirements and Quality Attributes SRS-4 External Interface Requirements"
+        },
+        {
+          "role": "Reviewer",
+          "action": "Evaluate",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 3,
+          "summary": "Finding: Potential trade-off detected between conflicting quality attributes. Finding: All requirements should include verifiable acceptance criteria per ISO..."
+        },
+        {
+          "role": "Reviewer",
+          "action": "ConfirmClosure",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The review confirms that all findings have been resolved, ensuring clear acceptance criteria, traceability, and monitoring of conflicting attributes."
+        }
+      ],
+      "workspace_summary": {
+        "interview_records": 4,
+        "user_requirements": 6,
+        "operating_environment": 3,
+        "enduser_responses": 12,
+        "enduser_questions": 9,
+        "enduser_confirmations": 9,
+        "deployer_responses": 5,
+        "deployer_questions": 5,
+        "deployer_confirmations": 5,
+        "system_requirements": 5,
+        "selected_model": 1,
+        "requirement_model": 1,
+        "srs_sections": 4,
+        "review_findings": 3,
+        "closure_confirmations": 1,
+        "dialogue_rounds": 3,
+        "total_action_fires": 33,
+        "distinct_actions_fired": 17,
+        "llm_turns": 29,
+        "llm_fallback_turns": 4
+      },
+      "workspace_digest": "13ad19489ebdb9bcf7b4e911fa0ea97447b81a8718a271978e96cab6560ed120"
+    },
+    "case_description": "Autonomous Driving System (Baidu Apollo Planning & Control Module)",
+    "system": "iredev",
+    "setting": "multi_agent_with_negotiation",
+    "negotiation_enabled": true,
+    "verification_executed": false,
+    "quare_only_behaviors": {
+      "phase0_external_spec_processing": false,
+      "dynamic_round_control": false,
+      "phase25_conflict_map_generation": false,
+      "phase5_software_materials_generation": false,
+      "phase2_dialectic_negotiation": false
+    },
+    "quare_optional_artifacts": {},
+    "phase2_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 202,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0
+    },
+    "mare_runtime_llm": {
+      "source": "openai",
+      "enabled": true,
+      "seed": 202,
+      "seed_applied_turns": 29,
+      "turns": 29,
+      "fallback_turns": 4,
+      "retry_count": 4,
+      "parse_recoveries": 0,
+      "execution_mode": "llm_hybrid_fallback"
+    },
+    "rag_corpus_dir": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base",
+    "rag_corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "rag_chunk_count": 308,
+    "prompt_contract_hash": "1ba498b78c21560fc469408ecdee90f5774ae6b6f95d0ad4bcdf6ed15c653a9e"
+  }
+}

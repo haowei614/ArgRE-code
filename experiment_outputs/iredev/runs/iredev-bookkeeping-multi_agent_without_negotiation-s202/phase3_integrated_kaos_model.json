@@ -1,0 +1,1017 @@
+{
+  "gsn_elements": [
+    {
+      "id": "INT-L1-001",
+      "name": "Interviewer Goal",
+      "description": "Interviewer objective for Bookkeeping: Interview record 1: As a small business owner, I struggle with generating accurate financial reports quickly; it often takes too long to compile data manually, leading...",
+      "gsn_type": "Goal",
+      "quality_attribute": "Responsibility",
+      "priority": 1,
+      "stakeholder": "Interviewer",
+      "measurable_criteria": "Interviewer deliverables remain traceable in artifacts pool",
+      "hierarchy_level": 1,
+      "parent_goal_id": null,
+      "properties": {
+        "original_kaos_type": "Goal",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "INT-L2-001-01",
+      "name": "Interviewer Output 1",
+      "description": "The system shall Interview record 1: As a small business owner, I struggle with generating accurate financial reports quickly; it often takes too long to compile data manually, leading...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Responsibility",
+      "priority": 1,
+      "stakeholder": "Interviewer",
+      "measurable_criteria": "Interviewer action artifact 1",
+      "hierarchy_level": 2,
+      "parent_goal_id": "INT-L1-001",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "INT-L2-001-02",
+      "name": "Interviewer Output 2",
+      "description": "The system shall Interview record 2: I expect the system to automatically generate financial reports like balance sheets and cash flow statements based on real-time data, so I can have...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Responsibility",
+      "priority": 1,
+      "stakeholder": "Interviewer",
+      "measurable_criteria": "Interviewer action artifact 2",
+      "hierarchy_level": 2,
+      "parent_goal_id": "INT-L1-001",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "INT-L2-001-03",
+      "name": "Interviewer Output 3",
+      "description": "The system shall Interview record 3: It's crucial that the system adheres to double-entry bookkeeping principles to avoid errors in my financial statements; I also need an audit trail...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Responsibility",
+      "priority": 1,
+      "stakeholder": "Interviewer",
+      "measurable_criteria": "Interviewer action artifact 3",
+      "hierarchy_level": 2,
+      "parent_goal_id": "INT-L1-001",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "INT-L2-001-04",
+      "name": "Interviewer Output 4",
+      "description": "The system shall Interview record 4: Handling multiple currencies is a pain point since my business deals with international clients; I need the system to automatically convert currenc...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Responsibility",
+      "priority": 1,
+      "stakeholder": "Interviewer",
+      "measurable_criteria": "Interviewer action artifact 4",
+      "hierarchy_level": 2,
+      "parent_goal_id": "INT-L1-001",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "sample_knowledge.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "END-L1-002",
+      "name": "EndUser Goal",
+      "description": "EndUser objective for Bookkeeping: As a small business owner, I struggle with generating accurate financial reports quickly; it often takes too long to compile data manually, leading to delays in decision-making.",
+      "gsn_type": "Goal",
+      "quality_attribute": "Efficiency",
+      "priority": 1,
+      "stakeholder": "EndUser",
+      "measurable_criteria": "EndUser deliverables remain traceable in artifacts pool",
+      "hierarchy_level": 1,
+      "parent_goal_id": null,
+      "properties": {
+        "original_kaos_type": "Goal",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "standards/latest_2024.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "END-L2-002-01",
+      "name": "EndUser Output 1",
+      "description": "The system shall As a small business owner, I struggle with generating accurate financial reports quickly; it often takes too long to compile data manually, leading to delays in decision-making.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Efficiency",
+      "priority": 1,
+      "stakeholder": "EndUser",
+      "measurable_criteria": "EndUser action artifact 1",
+      "hierarchy_level": 2,
+      "parent_goal_id": "END-L1-002",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "standards/latest_2024.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "END-L2-002-02",
+      "name": "EndUser Output 2",
+      "description": "The system shall I expect the system to automatically generate financial reports like balance sheets and cash flow statements based on real-time data, so I can have an up-to-date view of my financial health.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Efficiency",
+      "priority": 1,
+      "stakeholder": "EndUser",
+      "measurable_criteria": "EndUser action artifact 2",
+      "hierarchy_level": 2,
+      "parent_goal_id": "END-L1-002",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "END-L2-002-03",
+      "name": "EndUser Output 3",
+      "description": "The system shall It's crucial that the system adheres to double-entry bookkeeping principles to avoid errors in my financial statements; I also need an audit trail to track changes and ensure compliance.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Efficiency",
+      "priority": 1,
+      "stakeholder": "EndUser",
+      "measurable_criteria": "EndUser action artifact 3",
+      "hierarchy_level": 2,
+      "parent_goal_id": "END-L1-002",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "END-L2-002-04",
+      "name": "EndUser Output 4",
+      "description": "The system shall Handling multiple currencies is a pain point since my business deals with international clients; I need the system to automatically convert currencies and reflect accurate values in my reports.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Efficiency",
+      "priority": 1,
+      "stakeholder": "EndUser",
+      "measurable_criteria": "EndUser action artifact 4",
+      "hierarchy_level": 2,
+      "parent_goal_id": "END-L1-002",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "DEP-L1-003",
+      "name": "Deployer Goal",
+      "description": "Deployer objective for Bookkeeping: Infrastructure Constraints: The system must operate on a cloud-based infrastructure to ensure high availability and scalability. It should support load balancing to handle peak loads, especially during month-end repor...",
+      "gsn_type": "Goal",
+      "quality_attribute": "Safety",
+      "priority": 1,
+      "stakeholder": "Deployer",
+      "measurable_criteria": "Deployer deliverables remain traceable in artifacts pool",
+      "hierarchy_level": 1,
+      "parent_goal_id": null,
+      "properties": {
+        "original_kaos_type": "Goal",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "DEP-L2-003-01",
+      "name": "Deployer Output 1",
+      "description": "The system shall Infrastructure Constraints: The system must operate on a cloud-based infrastructure to ensure high availability and scalability. It should support load balancing to handle peak loads, especially during month-end repor...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Safety",
+      "priority": 1,
+      "stakeholder": "Deployer",
+      "measurable_criteria": "Deployer action artifact 1",
+      "hierarchy_level": 2,
+      "parent_goal_id": "DEP-L1-003",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "DEP-L2-003-02",
+      "name": "Deployer Output 2",
+      "description": "The system shall Security Mandates: The system must implement role-based access control (RBAC) to restrict access to sensitive financial data. All data in transit must be encrypted using TLS, and at rest using AES-256 encryption. Regu...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Safety",
+      "priority": 1,
+      "stakeholder": "Deployer",
+      "measurable_criteria": "Deployer action artifact 2",
+      "hierarchy_level": 2,
+      "parent_goal_id": "DEP-L1-003",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "DEP-L2-003-03",
+      "name": "Deployer Output 3",
+      "description": "The system shall Scalability Targets: The system should be able to support at least 100 concurrent users initially, with the ability to scale to 1000 users as needed. Additionally, it should handle a minimum of 10,000 transactions per...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Safety",
+      "priority": 1,
+      "stakeholder": "Deployer",
+      "measurable_criteria": "Deployer action artifact 3",
+      "hierarchy_level": 2,
+      "parent_goal_id": "DEP-L1-003",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "DEP-L2-003-04",
+      "name": "Deployer Output 4",
+      "description": "The system shall Infrastructure Constraints: The system must operate on a cloud-based infrastructure to ensure high availability and scalability, supporting load balancing to handle peak loads, especially during month-end reporting pe...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Safety",
+      "priority": 1,
+      "stakeholder": "Deployer",
+      "measurable_criteria": "Deployer action artifact 4",
+      "hierarchy_level": 2,
+      "parent_goal_id": "DEP-L1-003",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ANA-L1-004",
+      "name": "Analyst Goal",
+      "description": "Analyst objective for Bookkeeping: 1. The system shall allow users to automatically generate financial reports, including balance sheets, income statements, and cash flow statements, based on real-time data to facilitate timely decision-making.",
+      "gsn_type": "Goal",
+      "quality_attribute": "Trustworthiness",
+      "priority": 1,
+      "stakeholder": "Analyst",
+      "measurable_criteria": "Analyst deliverables remain traceable in artifacts pool",
+      "hierarchy_level": 1,
+      "parent_goal_id": null,
+      "properties": {
+        "original_kaos_type": "Goal",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "sample_knowledge.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ANA-L2-004-01",
+      "name": "Analyst Output 1",
+      "description": "The system shall 1. The system shall allow users to automatically generate financial reports, including balance sheets, income statements, and cash flow statements, based on real-time data to facilitate timely decision-making.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Trustworthiness",
+      "priority": 1,
+      "stakeholder": "Analyst",
+      "measurable_criteria": "Analyst action artifact 1",
+      "hierarchy_level": 2,
+      "parent_goal_id": "ANA-L1-004",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "sample_knowledge.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ANA-L2-004-02",
+      "name": "Analyst Output 2",
+      "description": "The system shall 2. The system shall ensure adherence to double-entry bookkeeping principles, accurately recording all financial transactions and maintaining a robust audit trail for compliance.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Trustworthiness",
+      "priority": 1,
+      "stakeholder": "Analyst",
+      "measurable_criteria": "Analyst action artifact 2",
+      "hierarchy_level": 2,
+      "parent_goal_id": "ANA-L1-004",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ANA-L2-004-03",
+      "name": "Analyst Output 3",
+      "description": "The system shall 3. The system shall support multiple currencies by providing automatic currency conversion capabilities and ensuring accurate values in financial reports, particularly for transactions involving international clients.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Trustworthiness",
+      "priority": 1,
+      "stakeholder": "Analyst",
+      "measurable_criteria": "Analyst action artifact 3",
+      "hierarchy_level": 2,
+      "parent_goal_id": "ANA-L1-004",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ANA-L2-004-04",
+      "name": "Analyst Output 4",
+      "description": "The system shall 4. The system shall record all financial transactions including income and expenses for comprehensive bookkeeping.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Trustworthiness",
+      "priority": 1,
+      "stakeholder": "Analyst",
+      "measurable_criteria": "Analyst action artifact 4",
+      "hierarchy_level": 2,
+      "parent_goal_id": "ANA-L1-004",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ARC-L1-005",
+      "name": "Archivist Goal",
+      "description": "Archivist objective for Bookkeeping: 1. Introduction 1.1 Purpose This Software Requirements Specification (SRS) document outlines the requirements for the Bookkeeping system, ensuring it meets the needs of small business owners for generating financial r...",
+      "gsn_type": "Goal",
+      "quality_attribute": "Sustainability",
+      "priority": 1,
+      "stakeholder": "Archivist",
+      "measurable_criteria": "Archivist deliverables remain traceable in artifacts pool",
+      "hierarchy_level": 1,
+      "parent_goal_id": null,
+      "properties": {
+        "original_kaos_type": "Goal",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "ARC-L2-005-01",
+      "name": "Archivist Output 1",
+      "description": "The system shall 1. Introduction 1.1 Purpose This Software Requirements Specification (SRS) document outlines the requirements for the Bookkeeping system, ensuring it meets the needs of small business owners for generating financial r...",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Sustainability",
+      "priority": 1,
+      "stakeholder": "Archivist",
+      "measurable_criteria": "Archivist action artifact 1",
+      "hierarchy_level": 2,
+      "parent_goal_id": "ARC-L1-005",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "REV-L1-006",
+      "name": "Reviewer Goal",
+      "description": "Reviewer objective for Bookkeeping: Finding: All requirements should include verifiable acceptance criteria per ISO/IEC/IEEE 29148.",
+      "gsn_type": "Goal",
+      "quality_attribute": "Integrated",
+      "priority": 1,
+      "stakeholder": "Reviewer",
+      "measurable_criteria": "Reviewer deliverables remain traceable in artifacts pool",
+      "hierarchy_level": 1,
+      "parent_goal_id": null,
+      "properties": {
+        "original_kaos_type": "Goal",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "pending",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "REV-L2-006-01",
+      "name": "Reviewer Output 1",
+      "description": "The system shall Finding: All requirements should include verifiable acceptance criteria per ISO/IEC/IEEE 29148.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Integrated",
+      "priority": 1,
+      "stakeholder": "Reviewer",
+      "measurable_criteria": "Reviewer action artifact 1",
+      "hierarchy_level": 2,
+      "parent_goal_id": "REV-L1-006",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "cases/real_world_studies.py",
+        "conflict_resolved_by": null,
+        "validation_status": "candidate_resolution",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "REV-L2-006-02",
+      "name": "Reviewer Output 2",
+      "description": "The system shall Finding: Ensure traceability from user requirements to system requirements.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Integrated",
+      "priority": 1,
+      "stakeholder": "Reviewer",
+      "measurable_criteria": "Reviewer action artifact 2",
+      "hierarchy_level": 2,
+      "parent_goal_id": "REV-L1-006",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "candidate_resolution",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "REV-L2-006-03",
+      "name": "Reviewer Output 3",
+      "description": "The system shall All requirements have been updated to include verifiable acceptance criteria as per ISO/IEC/IEEE 29148 standards, ensuring clarity and verifiability.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Integrated",
+      "priority": 1,
+      "stakeholder": "Reviewer",
+      "measurable_criteria": "Reviewer action artifact 3",
+      "hierarchy_level": 2,
+      "parent_goal_id": "REV-L1-006",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "knowledge_guide.py",
+        "conflict_resolved_by": null,
+        "validation_status": "candidate_resolution",
+        "citation_required": true
+      }
+    },
+    {
+      "id": "REV-L2-006-04",
+      "name": "Reviewer Output 4",
+      "description": "The system shall Traceability has been established from user requirements to system requirements, confirming that all findings have been addressed effectively.",
+      "gsn_type": "Strategy",
+      "quality_attribute": "Integrated",
+      "priority": 1,
+      "stakeholder": "Reviewer",
+      "measurable_criteria": "Reviewer action artifact 4",
+      "hierarchy_level": 2,
+      "parent_goal_id": "REV-L1-006",
+      "properties": {
+        "original_kaos_type": "Task",
+        "source": "openre_bench.phase1.rag",
+        "source_document": "automotive_safety.py",
+        "conflict_resolved_by": null,
+        "validation_status": "candidate_resolution",
+        "citation_required": true
+      }
+    }
+  ],
+  "gsn_connections": [
+    {
+      "id": "REL-001",
+      "source_id": "INT-L1-001",
+      "target_id": "INT-L2-001-01",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-002",
+      "source_id": "INT-L1-001",
+      "target_id": "INT-L2-001-02",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-003",
+      "source_id": "INT-L1-001",
+      "target_id": "INT-L2-001-03",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-004",
+      "source_id": "INT-L1-001",
+      "target_id": "INT-L2-001-04",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-005",
+      "source_id": "END-L1-002",
+      "target_id": "END-L2-002-01",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-006",
+      "source_id": "END-L1-002",
+      "target_id": "END-L2-002-02",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-007",
+      "source_id": "END-L1-002",
+      "target_id": "END-L2-002-03",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-008",
+      "source_id": "END-L1-002",
+      "target_id": "END-L2-002-04",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-009",
+      "source_id": "DEP-L1-003",
+      "target_id": "DEP-L2-003-01",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-010",
+      "source_id": "DEP-L1-003",
+      "target_id": "DEP-L2-003-02",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-011",
+      "source_id": "DEP-L1-003",
+      "target_id": "DEP-L2-003-03",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-012",
+      "source_id": "DEP-L1-003",
+      "target_id": "DEP-L2-003-04",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-013",
+      "source_id": "ANA-L1-004",
+      "target_id": "ANA-L2-004-01",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-014",
+      "source_id": "ANA-L1-004",
+      "target_id": "ANA-L2-004-02",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-015",
+      "source_id": "ANA-L1-004",
+      "target_id": "ANA-L2-004-03",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-016",
+      "source_id": "ANA-L1-004",
+      "target_id": "ANA-L2-004-04",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-017",
+      "source_id": "ARC-L1-005",
+      "target_id": "ARC-L2-005-01",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-018",
+      "source_id": "REV-L1-006",
+      "target_id": "REV-L2-006-01",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-019",
+      "source_id": "REV-L1-006",
+      "target_id": "REV-L2-006-02",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-020",
+      "source_id": "REV-L1-006",
+      "target_id": "REV-L2-006-03",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    },
+    {
+      "id": "REL-021",
+      "source_id": "REV-L1-006",
+      "target_id": "REV-L2-006-04",
+      "connection_type": "SupportedBy",
+      "description": "Derived from parent-child refinement",
+      "strength": null,
+      "properties": {
+        "original_kaos_relation": "AND-refinement"
+      }
+    }
+  ],
+  "model_metadata": {
+    "model_id": "model_iredev-bookkeeping-multi_agent_without_negotiation-s202",
+    "name": "OpenRE-Bench Integrated KAOS for Bookkeeping",
+    "description": "Deterministic protocol-aligned integrated GSN model.",
+    "created_timestamp": "2026-02-17T10:13:13Z",
+    "requirement_source": "A bookkeeping system must record financial transactions including income and expenses. The system must support multiple accounts and categories. Users must be able to generate financial reports such as balance sheets, income statements, and cash flow statements. The system must ensure double-entry bookkeeping principles are followed and maintain an audit trail of all transactions. The system must support multiple currencies and handle currency conversion.",
+    "model_type": "GSN",
+    "quality_attributes": [
+      "Efficiency",
+      "Integrated",
+      "Responsibility",
+      "Safety",
+      "Sustainability",
+      "Trustworthiness"
+    ],
+    "hierarchy_levels": [
+      1,
+      2
+    ],
+    "setting": "multi_agent_without_negotiation"
+  },
+  "hierarchy_structure": {
+    "level_1": [
+      {
+        "id": "INT-L1-001",
+        "name": "Interviewer Goal",
+        "quality_attribute": "Responsibility",
+        "parent_goal_id": null
+      },
+      {
+        "id": "END-L1-002",
+        "name": "EndUser Goal",
+        "quality_attribute": "Efficiency",
+        "parent_goal_id": null
+      },
+      {
+        "id": "DEP-L1-003",
+        "name": "Deployer Goal",
+        "quality_attribute": "Safety",
+        "parent_goal_id": null
+      },
+      {
+        "id": "ANA-L1-004",
+        "name": "Analyst Goal",
+        "quality_attribute": "Trustworthiness",
+        "parent_goal_id": null
+      },
+      {
+        "id": "ARC-L1-005",
+        "name": "Archivist Goal",
+        "quality_attribute": "Sustainability",
+        "parent_goal_id": null
+      },
+      {
+        "id": "REV-L1-006",
+        "name": "Reviewer Goal",
+        "quality_attribute": "Integrated",
+        "parent_goal_id": null
+      }
+    ],
+    "level_2": [
+      {
+        "id": "INT-L2-001-01",
+        "name": "Interviewer Output 1",
+        "quality_attribute": "Responsibility",
+        "parent_goal_id": "INT-L1-001"
+      },
+      {
+        "id": "INT-L2-001-02",
+        "name": "Interviewer Output 2",
+        "quality_attribute": "Responsibility",
+        "parent_goal_id": "INT-L1-001"
+      },
+      {
+        "id": "INT-L2-001-03",
+        "name": "Interviewer Output 3",
+        "quality_attribute": "Responsibility",
+        "parent_goal_id": "INT-L1-001"
+      },
+      {
+        "id": "INT-L2-001-04",
+        "name": "Interviewer Output 4",
+        "quality_attribute": "Responsibility",
+        "parent_goal_id": "INT-L1-001"
+      },
+      {
+        "id": "END-L2-002-01",
+        "name": "EndUser Output 1",
+        "quality_attribute": "Efficiency",
+        "parent_goal_id": "END-L1-002"
+      },
+      {
+        "id": "END-L2-002-02",
+        "name": "EndUser Output 2",
+        "quality_attribute": "Efficiency",
+        "parent_goal_id": "END-L1-002"
+      },
+      {
+        "id": "END-L2-002-03",
+        "name": "EndUser Output 3",
+        "quality_attribute": "Efficiency",
+        "parent_goal_id": "END-L1-002"
+      },
+      {
+        "id": "END-L2-002-04",
+        "name": "EndUser Output 4",
+        "quality_attribute": "Efficiency",
+        "parent_goal_id": "END-L1-002"
+      },
+      {
+        "id": "DEP-L2-003-01",
+        "name": "Deployer Output 1",
+        "quality_attribute": "Safety",
+        "parent_goal_id": "DEP-L1-003"
+      },
+      {
+        "id": "DEP-L2-003-02",
+        "name": "Deployer Output 2",
+        "quality_attribute": "Safety",
+        "parent_goal_id": "DEP-L1-003"
+      },
+      {
+        "id": "DEP-L2-003-03",
+        "name": "Deployer Output 3",
+        "quality_attribute": "Safety",
+        "parent_goal_id": "DEP-L1-003"
+      },
+      {
+        "id": "DEP-L2-003-04",
+        "name": "Deployer Output 4",
+        "quality_attribute": "Safety",
+        "parent_goal_id": "DEP-L1-003"
+      },
+      {
+        "id": "ANA-L2-004-01",
+        "name": "Analyst Output 1",
+        "quality_attribute": "Trustworthiness",
+        "parent_goal_id": "ANA-L1-004"
+      },
+      {
+        "id": "ANA-L2-004-02",
+        "name": "Analyst Output 2",
+        "quality_attribute": "Trustworthiness",
+        "parent_goal_id": "ANA-L1-004"
+      },
+      {
+        "id": "ANA-L2-004-03",
+        "name": "Analyst Output 3",
+        "quality_attribute": "Trustworthiness",
+        "parent_goal_id": "ANA-L1-004"
+      },
+      {
+        "id": "ANA-L2-004-04",
+        "name": "Analyst Output 4",
+        "quality_attribute": "Trustworthiness",
+        "parent_goal_id": "ANA-L1-004"
+      },
+      {
+        "id": "ARC-L2-005-01",
+        "name": "Archivist Output 1",
+        "quality_attribute": "Sustainability",
+        "parent_goal_id": "ARC-L1-005"
+      },
+      {
+        "id": "REV-L2-006-01",
+        "name": "Reviewer Output 1",
+        "quality_attribute": "Integrated",
+        "parent_goal_id": "REV-L1-006"
+      },
+      {
+        "id": "REV-L2-006-02",
+        "name": "Reviewer Output 2",
+        "quality_attribute": "Integrated",
+        "parent_goal_id": "REV-L1-006"
+      },
+      {
+        "id": "REV-L2-006-03",
+        "name": "Reviewer Output 3",
+        "quality_attribute": "Integrated",
+        "parent_goal_id": "REV-L1-006"
+      },
+      {
+        "id": "REV-L2-006-04",
+        "name": "Reviewer Output 4",
+        "quality_attribute": "Integrated",
+        "parent_goal_id": "REV-L1-006"
+      }
+    ],
+    "level_3": [],
+    "parent_child_mappings": {
+      "INT-L1-001": [
+        "INT-L2-001-01",
+        "INT-L2-001-02",
+        "INT-L2-001-03",
+        "INT-L2-001-04"
+      ],
+      "END-L1-002": [
+        "END-L2-002-01",
+        "END-L2-002-02",
+        "END-L2-002-03",
+        "END-L2-002-04"
+      ],
+      "DEP-L1-003": [
+        "DEP-L2-003-01",
+        "DEP-L2-003-02",
+        "DEP-L2-003-03",
+        "DEP-L2-003-04"
+      ],
+      "ANA-L1-004": [
+        "ANA-L2-004-01",
+        "ANA-L2-004-02",
+        "ANA-L2-004-03",
+        "ANA-L2-004-04"
+      ],
+      "ARC-L1-005": [
+        "ARC-L2-005-01"
+      ],
+      "REV-L1-006": [
+        "REV-L2-006-01",
+        "REV-L2-006-02",
+        "REV-L2-006-03",
+        "REV-L2-006-04"
+      ]
+    }
+  },
+  "topology_status": {
+    "status": "Valid",
+    "is_valid": true,
+    "is_dag": true,
+    "orphan_count": 0,
+    "cycle_count": 0,
+    "invalid_leaf_count": 0,
+    "orphan_elements": [],
+    "cycles": [],
+    "invalid_leaves": []
+  },
+  "model_id": "model_iredev-bookkeeping-multi_agent_without_negotiation-s202",
+  "created_timestamp": "2026-02-17T10:13:13Z",
+  "total_elements": 27,
+  "total_relations": 21
+}

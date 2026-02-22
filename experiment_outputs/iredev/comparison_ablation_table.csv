@@ -1,0 +1,16 @@
+case_id,seed,single_agent_phase1_elements,multi_agent_without_negotiation_phase1_elements,multi_agent_with_negotiation_phase2_steps,negotiation_integration_verification_phase3_elements,delta_multi_without_neg_vs_single_phase1_elements,delta_multi_with_neg_vs_without_neg_phase2_steps,delta_full_vs_with_neg_phase3_elements,full_topology_valid,notes
+AD,101,7,28,12,30,21,12,23,1,Protocol metrics computed from deterministic parity artifacts.
+AD,202,7,27,12,30,20,12,23,1,Protocol metrics computed from deterministic parity artifacts.
+AD,303,7,30,12,27,23,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+ATM,101,7,27,12,27,20,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+ATM,202,7,27,12,27,20,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+ATM,303,7,30,12,30,23,12,23,1,Protocol metrics computed from deterministic parity artifacts.
+Bookkeeping,101,6,29,12,30,23,12,23,1,Protocol metrics computed from deterministic parity artifacts.
+Bookkeeping,202,6,27,12,27,21,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+Bookkeeping,303,6,27,12,27,21,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+Library,101,7,27,12,27,20,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+Library,202,7,30,12,30,23,12,23,1,Protocol metrics computed from deterministic parity artifacts.
+Library,303,7,26,12,27,19,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+RollCall,101,6,30,12,27,24,12,20,1,Protocol metrics computed from deterministic parity artifacts.
+RollCall,202,6,30,12,28,24,12,21,1,Protocol metrics computed from deterministic parity artifacts.
+RollCall,303,6,27,12,27,21,12,20,1,Protocol metrics computed from deterministic parity artifacts.

@@ -1,0 +1,566 @@
+{
+  "run_id": "iredev-bookkeeping-multi_agent_without_negotiation-s202",
+  "case_id": "Bookkeeping",
+  "system": "iredev",
+  "setting": "multi_agent_without_negotiation",
+  "seed": 202,
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "round_cap": 3,
+  "system_identity": {
+    "system_name": "iredev",
+    "implementation": "deterministic-parity-pipeline",
+    "implementation_version": "0.1.0",
+    "python_version": "3.14.0",
+    "platform": "Linux-6.18.10-2-cachyos-lts-x86_64-with-glibc2.43",
+    "machine": "x86_64"
+  },
+  "provenance": {
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "seed": 202,
+    "prompt_hash": "b980e6bea113c9678f0585ce3a35d997b0002f55774c8c82386c7d187bccd87e",
+    "corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "corpus_path": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base"
+  },
+  "execution_flags": {
+    "rag_fallback_used": false,
+    "llm_fallback_used": true,
+    "fallback_tainted": true,
+    "retry_used": true,
+    "retry_count": 3
+  },
+  "comparability": {
+    "is_comparable": false,
+    "non_comparable_reasons": [
+      "negotiation_and_verification_not_executed_for_setting"
+    ]
+  },
+  "max_tokens": 4000,
+  "rag_enabled": true,
+  "rag_backend": "local_tfidf",
+  "rag_fallback_used": false,
+  "start_timestamp": "2026-02-17T10:10:35Z",
+  "end_timestamp": "2026-02-17T10:13:13Z",
+  "runtime_seconds": 157.992739,
+  "artifacts_dir": "experiment_outputs/iredev/runs/iredev-bookkeeping-multi_agent_without_negotiation-s202",
+  "artifact_paths": {
+    "phase1_initial_models.json": "experiment_outputs/iredev/runs/iredev-bookkeeping-multi_agent_without_negotiation-s202/phase1_initial_models.json",
+    "phase2_negotiation_trace.json": "experiment_outputs/iredev/runs/iredev-bookkeeping-multi_agent_without_negotiation-s202/phase2_negotiation_trace.json",
+    "phase3_integrated_kaos_model.json": "experiment_outputs/iredev/runs/iredev-bookkeeping-multi_agent_without_negotiation-s202/phase3_integrated_kaos_model.json",
+    "phase4_verification_report.json": "experiment_outputs/iredev/runs/iredev-bookkeeping-multi_agent_without_negotiation-s202/phase4_verification_report.json"
+  },
+  "artifact_blinded": false,
+  "blinding_scheme_version": "",
+  "blind_eval_run_id": "",
+  "judge_pipeline_hash": "aca4416c757997fb3f3688c03e0d361b94a59adaca560b6cc5221f89f386eebd",
+  "trace_audit_path": "",
+  "notes": {
+    "phase_a_b": true,
+    "generation_mode": "deterministic-parity-pipeline",
+    "runtime_semantics": {
+      "mode": "iredev_knowledge_driven_v1",
+      "workflow_version": "1",
+      "paper_workflow_enabled": true,
+      "setting": "multi_agent_without_negotiation",
+      "llm_required": true,
+      "llm_source": "openai",
+      "llm_enabled": true,
+      "llm_seed": 202,
+      "llm_seed_applied_turns": 30,
+      "llm_turns": 30,
+      "llm_fallback_turns": 3,
+      "llm_retry_count": 3,
+      "llm_parse_recoveries": 0,
+      "execution_mode": "llm_hybrid_fallback",
+      "llm_actions": [
+        "DialogueWithEndUser",
+        "DialogueWithEndUser",
+        "DialogueWithEndUser",
+        "RespondEndUser",
+        "RespondEndUser",
+        "RespondEndUser",
+        "RaiseQuestionEndUser",
+        "RaiseQuestionEndUser",
+        "RaiseQuestionEndUser",
+        "ConfirmOrRefineEndUser",
+        "ConfirmOrRefineEndUser",
+        "ConfirmOrRefineEndUser",
+        "DialogueWithDeployer",
+        "DialogueWithDeployer",
+        "DialogueWithDeployer",
+        "RespondDeployer",
+        "RespondDeployer",
+        "RespondDeployer",
+        "RaiseQuestionDeployer",
+        "RaiseQuestionDeployer",
+        "RaiseQuestionDeployer",
+        "ConfirmOrRefineDeployer",
+        "ConfirmOrRefineDeployer",
+        "ConfirmOrRefineDeployer",
+        "WriteOperatingEnvironmentList",
+        "WriteSystemRequirementsList",
+        "SelectRequirementModel",
+        "BuildRequirementModel",
+        "WriteSRS",
+        "ConfirmClosure"
+      ],
+      "fallback_actions": [
+        "WriteInterviewRecords",
+        "WriteUserRequirementsList",
+        "Evaluate"
+      ],
+      "roles_executed": [
+        "Interviewer",
+        "EndUser",
+        "Deployer",
+        "Analyst",
+        "Archivist",
+        "Reviewer"
+      ],
+      "actions_executed": [
+        "DialogueWithEndUser",
+        "WriteInterviewRecords",
+        "WriteUserRequirementsList",
+        "DialogueWithDeployer",
+        "WriteOperatingEnvironmentList",
+        "RespondEndUser",
+        "RaiseQuestionEndUser",
+        "ConfirmOrRefineEndUser",
+        "RespondDeployer",
+        "RaiseQuestionDeployer",
+        "ConfirmOrRefineDeployer",
+        "WriteSystemRequirementsList",
+        "SelectRequirementModel",
+        "BuildRequirementModel",
+        "WriteSRS",
+        "Evaluate",
+        "ConfirmClosure"
+      ],
+      "role_action_map": {
+        "Interviewer": [
+          "DialogueWithEndUser",
+          "WriteInterviewRecords",
+          "WriteUserRequirementsList",
+          "DialogueWithDeployer",
+          "WriteOperatingEnvironmentList"
+        ],
+        "EndUser": [
+          "RespondEndUser",
+          "RaiseQuestionEndUser",
+          "ConfirmOrRefineEndUser"
+        ],
+        "Deployer": [
+          "RespondDeployer",
+          "RaiseQuestionDeployer",
+          "ConfirmOrRefineDeployer"
+        ],
+        "Analyst": [
+          "WriteSystemRequirementsList",
+          "SelectRequirementModel",
+          "BuildRequirementModel"
+        ],
+        "Archivist": [
+          "WriteSRS"
+        ],
+        "Reviewer": [
+          "Evaluate",
+          "ConfirmClosure"
+        ]
+      },
+      "action_trace": [
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The generated interview questions aim to uncover user goals, identify pain points, and establish acceptance criteria for a bookkeeping system."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The interview questions focus on uncovering user goals, pain points, and acceptance criteria related to financial reporting and bookkeeping processes."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The interview questions focus on uncovering user goals, pain points, and acceptance criteria related to financial reporting and bookkeeping processes."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The end user expresses challenges in generating timely financial reports, emphasizes the need for compliance with double-entry bookkeeping, and highlights the necessity for multi-currency support and detailed categorization of transactions."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The end user highlights the need for fast, automated financial reporting and compliance with double-entry principles, as well as the ability to handle multiple currencies efficiently."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The end user highlights pain points in financial report generation, the need for automation, adherence to double-entry bookkeeping, and effective currency handling as key expectations for a bookkeeping system."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The end user has raised questions about automated report generation, adherence to bookkeeping principles, currency conversion accuracy, and support for multiple accounts, highlighting areas needing clarification."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The user seeks clarification on the accuracy of automated financial reports, adherence to double-entry bookkeeping, and the management of currency conversions."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The end user has raised several clarification questions regarding the automatic generation of financial reports, adherence to double-entry bookkeeping principles, and management of currency conversions to ensure accuracy and compliance."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requirements refined to emphasize the need for automatic report generation, adherence to double-entry principles, accurate currency management, and comprehensive transaction recording."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Refined requirements emphasize automated financial report generation, adherence to double-entry bookkeeping with an audit trail, and efficient management of multiple currencies for accurate financial reporting."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Refined requirements focus on automatic generation of financial reports, strict adherence to double-entry bookkeeping, and efficient handling of multiple currencies with accurate conversions."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteInterviewRecords",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 4,
+          "summary": "Interview record 1: As a small business owner, I struggle with generating accurate financial reports quickly; it often takes too long to compile data manuall..."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteUserRequirementsList",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 5,
+          "summary": "UR-1: The system shall Users must be able to generate financial reports such as balance sheets, income statements, and cash flow statements UR-2: The system..."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Targeted questions for the Deployer focus on infrastructure constraints, security mandates, and scalability expectations for the bookkeeping system."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The targeted questions focus on understanding the infrastructure limitations, security requirements, and scalability plans for the bookkeeping system."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "These questions aim to explore potential infrastructure limitations, security compliance needs, and scalability plans for the bookkeeping system."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment of the bookkeeping system will adhere to strict infrastructure constraints, security mandates, scalability targets, and operational procedures to ensure reliable, secure, and efficient operations."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment of the bookkeeping system will adhere to strict infrastructure, security, scalability, and operational protocols to ensure reliability, compliance, and user satisfaction."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment of the bookkeeping system will adhere to cloud infrastructure, enforce stringent security measures, support scalability for user and transaction growth, and establish operational procedures for data integrity and system monitoring."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Request for clarification on the implementation of real-time data accuracy in financial reports, adherence to double-entry bookkeeping principles, and management of currency conversions."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requests for clarification on key operational aspects of financial report generation, adherence to bookkeeping principles, and currency conversion management."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "Request for clarification on how the system will handle currency conversion accuracy and timing, which is critical for generating reliable financial reports."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment requirements for the bookkeeping system have been validated and refined to ensure automatic report generation, adherence to double-entry principles, multi-currency support, scalability, and robust security measures."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment requirements for the bookkeeping system have been validated and confirmed, emphasizing automated financial reporting, adherence to double-entry principles, multi-currency support, infrastructure constraints, and security mandates."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Deployment requirements for the bookkeeping system have been validated and refined to ensure accurate financial reporting, adherence to double-entry principles, and robust handling of multiple currencies, alongside necessary infrastructure and security measures."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteOperatingEnvironmentList",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 5,
+          "summary": "The operating environment for the bookkeeping system includes a cloud-based infrastructure for scalability, security measures like RBAC and data encryption, and performance targets for user concurrency and transaction handling."
+        },
+        {
+          "role": "Analyst",
+          "action": "WriteSystemRequirementsList",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 10,
+          "summary": "The consolidated system requirements for the bookkeeping application ensure automatic generation of financial reports, adherence to double-entry bookkeeping principles, support for multiple currencies, and robust security and scalability features."
+        },
+        {
+          "role": "Analyst",
+          "action": "SelectRequirementModel",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The UML Use Case Diagram is selected for modeling the bookkeeping system due to its effectiveness in representing user interactions and functional requirements."
+        },
+        {
+          "role": "Analyst",
+          "action": "BuildRequirementModel",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "Created a UML Use Case Diagram for the bookkeeping system, highlighting user interactions and identifying conflicts and gaps in requirements."
+        },
+        {
+          "role": "Archivist",
+          "action": "WriteSRS",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The SRS for the Bookkeeping system outlines functional and non-functional requirements, ensuring adherence to accounting practices and user needs for financial reporting."
+        },
+        {
+          "role": "Reviewer",
+          "action": "Evaluate",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 2,
+          "summary": "Finding: All requirements should include verifiable acceptance criteria per ISO/IEC/IEEE 29148. Finding: Ensure traceability from user requirements to system..."
+        },
+        {
+          "role": "Reviewer",
+          "action": "ConfirmClosure",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 2,
+          "summary": "All findings in the SRS for the Bookkeeping system have been resolved, confirming closure."
+        }
+      ],
+      "workspace_summary": {
+        "interview_records": 4,
+        "user_requirements": 5,
+        "operating_environment": 5,
+        "enduser_responses": 9,
+        "enduser_questions": 9,
+        "enduser_confirmations": 9,
+        "deployer_responses": 9,
+        "deployer_questions": 7,
+        "deployer_confirmations": 9,
+        "system_requirements": 10,
+        "selected_model": 1,
+        "requirement_model": 1,
+        "srs_sections": 1,
+        "review_findings": 2,
+        "closure_confirmations": 2,
+        "dialogue_rounds": 3,
+        "total_action_fires": 33,
+        "distinct_actions_fired": 17,
+        "llm_turns": 30,
+        "llm_fallback_turns": 3
+      },
+      "workspace_digest": "5546223bcd92cd7eeb2bcd2ef3567e05372fb331cac1c86a35c85153d37cd74b"
+    },
+    "case_description": "Bookkeeping Accounting System",
+    "system": "iredev",
+    "setting": "multi_agent_without_negotiation",
+    "negotiation_enabled": false,
+    "verification_executed": false,
+    "quare_only_behaviors": {
+      "phase0_external_spec_processing": false,
+      "dynamic_round_control": false,
+      "phase25_conflict_map_generation": false,
+      "phase5_software_materials_generation": false,
+      "phase2_dialectic_negotiation": false
+    },
+    "quare_optional_artifacts": {},
+    "phase2_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 202,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0
+    },
+    "mare_runtime_llm": {
+      "source": "openai",
+      "enabled": true,
+      "seed": 202,
+      "seed_applied_turns": 30,
+      "turns": 30,
+      "fallback_turns": 3,
+      "retry_count": 3,
+      "parse_recoveries": 0,
+      "execution_mode": "llm_hybrid_fallback"
+    },
+    "rag_corpus_dir": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base",
+    "rag_corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "rag_chunk_count": 308,
+    "prompt_contract_hash": "b980e6bea113c9678f0585ce3a35d997b0002f55774c8c82386c7d187bccd87e"
+  }
+}

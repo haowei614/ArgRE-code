@@ -1,0 +1,103 @@
+{
+  "run_id": "iredev-rollcall-single_agent-s202",
+  "case_id": "RollCall",
+  "system": "iredev",
+  "setting": "single_agent",
+  "seed": 202,
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "round_cap": 3,
+  "system_identity": {
+    "system_name": "iredev",
+    "implementation": "deterministic-parity-pipeline",
+    "implementation_version": "0.1.0",
+    "python_version": "3.14.0",
+    "platform": "Linux-6.18.10-2-cachyos-lts-x86_64-with-glibc2.43",
+    "machine": "x86_64"
+  },
+  "provenance": {
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "seed": 202,
+    "prompt_hash": "3d48eacae2d5b376362decd6983e019d072af5d54ae9eaf8cf9f6c4327c7090a",
+    "corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "corpus_path": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base"
+  },
+  "execution_flags": {
+    "rag_fallback_used": false,
+    "llm_fallback_used": false,
+    "fallback_tainted": false,
+    "retry_used": false,
+    "retry_count": 0
+  },
+  "comparability": {
+    "is_comparable": false,
+    "non_comparable_reasons": [
+      "single_agent_baseline_partial_phase_equivalence"
+    ]
+  },
+  "max_tokens": 4000,
+  "rag_enabled": true,
+  "rag_backend": "local_tfidf",
+  "rag_fallback_used": false,
+  "start_timestamp": "2026-02-17T11:01:44Z",
+  "end_timestamp": "2026-02-17T11:01:44Z",
+  "runtime_seconds": 0.006832,
+  "artifacts_dir": "experiment_outputs/iredev/runs/iredev-rollcall-single_agent-s202",
+  "artifact_paths": {
+    "phase1_initial_models.json": "experiment_outputs/iredev/runs/iredev-rollcall-single_agent-s202/phase1_initial_models.json",
+    "phase2_negotiation_trace.json": "experiment_outputs/iredev/runs/iredev-rollcall-single_agent-s202/phase2_negotiation_trace.json",
+    "phase3_integrated_kaos_model.json": "experiment_outputs/iredev/runs/iredev-rollcall-single_agent-s202/phase3_integrated_kaos_model.json",
+    "phase4_verification_report.json": "experiment_outputs/iredev/runs/iredev-rollcall-single_agent-s202/phase4_verification_report.json"
+  },
+  "artifact_blinded": false,
+  "blinding_scheme_version": "",
+  "blind_eval_run_id": "",
+  "judge_pipeline_hash": "aca4416c757997fb3f3688c03e0d361b94a59adaca560b6cc5221f89f386eebd",
+  "trace_audit_path": "",
+  "notes": {
+    "phase_a_b": true,
+    "generation_mode": "deterministic-parity-pipeline",
+    "runtime_semantics": {
+      "mode": "iredev_single_agent_baseline"
+    },
+    "case_description": "Roll Call Attendance Tracking System",
+    "system": "iredev",
+    "setting": "single_agent",
+    "negotiation_enabled": false,
+    "verification_executed": false,
+    "quare_only_behaviors": {
+      "phase0_external_spec_processing": false,
+      "dynamic_round_control": false,
+      "phase25_conflict_map_generation": false,
+      "phase5_software_materials_generation": false,
+      "phase2_dialectic_negotiation": false
+    },
+    "quare_optional_artifacts": {},
+    "phase2_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 202,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0
+    },
+    "mare_runtime_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 202,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0,
+      "execution_mode": "deterministic_emulation"
+    },
+    "rag_corpus_dir": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base",
+    "rag_corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "rag_chunk_count": 308,
+    "prompt_contract_hash": "3d48eacae2d5b376362decd6983e019d072af5d54ae9eaf8cf9f6c4327c7090a"
+  }
+}

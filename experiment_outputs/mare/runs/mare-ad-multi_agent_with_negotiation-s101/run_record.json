@@ -1,0 +1,273 @@
+{
+  "run_id": "mare-ad-multi_agent_with_negotiation-s101",
+  "case_id": "AD",
+  "system": "mare",
+  "setting": "multi_agent_with_negotiation",
+  "seed": 101,
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "round_cap": 3,
+  "system_identity": {
+    "system_name": "mare",
+    "implementation": "deterministic-parity-pipeline",
+    "implementation_version": "0.1.0",
+    "python_version": "3.11.13",
+    "platform": "Linux-6.18.10-2-cachyos-lts-x86_64-with-glibc2.43",
+    "machine": "x86_64"
+  },
+  "provenance": {
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "seed": 101,
+    "prompt_hash": "743bcfaf0e65bfb246e0326780fd4ae96fdf7ce15497432f6e838d394515e46b",
+    "corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "corpus_path": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base"
+  },
+  "execution_flags": {
+    "rag_fallback_used": false,
+    "llm_fallback_used": false,
+    "fallback_tainted": false,
+    "retry_used": false,
+    "retry_count": 0
+  },
+  "comparability": {
+    "is_comparable": false,
+    "non_comparable_reasons": [
+      "verification_not_executed_for_setting"
+    ]
+  },
+  "max_tokens": 4000,
+  "rag_enabled": true,
+  "rag_backend": "local_tfidf",
+  "rag_fallback_used": false,
+  "start_timestamp": "2026-02-17T04:28:58Z",
+  "end_timestamp": "2026-02-17T04:29:21Z",
+  "runtime_seconds": 23.013062,
+  "artifacts_dir": "experiment_outputs/mare/runs/mare-ad-multi_agent_with_negotiation-s101",
+  "artifact_paths": {
+    "phase1_initial_models.json": "experiment_outputs/mare/runs/mare-ad-multi_agent_with_negotiation-s101/phase1_initial_models.json",
+    "phase2_negotiation_trace.json": "experiment_outputs/mare/runs/mare-ad-multi_agent_with_negotiation-s101/phase2_negotiation_trace.json",
+    "phase3_integrated_kaos_model.json": "experiment_outputs/mare/runs/mare-ad-multi_agent_with_negotiation-s101/phase3_integrated_kaos_model.json",
+    "phase4_verification_report.json": "experiment_outputs/mare/runs/mare-ad-multi_agent_with_negotiation-s101/phase4_verification_report.json"
+  },
+  "artifact_blinded": false,
+  "blinding_scheme_version": "",
+  "blind_eval_run_id": "",
+  "judge_pipeline_hash": "aca4416c757997fb3f3688c03e0d361b94a59adaca560b6cc5221f89f386eebd",
+  "trace_audit_path": "",
+  "notes": {
+    "phase_a_b": true,
+    "generation_mode": "deterministic-parity-pipeline",
+    "runtime_semantics": {
+      "mode": "mare_paper_workflow_v1",
+      "workflow_version": "1",
+      "paper_workflow_enabled": true,
+      "setting": "multi_agent_with_negotiation",
+      "llm_required": true,
+      "llm_source": "openai",
+      "llm_enabled": true,
+      "llm_seed": 101,
+      "llm_seed_applied_turns": 9,
+      "llm_turns": 9,
+      "llm_fallback_turns": 0,
+      "llm_retry_count": 0,
+      "llm_parse_recoveries": 0,
+      "execution_mode": "llm_driven",
+      "llm_actions": [
+        "SpeakUserStories",
+        "ProposeQuestion",
+        "AnswerQuestion",
+        "WriteReqDraft",
+        "ExtractEntity",
+        "ExtractRelation",
+        "CheckRequirement",
+        "WriteSRS",
+        "WriteCheckReport"
+      ],
+      "fallback_actions": [],
+      "roles_executed": [
+        "Stakeholders",
+        "Collector",
+        "Modeler",
+        "Checker",
+        "Documenter"
+      ],
+      "actions_executed": [
+        "SpeakUserStories",
+        "ProposeQuestion",
+        "AnswerQuestion",
+        "WriteReqDraft",
+        "ExtractEntity",
+        "ExtractRelation",
+        "CheckRequirement",
+        "WriteSRS",
+        "WriteCheckReport"
+      ],
+      "role_action_map": {
+        "Stakeholders": [
+          "SpeakUserStories",
+          "AnswerQuestion"
+        ],
+        "Collector": [
+          "ProposeQuestion",
+          "WriteReqDraft"
+        ],
+        "Modeler": [
+          "ExtractEntity",
+          "ExtractRelation"
+        ],
+        "Checker": [
+          "CheckRequirement"
+        ],
+        "Documenter": [
+          "WriteSRS",
+          "WriteCheckReport"
+        ]
+      },
+      "action_trace": [
+        {
+          "role": "Stakeholders",
+          "action": "SpeakUserStories",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "User stories focus on system adaptability, safety monitoring, multiobjective optimization, and passenger comfort."
+        },
+        {
+          "role": "Collector",
+          "action": "ProposeQuestion",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Clarification questions aim to resolve ambiguities in operational scenarios, ODD compliance, optimization objectives, and success criteria for the motion planner."
+        },
+        {
+          "role": "Stakeholders",
+          "action": "AnswerQuestion",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The stakeholders provided detailed answers regarding operational scenarios, ODD compliance monitoring, HMI warning thresholds, and multiobjective optimization parameters."
+        },
+        {
+          "role": "Collector",
+          "action": "WriteReqDraft",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Requirement draft statements created for the MARE paper focusing on system operation, ODD compliance, human takeover alerts, and motion planner optimization."
+        },
+        {
+          "role": "Modeler",
+          "action": "ExtractEntity",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 8,
+          "summary": "Extracted key entities related to the system's operational requirements and performance metrics."
+        },
+        {
+          "role": "Modeler",
+          "action": "ExtractRelation",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 8,
+          "summary": "Extracted entity relations indicating how the system operates, monitors compliance, and optimizes motion planning."
+        },
+        {
+          "role": "Checker",
+          "action": "CheckRequirement",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The requirements exhibit ambiguity, potential conflicts, and issues with verifiability, particularly concerning scenario definitions, compliance monitoring, HMI warning parameters, and optimization objectives."
+        },
+        {
+          "role": "Documenter",
+          "action": "WriteSRS",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Drafted SRS section headings focused on system operations, ODD compliance, motion planning, and safety optimization."
+        },
+        {
+          "role": "Documenter",
+          "action": "WriteCheckReport",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The check report identifies ambiguities in the requirements related to operational scenarios, ODD compliance monitoring, HMI warning parameters, and multiobjective optimization strategies."
+        }
+      ],
+      "workspace_summary": {
+        "user_stories": 4,
+        "questions": 4,
+        "answers": 4,
+        "requirement_draft": 4,
+        "entities": 8,
+        "relations": 8,
+        "findings": 4,
+        "srs_sections": 4,
+        "check_report": 4,
+        "llm_turns": 9,
+        "llm_fallback_turns": 0
+      },
+      "workspace_digest": "92af364fbc9971d326d88266ba63241a8cb9c5cd9310dceb9c45455ccb7a91bf"
+    },
+    "case_description": "Autonomous Driving System (Baidu Apollo Planning & Control Module)",
+    "system": "mare",
+    "setting": "multi_agent_with_negotiation",
+    "negotiation_enabled": true,
+    "verification_executed": false,
+    "quare_only_behaviors": {
+      "phase0_external_spec_processing": false,
+      "dynamic_round_control": false,
+      "phase25_conflict_map_generation": false,
+      "phase5_software_materials_generation": false,
+      "phase2_dialectic_negotiation": false
+    },
+    "quare_optional_artifacts": {},
+    "phase2_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 101,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0
+    },
+    "mare_runtime_llm": {
+      "source": "openai",
+      "enabled": true,
+      "seed": 101,
+      "seed_applied_turns": 9,
+      "turns": 9,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0,
+      "execution_mode": "llm_driven"
+    },
+    "rag_corpus_dir": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base",
+    "rag_corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "rag_chunk_count": 308,
+    "prompt_contract_hash": "743bcfaf0e65bfb246e0326780fd4ae96fdf7ce15497432f6e838d394515e46b"
+  }
+}

@@ -1,0 +1,486 @@
+# Comparison Validity Log
+
+- Generated at: 2026-02-17T11:17:53Z
+- Cases dir: `data/case_studies`
+- Output dir: `experiment_outputs/iredev`
+- Seeds: `[101, 202, 303]`
+- Settings: `['single_agent', 'multi_agent_without_negotiation', 'multi_agent_with_negotiation', 'negotiation_integration_verification']`
+- System: `iredev`
+- Model: `gpt-4o-mini`
+- Temperature: `0.7`
+- Round cap: `3`
+- Max tokens: `4000`
+- RAG enabled: `True`
+- RAG backend: `local_tfidf`
+- RAG corpus dir: `data/knowledge_base`
+
+## Completeness
+- Expected runs: 60
+- Actual runs: 60
+
+## Strict Fail Conditions
+- Missing required deliverables.
+- Run count mismatch versus expected matrix cardinality.
+- Missing required keys in `comparison_runs.jsonl`.
+- Missing or malformed provenance metadata (hash contracts).
+- Missing or malformed execution/comparability metadata contracts.
+- Missing required columns in required CSV outputs.
+- Any run with `validation_passed=false`.
+- Any run with `rag_enabled=false` or missing `rag_backend`.
+- Any run with `rag_fallback_used=true`.
+- Any run with `fallback_tainted=true` or retry-tainted metadata.
+
+## Errors
+- iredev-ad-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-negotiation_integration_verification-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-negotiation_integration_verification-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-negotiation_integration_verification-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-negotiation_integration_verification-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-negotiation_integration_verification-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-negotiation_integration_verification-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-negotiation_integration_verification-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-negotiation_integration_verification-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-ad-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-negotiation_integration_verification-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-ad-negotiation_integration_verification-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-ad-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-ad-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-ad-negotiation_integration_verification-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-ad-negotiation_integration_verification-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-negotiation_integration_verification-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-negotiation_integration_verification-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-negotiation_integration_verification-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-negotiation_integration_verification-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-negotiation_integration_verification-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-negotiation_integration_verification-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-negotiation_integration_verification-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-negotiation_integration_verification-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-atm-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-negotiation_integration_verification-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-atm-negotiation_integration_verification-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-atm-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-atm-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-atm-negotiation_integration_verification-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-atm-negotiation_integration_verification-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-negotiation_integration_verification-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-negotiation_integration_verification-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-bookkeeping-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-bookkeeping-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-bookkeeping-negotiation_integration_verification-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-bookkeeping-negotiation_integration_verification-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_without_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_with_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-negotiation_integration_verification-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-negotiation_integration_verification-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-negotiation_integration_verification-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-negotiation_integration_verification-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_without_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_with_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-negotiation_integration_verification-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-negotiation_integration_verification-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-negotiation_integration_verification-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-negotiation_integration_verification-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_without_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_with_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-library-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-negotiation_integration_verification-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-library-negotiation_integration_verification-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-library-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-library-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-library-negotiation_integration_verification-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-library-negotiation_integration_verification-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s101: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s101: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s101: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-negotiation_integration_verification-s101: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s101: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s202: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s202: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s202: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-negotiation_integration_verification-s202: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s202: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-multi_agent_without_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-multi_agent_with_negotiation-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- iredev-rollcall-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s303: Retry-tainted metadata detected; run is invalid for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s303: MARE semantics guardrail failed: execution_mode must be 'llm_driven' for multi-agent settings
+- iredev-rollcall-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_fallback_turns must be zero for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s303: MARE semantics guardrail failed: llm_actions must cover all seventeen iReDev actions
+- iredev-rollcall-negotiation_integration_verification-s303: MARE semantics guardrail failed: fallback_actions must be empty for strict comparability
+- iredev-rollcall-negotiation_integration_verification-s303: MARE semantics guardrail failed: every action_trace step must be LLM-generated
+- Run marked invalid: iredev-ad-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: iredev-ad-multi_agent_without_negotiation-s101
+- Retry-tainted metadata: iredev-ad-multi_agent_without_negotiation-s101
+- Run marked invalid: iredev-ad-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: iredev-ad-multi_agent_with_negotiation-s101
+- Retry-tainted metadata: iredev-ad-multi_agent_with_negotiation-s101
+- Run marked invalid: iredev-ad-negotiation_integration_verification-s101
+- Fallback-tainted metadata: iredev-ad-negotiation_integration_verification-s101
+- Retry-tainted metadata: iredev-ad-negotiation_integration_verification-s101
+- Run marked invalid: iredev-ad-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: iredev-ad-multi_agent_without_negotiation-s202
+- Retry-tainted metadata: iredev-ad-multi_agent_without_negotiation-s202
+- Run marked invalid: iredev-ad-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: iredev-ad-multi_agent_with_negotiation-s202
+- Retry-tainted metadata: iredev-ad-multi_agent_with_negotiation-s202
+- Run marked invalid: iredev-ad-negotiation_integration_verification-s202
+- Fallback-tainted metadata: iredev-ad-negotiation_integration_verification-s202
+- Retry-tainted metadata: iredev-ad-negotiation_integration_verification-s202
+- Run marked invalid: iredev-ad-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: iredev-ad-multi_agent_without_negotiation-s303
+- Retry-tainted metadata: iredev-ad-multi_agent_without_negotiation-s303
+- Run marked invalid: iredev-ad-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: iredev-ad-multi_agent_with_negotiation-s303
+- Retry-tainted metadata: iredev-ad-multi_agent_with_negotiation-s303
+- Run marked invalid: iredev-ad-negotiation_integration_verification-s303
+- Fallback-tainted metadata: iredev-ad-negotiation_integration_verification-s303
+- Retry-tainted metadata: iredev-ad-negotiation_integration_verification-s303
+- Run marked invalid: iredev-atm-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: iredev-atm-multi_agent_without_negotiation-s101
+- Retry-tainted metadata: iredev-atm-multi_agent_without_negotiation-s101
+- Run marked invalid: iredev-atm-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: iredev-atm-multi_agent_with_negotiation-s101
+- Retry-tainted metadata: iredev-atm-multi_agent_with_negotiation-s101
+- Run marked invalid: iredev-atm-negotiation_integration_verification-s101
+- Fallback-tainted metadata: iredev-atm-negotiation_integration_verification-s101
+- Retry-tainted metadata: iredev-atm-negotiation_integration_verification-s101
+- Run marked invalid: iredev-atm-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: iredev-atm-multi_agent_without_negotiation-s202
+- Retry-tainted metadata: iredev-atm-multi_agent_without_negotiation-s202
+- Run marked invalid: iredev-atm-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: iredev-atm-multi_agent_with_negotiation-s202
+- Retry-tainted metadata: iredev-atm-multi_agent_with_negotiation-s202
+- Run marked invalid: iredev-atm-negotiation_integration_verification-s202
+- Fallback-tainted metadata: iredev-atm-negotiation_integration_verification-s202
+- Retry-tainted metadata: iredev-atm-negotiation_integration_verification-s202
+- Run marked invalid: iredev-atm-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: iredev-atm-multi_agent_without_negotiation-s303
+- Retry-tainted metadata: iredev-atm-multi_agent_without_negotiation-s303
+- Run marked invalid: iredev-atm-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: iredev-atm-multi_agent_with_negotiation-s303
+- Retry-tainted metadata: iredev-atm-multi_agent_with_negotiation-s303
+- Run marked invalid: iredev-atm-negotiation_integration_verification-s303
+- Fallback-tainted metadata: iredev-atm-negotiation_integration_verification-s303
+- Retry-tainted metadata: iredev-atm-negotiation_integration_verification-s303
+- Run marked invalid: iredev-bookkeeping-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: iredev-bookkeeping-multi_agent_without_negotiation-s101
+- Retry-tainted metadata: iredev-bookkeeping-multi_agent_without_negotiation-s101
+- Run marked invalid: iredev-bookkeeping-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: iredev-bookkeeping-multi_agent_with_negotiation-s101
+- Retry-tainted metadata: iredev-bookkeeping-multi_agent_with_negotiation-s101
+- Run marked invalid: iredev-bookkeeping-negotiation_integration_verification-s101
+- Fallback-tainted metadata: iredev-bookkeeping-negotiation_integration_verification-s101
+- Retry-tainted metadata: iredev-bookkeeping-negotiation_integration_verification-s101
+- Run marked invalid: iredev-bookkeeping-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: iredev-bookkeeping-multi_agent_without_negotiation-s202
+- Retry-tainted metadata: iredev-bookkeeping-multi_agent_without_negotiation-s202
+- Run marked invalid: iredev-bookkeeping-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: iredev-bookkeeping-multi_agent_with_negotiation-s202
+- Retry-tainted metadata: iredev-bookkeeping-multi_agent_with_negotiation-s202
+- Run marked invalid: iredev-bookkeeping-negotiation_integration_verification-s202
+- Fallback-tainted metadata: iredev-bookkeeping-negotiation_integration_verification-s202
+- Retry-tainted metadata: iredev-bookkeeping-negotiation_integration_verification-s202
+- Run marked invalid: iredev-bookkeeping-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: iredev-bookkeeping-multi_agent_without_negotiation-s303
+- Retry-tainted metadata: iredev-bookkeeping-multi_agent_without_negotiation-s303
+- Run marked invalid: iredev-bookkeeping-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: iredev-bookkeeping-multi_agent_with_negotiation-s303
+- Retry-tainted metadata: iredev-bookkeeping-multi_agent_with_negotiation-s303
+- Run marked invalid: iredev-bookkeeping-negotiation_integration_verification-s303
+- Fallback-tainted metadata: iredev-bookkeeping-negotiation_integration_verification-s303
+- Retry-tainted metadata: iredev-bookkeeping-negotiation_integration_verification-s303
+- Run marked invalid: iredev-library-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: iredev-library-multi_agent_without_negotiation-s101
+- Retry-tainted metadata: iredev-library-multi_agent_without_negotiation-s101
+- Run marked invalid: iredev-library-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: iredev-library-multi_agent_with_negotiation-s101
+- Retry-tainted metadata: iredev-library-multi_agent_with_negotiation-s101
+- Run marked invalid: iredev-library-negotiation_integration_verification-s101
+- Fallback-tainted metadata: iredev-library-negotiation_integration_verification-s101
+- Retry-tainted metadata: iredev-library-negotiation_integration_verification-s101
+- Run marked invalid: iredev-library-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: iredev-library-multi_agent_without_negotiation-s202
+- Retry-tainted metadata: iredev-library-multi_agent_without_negotiation-s202
+- Run marked invalid: iredev-library-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: iredev-library-multi_agent_with_negotiation-s202
+- Retry-tainted metadata: iredev-library-multi_agent_with_negotiation-s202
+- Run marked invalid: iredev-library-negotiation_integration_verification-s202
+- Fallback-tainted metadata: iredev-library-negotiation_integration_verification-s202
+- Retry-tainted metadata: iredev-library-negotiation_integration_verification-s202
+- Run marked invalid: iredev-library-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: iredev-library-multi_agent_without_negotiation-s303
+- Retry-tainted metadata: iredev-library-multi_agent_without_negotiation-s303
+- Run marked invalid: iredev-library-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: iredev-library-multi_agent_with_negotiation-s303
+- Retry-tainted metadata: iredev-library-multi_agent_with_negotiation-s303
+- Run marked invalid: iredev-library-negotiation_integration_verification-s303
+- Fallback-tainted metadata: iredev-library-negotiation_integration_verification-s303
+- Retry-tainted metadata: iredev-library-negotiation_integration_verification-s303
+- Run marked invalid: iredev-rollcall-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: iredev-rollcall-multi_agent_without_negotiation-s101
+- Retry-tainted metadata: iredev-rollcall-multi_agent_without_negotiation-s101
+- Run marked invalid: iredev-rollcall-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: iredev-rollcall-multi_agent_with_negotiation-s101
+- Retry-tainted metadata: iredev-rollcall-multi_agent_with_negotiation-s101
+- Run marked invalid: iredev-rollcall-negotiation_integration_verification-s101
+- Fallback-tainted metadata: iredev-rollcall-negotiation_integration_verification-s101
+- Retry-tainted metadata: iredev-rollcall-negotiation_integration_verification-s101
+- Run marked invalid: iredev-rollcall-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: iredev-rollcall-multi_agent_without_negotiation-s202
+- Retry-tainted metadata: iredev-rollcall-multi_agent_without_negotiation-s202
+- Run marked invalid: iredev-rollcall-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: iredev-rollcall-multi_agent_with_negotiation-s202
+- Retry-tainted metadata: iredev-rollcall-multi_agent_with_negotiation-s202
+- Run marked invalid: iredev-rollcall-negotiation_integration_verification-s202
+- Fallback-tainted metadata: iredev-rollcall-negotiation_integration_verification-s202
+- Retry-tainted metadata: iredev-rollcall-negotiation_integration_verification-s202
+- Run marked invalid: iredev-rollcall-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: iredev-rollcall-multi_agent_without_negotiation-s303
+- Retry-tainted metadata: iredev-rollcall-multi_agent_without_negotiation-s303
+- Run marked invalid: iredev-rollcall-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: iredev-rollcall-multi_agent_with_negotiation-s303
+- Retry-tainted metadata: iredev-rollcall-multi_agent_with_negotiation-s303
+- Run marked invalid: iredev-rollcall-negotiation_integration_verification-s303
+- Fallback-tainted metadata: iredev-rollcall-negotiation_integration_verification-s303
+- Retry-tainted metadata: iredev-rollcall-negotiation_integration_verification-s303
+
+## Warnings
+- None

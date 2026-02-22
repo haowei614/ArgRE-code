@@ -1,0 +1,13 @@
+paper
+artifacts/
+.api_key
+
+__pycache__/
+*.pyc
+
+# IDE/editor configuration
+.vscode/
+.idea/
+.vs/
+*.iml
+*.code-workspace

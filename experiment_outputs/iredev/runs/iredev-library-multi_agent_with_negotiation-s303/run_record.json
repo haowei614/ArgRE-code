@@ -1,0 +1,566 @@
+{
+  "run_id": "iredev-library-multi_agent_with_negotiation-s303",
+  "case_id": "Library",
+  "system": "iredev",
+  "setting": "multi_agent_with_negotiation",
+  "seed": 303,
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "round_cap": 3,
+  "system_identity": {
+    "system_name": "iredev",
+    "implementation": "deterministic-parity-pipeline",
+    "implementation_version": "0.1.0",
+    "python_version": "3.14.0",
+    "platform": "Linux-6.18.10-2-cachyos-lts-x86_64-with-glibc2.43",
+    "machine": "x86_64"
+  },
+  "provenance": {
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "seed": 303,
+    "prompt_hash": "1ba498b78c21560fc469408ecdee90f5774ae6b6f95d0ad4bcdf6ed15c653a9e",
+    "corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "corpus_path": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base"
+  },
+  "execution_flags": {
+    "rag_fallback_used": false,
+    "llm_fallback_used": true,
+    "fallback_tainted": true,
+    "retry_used": true,
+    "retry_count": 2
+  },
+  "comparability": {
+    "is_comparable": false,
+    "non_comparable_reasons": [
+      "verification_not_executed_for_setting"
+    ]
+  },
+  "max_tokens": 4000,
+  "rag_enabled": true,
+  "rag_backend": "local_tfidf",
+  "rag_fallback_used": false,
+  "start_timestamp": "2026-02-17T10:43:55Z",
+  "end_timestamp": "2026-02-17T10:47:13Z",
+  "runtime_seconds": 198.044588,
+  "artifacts_dir": "experiment_outputs/iredev/runs/iredev-library-multi_agent_with_negotiation-s303",
+  "artifact_paths": {
+    "phase1_initial_models.json": "experiment_outputs/iredev/runs/iredev-library-multi_agent_with_negotiation-s303/phase1_initial_models.json",
+    "phase2_negotiation_trace.json": "experiment_outputs/iredev/runs/iredev-library-multi_agent_with_negotiation-s303/phase2_negotiation_trace.json",
+    "phase3_integrated_kaos_model.json": "experiment_outputs/iredev/runs/iredev-library-multi_agent_with_negotiation-s303/phase3_integrated_kaos_model.json",
+    "phase4_verification_report.json": "experiment_outputs/iredev/runs/iredev-library-multi_agent_with_negotiation-s303/phase4_verification_report.json"
+  },
+  "artifact_blinded": false,
+  "blinding_scheme_version": "",
+  "blind_eval_run_id": "",
+  "judge_pipeline_hash": "aca4416c757997fb3f3688c03e0d361b94a59adaca560b6cc5221f89f386eebd",
+  "trace_audit_path": "",
+  "notes": {
+    "phase_a_b": true,
+    "generation_mode": "deterministic-parity-pipeline",
+    "runtime_semantics": {
+      "mode": "iredev_knowledge_driven_v1",
+      "workflow_version": "1",
+      "paper_workflow_enabled": true,
+      "setting": "multi_agent_with_negotiation",
+      "llm_required": true,
+      "llm_source": "openai",
+      "llm_enabled": true,
+      "llm_seed": 303,
+      "llm_seed_applied_turns": 31,
+      "llm_turns": 31,
+      "llm_fallback_turns": 2,
+      "llm_retry_count": 2,
+      "llm_parse_recoveries": 0,
+      "execution_mode": "llm_hybrid_fallback",
+      "llm_actions": [
+        "DialogueWithEndUser",
+        "DialogueWithEndUser",
+        "DialogueWithEndUser",
+        "RespondEndUser",
+        "RespondEndUser",
+        "RespondEndUser",
+        "RaiseQuestionEndUser",
+        "RaiseQuestionEndUser",
+        "RaiseQuestionEndUser",
+        "ConfirmOrRefineEndUser",
+        "ConfirmOrRefineEndUser",
+        "ConfirmOrRefineEndUser",
+        "WriteInterviewRecords",
+        "DialogueWithDeployer",
+        "DialogueWithDeployer",
+        "DialogueWithDeployer",
+        "RespondDeployer",
+        "RespondDeployer",
+        "RespondDeployer",
+        "RaiseQuestionDeployer",
+        "RaiseQuestionDeployer",
+        "RaiseQuestionDeployer",
+        "ConfirmOrRefineDeployer",
+        "ConfirmOrRefineDeployer",
+        "ConfirmOrRefineDeployer",
+        "WriteOperatingEnvironmentList",
+        "WriteSystemRequirementsList",
+        "SelectRequirementModel",
+        "BuildRequirementModel",
+        "WriteSRS",
+        "ConfirmClosure"
+      ],
+      "fallback_actions": [
+        "WriteUserRequirementsList",
+        "Evaluate"
+      ],
+      "roles_executed": [
+        "Interviewer",
+        "EndUser",
+        "Deployer",
+        "Analyst",
+        "Archivist",
+        "Reviewer"
+      ],
+      "actions_executed": [
+        "DialogueWithEndUser",
+        "WriteInterviewRecords",
+        "WriteUserRequirementsList",
+        "DialogueWithDeployer",
+        "WriteOperatingEnvironmentList",
+        "RespondEndUser",
+        "RaiseQuestionEndUser",
+        "ConfirmOrRefineEndUser",
+        "RespondDeployer",
+        "RaiseQuestionDeployer",
+        "ConfirmOrRefineDeployer",
+        "WriteSystemRequirementsList",
+        "SelectRequirementModel",
+        "BuildRequirementModel",
+        "WriteSRS",
+        "Evaluate",
+        "ConfirmClosure"
+      ],
+      "role_action_map": {
+        "Interviewer": [
+          "DialogueWithEndUser",
+          "WriteInterviewRecords",
+          "WriteUserRequirementsList",
+          "DialogueWithDeployer",
+          "WriteOperatingEnvironmentList"
+        ],
+        "EndUser": [
+          "RespondEndUser",
+          "RaiseQuestionEndUser",
+          "ConfirmOrRefineEndUser"
+        ],
+        "Deployer": [
+          "RespondDeployer",
+          "RaiseQuestionDeployer",
+          "ConfirmOrRefineDeployer"
+        ],
+        "Analyst": [
+          "WriteSystemRequirementsList",
+          "SelectRequirementModel",
+          "BuildRequirementModel"
+        ],
+        "Archivist": [
+          "WriteSRS"
+        ],
+        "Reviewer": [
+          "Evaluate",
+          "ConfirmClosure"
+        ]
+      },
+      "action_trace": [
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The interview questions focus on understanding user goals, identifying pain points related to the library system, and establishing acceptance criteria through 5W1H and Socratic questioning techniques."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The interview questions are designed to uncover user goals, pain points, and acceptance criteria for a library management system by utilizing 5W1H and Socratic questioning techniques."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The generated interview questions are designed to uncover user goals, pain points, and acceptance criteria for the library management system by employing 5W1H and Socratic questioning techniques."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "The end user highlights pain points related to borrowing limits, book availability tracking, and search functionality, while expressing expectations for real-time updates and user-friendly account management in the library system."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Library members and librarians highlight issues with borrowing limits, inventory management, search functionality, and real-time updates for book availability."
+        },
+        {
+          "role": "EndUser",
+          "action": "RespondEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Library members desire clear communication regarding borrowing limits and real-time status updates on book availability, while librarians expect a user-friendly interface for efficient book management."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Clarification questions raised regarding borrowing limits, overdue tracking, librarian interface capabilities, and search functionality enhancements."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The end user has raised several questions regarding the clarity of borrowing limits, the handling of limit exceedance, and the notification process for overdue books."
+        },
+        {
+          "role": "EndUser",
+          "action": "RaiseQuestionEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The raised questions focus on clarifying borrowing limits, notification processes for exceeding limits, and criteria for overdue book tracking to ensure effective communication and user experience in the library system."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requirements have been validated and refined based on user feedback, focusing on improving communication of borrowing limits, enhancing librarian efficiency, ensuring real-time updates, and expanding search functionalities."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requirements have been confirmed and refined based on user feedback, emphasizing clear communication of borrowing limits, a user-friendly interface for librarians, robust search functionality, real-time updates on availability, and notifications for overdue books."
+        },
+        {
+          "role": "EndUser",
+          "action": "ConfirmOrRefineEndUser",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Refined requirements based on user feedback include enhanced communication of borrowing limits, a robust search functionality, and real-time updates on book availability."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteInterviewRecords",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "The structured elicitation records outline key requirements for a library management system, focusing on borrowing limits, librarian functionalities, real-time updates for book availability, and enhanced search capabilities."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteUserRequirementsList",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 6,
+          "summary": "UR-1: The system shall The system must enforce borrowing limits (e UR-2: The system shall , maximum number of books per member) and track overdue books UR-3:..."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Targeted questions were formulated to explore the deployer's perspective on infrastructure constraints, security requirements, and scalability expectations for the library management system."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 4,
+          "summary": "Targeted questions for the Deployer address infrastructure constraints, security mandates, and scalability expectations for the library management system."
+        },
+        {
+          "role": "Interviewer",
+          "action": "DialogueWithDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The targeted questions aim to uncover potential infrastructure constraints, security mandates, and scalability expectations relevant to the library management system's requirements."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The library management system must adhere to specific infrastructure, security, scalability, and operational guidelines to ensure effective and efficient service delivery."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The library management system must adhere to specific infrastructure constraints, security mandates, scalability targets, and operational procedures to ensure efficient and secure functionality."
+        },
+        {
+          "role": "Deployer",
+          "action": "RespondDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The library management system will utilize cloud infrastructure for scalability, adhere to strict security regulations, be designed for annual user load increases, and include operational procedures for performance monitoring and user notifications."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Clarification is needed on the specific borrowing limits, handling of limit breaches, and criteria for overdue book notifications in the library management system."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Requesting clarification on operational details regarding borrowing limits, notifications for exceeding limits, and criteria for tracking overdue books."
+        },
+        {
+          "role": "Deployer",
+          "action": "RaiseQuestionDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Clarification is needed on borrowing limits, handling of exceeded limits, and criteria for tracking overdue books to ensure proper requirements are established."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment requirements for the library management system focus on enforcing borrowing limits with clear communication, enabling effective librarian management tools, ensuring real-time updates for book availability, and providing robust search functionalities for members."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "Validated core deployment requirements for the library management system focusing on borrowing limits, librarian capabilities, and real-time book tracking."
+        },
+        {
+          "role": "Deployer",
+          "action": "ConfirmOrRefineDeployer",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 3,
+          "summary": "The deployment requirements for the library management system emphasize enforcing borrowing limits, user-friendly interfaces for librarians, real-time updates for members, scalability to handle increased user loads, and stringent security measures."
+        },
+        {
+          "role": "Interviewer",
+          "action": "WriteOperatingEnvironmentList",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "The operating environment for the library management system includes cloud-based infrastructure, compliance with data protection regulations, scalability for user load increases, and user-friendly interfaces for both members and librarians."
+        },
+        {
+          "role": "Analyst",
+          "action": "WriteSystemRequirementsList",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 10,
+          "summary": "A comprehensive list of system requirements for the library management system, adhering to IEEE 830 standards, addressing borrowing limits, user management, book tracking, and scalability within a secure cloud environment."
+        },
+        {
+          "role": "Analyst",
+          "action": "SelectRequirementModel",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "A UML Use Case Diagram is suitable for the library system as it effectively captures user interactions, such as borrowing and returning books, managing accounts, and enforcing borrowing limits, providing a clear visualization of system functionalities and actor relationships."
+        },
+        {
+          "role": "Analyst",
+          "action": "BuildRequirementModel",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 1,
+          "summary": "Constructed a UML Use Case Diagram representing the Library Management System's requirements, highlighting conflicts in communication about borrowing limits."
+        },
+        {
+          "role": "Archivist",
+          "action": "WriteSRS",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "This SRS details the requirements for a Library Management System, including functional and non-functional specifications, ensuring compliance, scalability, and user-friendly interfaces."
+        },
+        {
+          "role": "Reviewer",
+          "action": "Evaluate",
+          "execution_mode": "fallback",
+          "llm_generated": false,
+          "llm_source": "openai",
+          "fallback_reason": "empty_items",
+          "output_count": 2,
+          "summary": "Finding: All requirements should include verifiable acceptance criteria per ISO/IEC/IEEE 29148. Finding: Ensure traceability from user requirements to system..."
+        },
+        {
+          "role": "Reviewer",
+          "action": "ConfirmClosure",
+          "execution_mode": "llm",
+          "llm_generated": true,
+          "llm_source": "openai",
+          "fallback_reason": "",
+          "output_count": 6,
+          "summary": "All review findings have been addressed in the SRS revisions, ensuring verifiability, traceability, and clarity in functional requirements."
+        }
+      ],
+      "workspace_summary": {
+        "interview_records": 1,
+        "user_requirements": 6,
+        "operating_environment": 6,
+        "enduser_responses": 12,
+        "enduser_questions": 9,
+        "enduser_confirmations": 9,
+        "deployer_responses": 9,
+        "deployer_questions": 9,
+        "deployer_confirmations": 9,
+        "system_requirements": 10,
+        "selected_model": 1,
+        "requirement_model": 1,
+        "srs_sections": 6,
+        "review_findings": 2,
+        "closure_confirmations": 6,
+        "dialogue_rounds": 3,
+        "total_action_fires": 33,
+        "distinct_actions_fired": 17,
+        "llm_turns": 31,
+        "llm_fallback_turns": 2
+      },
+      "workspace_digest": "4cefd1b7ef153dbfdbfd5ebe1ce90d73daf5e7ae746ba49cc130b42293e61301"
+    },
+    "case_description": "Library Management System",
+    "system": "iredev",
+    "setting": "multi_agent_with_negotiation",
+    "negotiation_enabled": true,
+    "verification_executed": false,
+    "quare_only_behaviors": {
+      "phase0_external_spec_processing": false,
+      "dynamic_round_control": false,
+      "phase25_conflict_map_generation": false,
+      "phase5_software_materials_generation": false,
+      "phase2_dialectic_negotiation": false
+    },
+    "quare_optional_artifacts": {},
+    "phase2_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 303,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0
+    },
+    "mare_runtime_llm": {
+      "source": "openai",
+      "enabled": true,
+      "seed": 303,
+      "seed_applied_turns": 31,
+      "turns": 31,
+      "fallback_turns": 2,
+      "retry_count": 2,
+      "parse_recoveries": 0,
+      "execution_mode": "llm_hybrid_fallback"
+    },
+    "rag_corpus_dir": "[ANONYMIZED_DIR]/OpenRE-Bench/data/knowledge_base",
+    "rag_corpus_hash": "25f9fa3b0d6e04f132bce9f1c373b1e3fee1bde201dcc037ab9c976fff431798",
+    "rag_chunk_count": 308,
+    "prompt_contract_hash": "1ba498b78c21560fc469408ecdee90f5774ae6b6f95d0ad4bcdf6ed15c653a9e"
+  }
+}
