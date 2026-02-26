@@ -1033,6 +1033,15 @@ def _build_phase1(
         return phase1
 
     agent_items = list(agent_quality_mapping.items())
+    base_multi_agent_leaf_count = 6
+    if len(agent_items) == 5:
+        # Keep the same total volume (30 leaves + 5 roots = 35) while avoiding
+        # fixed per-axis 7-count outputs in QUARE multi-agent settings.
+        delta_pattern = [1, 1, 0, -1, -1]
+        shift = seed % len(delta_pattern)
+        leaf_deltas = delta_pattern[shift:] + delta_pattern[:shift]
+    else:
+        leaf_deltas = [0] * len(agent_items)
     for agent_index, (agent_name, quality_attribute) in enumerate(agent_items, start=1):
         root_fragment_index = _agent_fragment_start_index(
             fragment_count=len(rotated),
@@ -1063,7 +1072,10 @@ def _build_phase1(
             validation_status="pending",
         )
 
-        multi_agent_leaf_count = 6
+        multi_agent_leaf_count = max(
+            1,
+            base_multi_agent_leaf_count + leaf_deltas[agent_index - 1],
+        )
         assigned_fragments = _agent_fragment_window(
             rotated=rotated,
             agent_index=agent_index,

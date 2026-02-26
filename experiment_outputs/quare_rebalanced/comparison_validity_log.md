@@ -1,0 +1,456 @@
+# Comparison Validity Log
+
+- Generated at: 2026-02-26T11:14:17Z
+- Cases dir: `data/case_studies`
+- Output dir: `experiment_outputs/quare_rebalanced`
+- Seeds: `[101, 202, 303]`
+- Settings: `['single_agent', 'multi_agent_without_negotiation', 'multi_agent_with_negotiation', 'negotiation_integration_verification']`
+- System: `quare`
+- Model: `gpt-4o-mini`
+- Temperature: `0.7`
+- Round cap: `3`
+- Max tokens: `4000`
+- RAG enabled: `True`
+- RAG backend: `local_tfidf`
+- RAG corpus dir: `../OpenRE-Bench/data/knowledge_base`
+
+## Completeness
+- Expected runs: 60
+- Actual runs: 60
+
+## Strict Fail Conditions
+- Missing required deliverables.
+- Run count mismatch versus expected matrix cardinality.
+- Missing required keys in `comparison_runs.jsonl`.
+- Missing or malformed provenance metadata (hash contracts).
+- Missing or malformed execution/comparability metadata contracts.
+- Missing required columns in required CSV outputs.
+- Any run with `validation_passed=false`.
+- Any run with `rag_enabled=false` or missing `rag_backend`.
+- Any run with `rag_fallback_used=true`.
+- Any run with `fallback_tainted=true` or retry-tainted metadata.
+
+## Errors
+- quare-ad-single_agent-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-single_agent-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-single_agent-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-multi_agent_without_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-multi_agent_without_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-multi_agent_with_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-multi_agent_with_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-negotiation_integration_verification-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-negotiation_integration_verification-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-single_agent-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-single_agent-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-single_agent-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-multi_agent_without_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-multi_agent_without_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-multi_agent_with_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-multi_agent_with_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-negotiation_integration_verification-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-negotiation_integration_verification-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-single_agent-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-single_agent-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-single_agent-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-multi_agent_without_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-multi_agent_without_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-multi_agent_with_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-multi_agent_with_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-ad-negotiation_integration_verification-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-ad-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-ad-negotiation_integration_verification-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-single_agent-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-single_agent-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-single_agent-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-multi_agent_without_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-multi_agent_without_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-multi_agent_with_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-multi_agent_with_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-negotiation_integration_verification-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-negotiation_integration_verification-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-single_agent-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-single_agent-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-single_agent-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-multi_agent_without_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-multi_agent_without_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-multi_agent_with_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-multi_agent_with_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-negotiation_integration_verification-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-negotiation_integration_verification-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-single_agent-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-single_agent-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-single_agent-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-multi_agent_without_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-multi_agent_without_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-multi_agent_with_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-multi_agent_with_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-atm-negotiation_integration_verification-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-atm-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-atm-negotiation_integration_verification-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-single_agent-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-single_agent-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-single_agent-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-multi_agent_without_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-multi_agent_without_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-multi_agent_with_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-multi_agent_with_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-negotiation_integration_verification-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-negotiation_integration_verification-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-single_agent-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-single_agent-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-single_agent-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-multi_agent_without_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-multi_agent_without_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-multi_agent_with_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-multi_agent_with_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-negotiation_integration_verification-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-negotiation_integration_verification-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-single_agent-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-single_agent-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-single_agent-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-multi_agent_without_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-multi_agent_without_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-multi_agent_with_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-multi_agent_with_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-bookkeeping-negotiation_integration_verification-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-bookkeeping-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-bookkeeping-negotiation_integration_verification-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-single_agent-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-single_agent-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-single_agent-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-multi_agent_without_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-multi_agent_without_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-multi_agent_with_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-multi_agent_with_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-negotiation_integration_verification-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-negotiation_integration_verification-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-single_agent-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-single_agent-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-single_agent-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-multi_agent_without_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-multi_agent_without_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-multi_agent_with_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-multi_agent_with_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-negotiation_integration_verification-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-negotiation_integration_verification-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-single_agent-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-single_agent-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-single_agent-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-multi_agent_without_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-multi_agent_without_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-multi_agent_with_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-multi_agent_with_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-library-negotiation_integration_verification-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-library-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-library-negotiation_integration_verification-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-single_agent-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-single_agent-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-single_agent-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-multi_agent_without_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-multi_agent_without_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-multi_agent_without_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-multi_agent_with_negotiation-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-multi_agent_with_negotiation-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-multi_agent_with_negotiation-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-negotiation_integration_verification-s101: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-negotiation_integration_verification-s101: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-negotiation_integration_verification-s101: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-single_agent-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-single_agent-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-single_agent-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-multi_agent_without_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-multi_agent_without_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-multi_agent_without_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-multi_agent_with_negotiation-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-multi_agent_with_negotiation-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-multi_agent_with_negotiation-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-negotiation_integration_verification-s202: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-negotiation_integration_verification-s202: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-negotiation_integration_verification-s202: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-single_agent-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-single_agent-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-single_agent-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-multi_agent_without_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-multi_agent_without_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-multi_agent_without_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-multi_agent_with_negotiation-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-multi_agent_with_negotiation-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-multi_agent_with_negotiation-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- quare-rollcall-negotiation_integration_verification-s303: Provenance failure: corpus_hash must be a SHA256 hex digest when rag_enabled=true
+- quare-rollcall-negotiation_integration_verification-s303: Fallback-tainted metadata detected; run is invalid for strict comparability
+- quare-rollcall-negotiation_integration_verification-s303: RAG fallback used; run must be rerun with stable retrieval behavior for parity
+- Run marked invalid: quare-ad-single_agent-s101
+- RAG fallback used: quare-ad-single_agent-s101
+- Corpus hash missing/invalid: quare-ad-single_agent-s101
+- Fallback-tainted metadata: quare-ad-single_agent-s101
+- Run marked invalid: quare-ad-multi_agent_without_negotiation-s101
+- RAG fallback used: quare-ad-multi_agent_without_negotiation-s101
+- Corpus hash missing/invalid: quare-ad-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: quare-ad-multi_agent_without_negotiation-s101
+- Run marked invalid: quare-ad-multi_agent_with_negotiation-s101
+- RAG fallback used: quare-ad-multi_agent_with_negotiation-s101
+- Corpus hash missing/invalid: quare-ad-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: quare-ad-multi_agent_with_negotiation-s101
+- Run marked invalid: quare-ad-negotiation_integration_verification-s101
+- RAG fallback used: quare-ad-negotiation_integration_verification-s101
+- Corpus hash missing/invalid: quare-ad-negotiation_integration_verification-s101
+- Fallback-tainted metadata: quare-ad-negotiation_integration_verification-s101
+- Run marked invalid: quare-ad-single_agent-s202
+- RAG fallback used: quare-ad-single_agent-s202
+- Corpus hash missing/invalid: quare-ad-single_agent-s202
+- Fallback-tainted metadata: quare-ad-single_agent-s202
+- Run marked invalid: quare-ad-multi_agent_without_negotiation-s202
+- RAG fallback used: quare-ad-multi_agent_without_negotiation-s202
+- Corpus hash missing/invalid: quare-ad-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: quare-ad-multi_agent_without_negotiation-s202
+- Run marked invalid: quare-ad-multi_agent_with_negotiation-s202
+- RAG fallback used: quare-ad-multi_agent_with_negotiation-s202
+- Corpus hash missing/invalid: quare-ad-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: quare-ad-multi_agent_with_negotiation-s202
+- Run marked invalid: quare-ad-negotiation_integration_verification-s202
+- RAG fallback used: quare-ad-negotiation_integration_verification-s202
+- Corpus hash missing/invalid: quare-ad-negotiation_integration_verification-s202
+- Fallback-tainted metadata: quare-ad-negotiation_integration_verification-s202
+- Run marked invalid: quare-ad-single_agent-s303
+- RAG fallback used: quare-ad-single_agent-s303
+- Corpus hash missing/invalid: quare-ad-single_agent-s303
+- Fallback-tainted metadata: quare-ad-single_agent-s303
+- Run marked invalid: quare-ad-multi_agent_without_negotiation-s303
+- RAG fallback used: quare-ad-multi_agent_without_negotiation-s303
+- Corpus hash missing/invalid: quare-ad-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: quare-ad-multi_agent_without_negotiation-s303
+- Run marked invalid: quare-ad-multi_agent_with_negotiation-s303
+- RAG fallback used: quare-ad-multi_agent_with_negotiation-s303
+- Corpus hash missing/invalid: quare-ad-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: quare-ad-multi_agent_with_negotiation-s303
+- Run marked invalid: quare-ad-negotiation_integration_verification-s303
+- RAG fallback used: quare-ad-negotiation_integration_verification-s303
+- Corpus hash missing/invalid: quare-ad-negotiation_integration_verification-s303
+- Fallback-tainted metadata: quare-ad-negotiation_integration_verification-s303
+- Run marked invalid: quare-atm-single_agent-s101
+- RAG fallback used: quare-atm-single_agent-s101
+- Corpus hash missing/invalid: quare-atm-single_agent-s101
+- Fallback-tainted metadata: quare-atm-single_agent-s101
+- Run marked invalid: quare-atm-multi_agent_without_negotiation-s101
+- RAG fallback used: quare-atm-multi_agent_without_negotiation-s101
+- Corpus hash missing/invalid: quare-atm-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: quare-atm-multi_agent_without_negotiation-s101
+- Run marked invalid: quare-atm-multi_agent_with_negotiation-s101
+- RAG fallback used: quare-atm-multi_agent_with_negotiation-s101
+- Corpus hash missing/invalid: quare-atm-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: quare-atm-multi_agent_with_negotiation-s101
+- Run marked invalid: quare-atm-negotiation_integration_verification-s101
+- RAG fallback used: quare-atm-negotiation_integration_verification-s101
+- Corpus hash missing/invalid: quare-atm-negotiation_integration_verification-s101
+- Fallback-tainted metadata: quare-atm-negotiation_integration_verification-s101
+- Run marked invalid: quare-atm-single_agent-s202
+- RAG fallback used: quare-atm-single_agent-s202
+- Corpus hash missing/invalid: quare-atm-single_agent-s202
+- Fallback-tainted metadata: quare-atm-single_agent-s202
+- Run marked invalid: quare-atm-multi_agent_without_negotiation-s202
+- RAG fallback used: quare-atm-multi_agent_without_negotiation-s202
+- Corpus hash missing/invalid: quare-atm-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: quare-atm-multi_agent_without_negotiation-s202
+- Run marked invalid: quare-atm-multi_agent_with_negotiation-s202
+- RAG fallback used: quare-atm-multi_agent_with_negotiation-s202
+- Corpus hash missing/invalid: quare-atm-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: quare-atm-multi_agent_with_negotiation-s202
+- Run marked invalid: quare-atm-negotiation_integration_verification-s202
+- RAG fallback used: quare-atm-negotiation_integration_verification-s202
+- Corpus hash missing/invalid: quare-atm-negotiation_integration_verification-s202
+- Fallback-tainted metadata: quare-atm-negotiation_integration_verification-s202
+- Run marked invalid: quare-atm-single_agent-s303
+- RAG fallback used: quare-atm-single_agent-s303
+- Corpus hash missing/invalid: quare-atm-single_agent-s303
+- Fallback-tainted metadata: quare-atm-single_agent-s303
+- Run marked invalid: quare-atm-multi_agent_without_negotiation-s303
+- RAG fallback used: quare-atm-multi_agent_without_negotiation-s303
+- Corpus hash missing/invalid: quare-atm-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: quare-atm-multi_agent_without_negotiation-s303
+- Run marked invalid: quare-atm-multi_agent_with_negotiation-s303
+- RAG fallback used: quare-atm-multi_agent_with_negotiation-s303
+- Corpus hash missing/invalid: quare-atm-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: quare-atm-multi_agent_with_negotiation-s303
+- Run marked invalid: quare-atm-negotiation_integration_verification-s303
+- RAG fallback used: quare-atm-negotiation_integration_verification-s303
+- Corpus hash missing/invalid: quare-atm-negotiation_integration_verification-s303
+- Fallback-tainted metadata: quare-atm-negotiation_integration_verification-s303
+- Run marked invalid: quare-bookkeeping-single_agent-s101
+- RAG fallback used: quare-bookkeeping-single_agent-s101
+- Corpus hash missing/invalid: quare-bookkeeping-single_agent-s101
+- Fallback-tainted metadata: quare-bookkeeping-single_agent-s101
+- Run marked invalid: quare-bookkeeping-multi_agent_without_negotiation-s101
+- RAG fallback used: quare-bookkeeping-multi_agent_without_negotiation-s101
+- Corpus hash missing/invalid: quare-bookkeeping-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: quare-bookkeeping-multi_agent_without_negotiation-s101
+- Run marked invalid: quare-bookkeeping-multi_agent_with_negotiation-s101
+- RAG fallback used: quare-bookkeeping-multi_agent_with_negotiation-s101
+- Corpus hash missing/invalid: quare-bookkeeping-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: quare-bookkeeping-multi_agent_with_negotiation-s101
+- Run marked invalid: quare-bookkeeping-negotiation_integration_verification-s101
+- RAG fallback used: quare-bookkeeping-negotiation_integration_verification-s101
+- Corpus hash missing/invalid: quare-bookkeeping-negotiation_integration_verification-s101
+- Fallback-tainted metadata: quare-bookkeeping-negotiation_integration_verification-s101
+- Run marked invalid: quare-bookkeeping-single_agent-s202
+- RAG fallback used: quare-bookkeeping-single_agent-s202
+- Corpus hash missing/invalid: quare-bookkeeping-single_agent-s202
+- Fallback-tainted metadata: quare-bookkeeping-single_agent-s202
+- Run marked invalid: quare-bookkeeping-multi_agent_without_negotiation-s202
+- RAG fallback used: quare-bookkeeping-multi_agent_without_negotiation-s202
+- Corpus hash missing/invalid: quare-bookkeeping-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: quare-bookkeeping-multi_agent_without_negotiation-s202
+- Run marked invalid: quare-bookkeeping-multi_agent_with_negotiation-s202
+- RAG fallback used: quare-bookkeeping-multi_agent_with_negotiation-s202
+- Corpus hash missing/invalid: quare-bookkeeping-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: quare-bookkeeping-multi_agent_with_negotiation-s202
+- Run marked invalid: quare-bookkeeping-negotiation_integration_verification-s202
+- RAG fallback used: quare-bookkeeping-negotiation_integration_verification-s202
+- Corpus hash missing/invalid: quare-bookkeeping-negotiation_integration_verification-s202
+- Fallback-tainted metadata: quare-bookkeeping-negotiation_integration_verification-s202
+- Run marked invalid: quare-bookkeeping-single_agent-s303
+- RAG fallback used: quare-bookkeeping-single_agent-s303
+- Corpus hash missing/invalid: quare-bookkeeping-single_agent-s303
+- Fallback-tainted metadata: quare-bookkeeping-single_agent-s303
+- Run marked invalid: quare-bookkeeping-multi_agent_without_negotiation-s303
+- RAG fallback used: quare-bookkeeping-multi_agent_without_negotiation-s303
+- Corpus hash missing/invalid: quare-bookkeeping-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: quare-bookkeeping-multi_agent_without_negotiation-s303
+- Run marked invalid: quare-bookkeeping-multi_agent_with_negotiation-s303
+- RAG fallback used: quare-bookkeeping-multi_agent_with_negotiation-s303
+- Corpus hash missing/invalid: quare-bookkeeping-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: quare-bookkeeping-multi_agent_with_negotiation-s303
+- Run marked invalid: quare-bookkeeping-negotiation_integration_verification-s303
+- RAG fallback used: quare-bookkeeping-negotiation_integration_verification-s303
+- Corpus hash missing/invalid: quare-bookkeeping-negotiation_integration_verification-s303
+- Fallback-tainted metadata: quare-bookkeeping-negotiation_integration_verification-s303
+- Run marked invalid: quare-library-single_agent-s101
+- RAG fallback used: quare-library-single_agent-s101
+- Corpus hash missing/invalid: quare-library-single_agent-s101
+- Fallback-tainted metadata: quare-library-single_agent-s101
+- Run marked invalid: quare-library-multi_agent_without_negotiation-s101
+- RAG fallback used: quare-library-multi_agent_without_negotiation-s101
+- Corpus hash missing/invalid: quare-library-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: quare-library-multi_agent_without_negotiation-s101
+- Run marked invalid: quare-library-multi_agent_with_negotiation-s101
+- RAG fallback used: quare-library-multi_agent_with_negotiation-s101
+- Corpus hash missing/invalid: quare-library-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: quare-library-multi_agent_with_negotiation-s101
+- Run marked invalid: quare-library-negotiation_integration_verification-s101
+- RAG fallback used: quare-library-negotiation_integration_verification-s101
+- Corpus hash missing/invalid: quare-library-negotiation_integration_verification-s101
+- Fallback-tainted metadata: quare-library-negotiation_integration_verification-s101
+- Run marked invalid: quare-library-single_agent-s202
+- RAG fallback used: quare-library-single_agent-s202
+- Corpus hash missing/invalid: quare-library-single_agent-s202
+- Fallback-tainted metadata: quare-library-single_agent-s202
+- Run marked invalid: quare-library-multi_agent_without_negotiation-s202
+- RAG fallback used: quare-library-multi_agent_without_negotiation-s202
+- Corpus hash missing/invalid: quare-library-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: quare-library-multi_agent_without_negotiation-s202
+- Run marked invalid: quare-library-multi_agent_with_negotiation-s202
+- RAG fallback used: quare-library-multi_agent_with_negotiation-s202
+- Corpus hash missing/invalid: quare-library-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: quare-library-multi_agent_with_negotiation-s202
+- Run marked invalid: quare-library-negotiation_integration_verification-s202
+- RAG fallback used: quare-library-negotiation_integration_verification-s202
+- Corpus hash missing/invalid: quare-library-negotiation_integration_verification-s202
+- Fallback-tainted metadata: quare-library-negotiation_integration_verification-s202
+- Run marked invalid: quare-library-single_agent-s303
+- RAG fallback used: quare-library-single_agent-s303
+- Corpus hash missing/invalid: quare-library-single_agent-s303
+- Fallback-tainted metadata: quare-library-single_agent-s303
+- Run marked invalid: quare-library-multi_agent_without_negotiation-s303
+- RAG fallback used: quare-library-multi_agent_without_negotiation-s303
+- Corpus hash missing/invalid: quare-library-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: quare-library-multi_agent_without_negotiation-s303
+- Run marked invalid: quare-library-multi_agent_with_negotiation-s303
+- RAG fallback used: quare-library-multi_agent_with_negotiation-s303
+- Corpus hash missing/invalid: quare-library-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: quare-library-multi_agent_with_negotiation-s303
+- Run marked invalid: quare-library-negotiation_integration_verification-s303
+- RAG fallback used: quare-library-negotiation_integration_verification-s303
+- Corpus hash missing/invalid: quare-library-negotiation_integration_verification-s303
+- Fallback-tainted metadata: quare-library-negotiation_integration_verification-s303
+- Run marked invalid: quare-rollcall-single_agent-s101
+- RAG fallback used: quare-rollcall-single_agent-s101
+- Corpus hash missing/invalid: quare-rollcall-single_agent-s101
+- Fallback-tainted metadata: quare-rollcall-single_agent-s101
+- Run marked invalid: quare-rollcall-multi_agent_without_negotiation-s101
+- RAG fallback used: quare-rollcall-multi_agent_without_negotiation-s101
+- Corpus hash missing/invalid: quare-rollcall-multi_agent_without_negotiation-s101
+- Fallback-tainted metadata: quare-rollcall-multi_agent_without_negotiation-s101
+- Run marked invalid: quare-rollcall-multi_agent_with_negotiation-s101
+- RAG fallback used: quare-rollcall-multi_agent_with_negotiation-s101
+- Corpus hash missing/invalid: quare-rollcall-multi_agent_with_negotiation-s101
+- Fallback-tainted metadata: quare-rollcall-multi_agent_with_negotiation-s101
+- Run marked invalid: quare-rollcall-negotiation_integration_verification-s101
+- RAG fallback used: quare-rollcall-negotiation_integration_verification-s101
+- Corpus hash missing/invalid: quare-rollcall-negotiation_integration_verification-s101
+- Fallback-tainted metadata: quare-rollcall-negotiation_integration_verification-s101
+- Run marked invalid: quare-rollcall-single_agent-s202
+- RAG fallback used: quare-rollcall-single_agent-s202
+- Corpus hash missing/invalid: quare-rollcall-single_agent-s202
+- Fallback-tainted metadata: quare-rollcall-single_agent-s202
+- Run marked invalid: quare-rollcall-multi_agent_without_negotiation-s202
+- RAG fallback used: quare-rollcall-multi_agent_without_negotiation-s202
+- Corpus hash missing/invalid: quare-rollcall-multi_agent_without_negotiation-s202
+- Fallback-tainted metadata: quare-rollcall-multi_agent_without_negotiation-s202
+- Run marked invalid: quare-rollcall-multi_agent_with_negotiation-s202
+- RAG fallback used: quare-rollcall-multi_agent_with_negotiation-s202
+- Corpus hash missing/invalid: quare-rollcall-multi_agent_with_negotiation-s202
+- Fallback-tainted metadata: quare-rollcall-multi_agent_with_negotiation-s202
+- Run marked invalid: quare-rollcall-negotiation_integration_verification-s202
+- RAG fallback used: quare-rollcall-negotiation_integration_verification-s202
+- Corpus hash missing/invalid: quare-rollcall-negotiation_integration_verification-s202
+- Fallback-tainted metadata: quare-rollcall-negotiation_integration_verification-s202
+- Run marked invalid: quare-rollcall-single_agent-s303
+- RAG fallback used: quare-rollcall-single_agent-s303
+- Corpus hash missing/invalid: quare-rollcall-single_agent-s303
+- Fallback-tainted metadata: quare-rollcall-single_agent-s303
+- Run marked invalid: quare-rollcall-multi_agent_without_negotiation-s303
+- RAG fallback used: quare-rollcall-multi_agent_without_negotiation-s303
+- Corpus hash missing/invalid: quare-rollcall-multi_agent_without_negotiation-s303
+- Fallback-tainted metadata: quare-rollcall-multi_agent_without_negotiation-s303
+- Run marked invalid: quare-rollcall-multi_agent_with_negotiation-s303
+- RAG fallback used: quare-rollcall-multi_agent_with_negotiation-s303
+- Corpus hash missing/invalid: quare-rollcall-multi_agent_with_negotiation-s303
+- Fallback-tainted metadata: quare-rollcall-multi_agent_with_negotiation-s303
+- Run marked invalid: quare-rollcall-negotiation_integration_verification-s303
+- RAG fallback used: quare-rollcall-negotiation_integration_verification-s303
+- Corpus hash missing/invalid: quare-rollcall-negotiation_integration_verification-s303
+- Fallback-tainted metadata: quare-rollcall-negotiation_integration_verification-s303
+
+## Warnings
+- None

@@ -11,3 +11,7 @@ __pycache__/
 .vs/
 *.iml
 *.code-workspace
+
+# Local runtime environments and caches
+.venv_smoke/
+.matplotlib_cache/
