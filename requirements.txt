@@ -1,0 +1,10 @@
+# Pip-compatible pins derived from pyproject.toml (ArgRE / OpenRE-Bench).
+# Prefer: uv sync --all-groups  (see README)
+pydantic-settings>=2.10.0
+litellm>=1.0.0
+numpy>=2.0.0
+scipy>=1.13.0
+scikit-learn>=1.5.0
+bert-score>=0.3.13
+chromadb>=0.5.0
+transformers>=4.30.0
