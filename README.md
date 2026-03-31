@@ -210,5 +210,6 @@ If you need **MIT** or **Apache-2.0** for institutional or IEEE policy reasons, 
 
 ## Additional pointers
 
+- **Paper tables (4–8) as Markdown:** [`docs/argre_paper_tables.md`](docs/argre_paper_tables.md)  
 - Contributor / automation notes: [`AGENTS.md`](AGENTS.md)  
 - Comparison protocol and paper anchors (local `paper/` optional): `AGENTS.md`, `docs/`
