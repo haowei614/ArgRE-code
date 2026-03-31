@@ -316,6 +316,7 @@ class NegotiationHistory(BaseModel):
     steps: list[NegotiationStep]
     final_consensus: bool
     total_rounds: int
+    pair_prescreening: dict[str, Any] | None = None
 
 
 class Phase2Artifact(BaseModel):

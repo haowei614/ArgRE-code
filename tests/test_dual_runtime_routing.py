@@ -69,6 +69,23 @@ def _write_corpus(corpus_dir: Path) -> None:
     )
 
 
+def _quare_expected_leaf_counts(*, seed: int) -> dict[str, int]:
+    """Mirror _build_phase1 multi-agent leaf deltas (base 6 + per-agent shift)."""
+
+    agent_order = [
+        "SafetyAgent",
+        "EfficiencyAgent",
+        "GreenAgent",
+        "TrustworthinessAgent",
+        "ResponsibilityAgent",
+    ]
+    delta_pattern = [1, 1, 0, -1, -1]
+    shift = seed % len(delta_pattern)
+    leaf_deltas = delta_pattern[shift:] + delta_pattern[:shift]
+    base = 6
+    return {agent: max(1, base + leaf_deltas[i]) for i, agent in enumerate(agent_order)}
+
+
 def _run(
     tmp_path: Path,
     *,
@@ -173,7 +190,9 @@ def test_quare_multi_agent_phase1_emits_fixed_per_agent_leaf_budget(tmp_path: Pa
             "ResponsibilityAgent",
         ]
     )
-    assert all(len(elements) == 7 for elements in phase1.values())
+    expected_leaves = _quare_expected_leaf_counts(seed=101)
+    for agent, elements in phase1.items():
+        assert len(elements) == 1 + expected_leaves[agent]
 
 
 def test_quare_multi_agent_phase1_window_avoids_pathological_fragment_repeats(tmp_path: Path) -> None:
@@ -193,11 +212,14 @@ def test_quare_multi_agent_phase1_window_avoids_pathological_fragment_repeats(tm
     payload = load_json_file(run_record_path)
     phase1 = load_json_file(Path(payload["artifact_paths"][PHASE1_FILENAME]))
 
-    for elements in phase1.values():
+    expected_leaves = _quare_expected_leaf_counts(seed=101)
+    for agent, elements in phase1.items():
         leaves = [item for item in elements if int(item.get("hierarchy_level", 1)) == 2]
         leaf_descriptions = [str(item.get("description", "")) for item in leaves]
-        assert len(leaf_descriptions) == 6
-        assert len(set(leaf_descriptions)) >= 5
+        assert len(leaf_descriptions) == expected_leaves[agent]
+        exp = expected_leaves[agent]
+        min_unique = 5 if exp >= 6 else max(1, exp - 1)
+        assert len(set(leaf_descriptions)) >= min_unique
 
 
 def test_quare_multi_agent_phase1_window_covers_all_fragments_when_budget_allows(tmp_path: Path) -> None:

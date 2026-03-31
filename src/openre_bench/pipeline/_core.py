@@ -2,13 +2,28 @@
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 import platform
 import re
 import sys
 import time
+from dataclasses import asdict
 from dataclasses import dataclass
+from dataclasses import field
+
+
+def _paper_tools_default() -> bool:
+    from openre_bench.paper_env import paper_tools_enabled
+
+    return paper_tools_enabled()
+
+
+def _default_rag_backend_field() -> str:
+    from openre_bench.paper_env import default_rag_backend
+
+    return default_rag_backend()
 from pathlib import Path
 from typing import Any
 
@@ -56,6 +71,10 @@ from openre_bench.schemas import SUPPORTED_SYSTEMS
 from openre_bench.schemas import load_json_file
 from openre_bench.schemas import utc_timestamp
 from openre_bench.schemas import write_json_file
+from openre_bench.argumentation import build_attack_relations
+from openre_bench.argumentation import parse_phase2_arguments
+from openre_bench.argumentation import solve_argumentation_framework
+from openre_bench.pipeline._utils import _extract_requirement_fragments
 # settings and llm_client are consolidated into openre_bench.llm (imported above)
 
 
@@ -74,10 +93,42 @@ class PipelineConfig:
     round_cap: int
     max_tokens: int
     system: str = SYSTEM_MARE
+    parallel: bool = True
+    llm_max_concurrency: int = 10
+    llm_backoff_cap_seconds: float = 60.0
+    llm_backoff_base_seconds: float = 1.0
+    resolution_mode: str = "original"
+    parser_temperature: float = 0.7
+    attack_detection_temperature: float = 1.0
+    attack_confidence_threshold: float = 0.7
+    """Nominal LLM confidence threshold for cross-pair attack classification (paper: $\\theta$)."""
+
+    attack_llm_confidence_floor: float = 0.85
+    """Lower bound applied with attack_confidence_threshold to form $\\theta_{\\mathrm{eff}}$ for LLM edges (default matches main experiments). Set to 0.0 for sensitivity runs so $\\theta_{\\mathrm{eff}}=\\theta$."""
+
+    attack_detection_mode: str = "full"
+    judge_temperature: float = 0.0
+    priority_weights: dict[str, float] = field(
+        default_factory=lambda: {
+            "Safety": 0.2,
+            "Efficiency": 0.2,
+            "Green": 0.2,
+            "Trustworthiness": 0.2,
+            "Responsibility": 0.2,
+        }
+    )
     rag_enabled: bool = True
-    rag_backend: str = "local_tfidf"
+    rag_backend: str = field(default_factory=_default_rag_backend_field)
     rag_corpus_dir: Path | None = None
     llm_client: Phase2LLMClient | None = None
+    paper_bert_conflict_prescreen: bool = field(default_factory=_paper_tools_default)
+    paper_bert_similarity_tau: float = 0.85
+    paper_chroma_hallucination_layer: bool = field(default_factory=_paper_tools_default)
+    paper_hallucination_similarity_floor: float = 0.60
+    paper_llm_compliance_entailment: bool = field(default_factory=_paper_tools_default)
+    paper_phase2_llm_pair_classification: bool = field(default_factory=_paper_tools_default)
+    paper_pair_classification_temperature: float = 0.7
+    paper_chroma_persist_dir: Path | None = None
 
 
 @dataclass
@@ -114,6 +165,7 @@ MARE_RUNTIME_SEMANTICS_MODE = "mare_paper_workflow_v1"
 MARE_RUNTIME_TRACE_VERSION = "1"
 IREDEV_RUNTIME_SEMANTICS_MODE = "iredev_knowledge_driven_v1"
 IREDEV_RUNTIME_TRACE_VERSION = "1"
+ARGUMENTATION_GRAPH_FILENAME = "argumentation_graph.json"
 
 # NOTE: MARE paper (Jin et al., ASE 2024) does not define quality attributes
 # per role. These are OpenRE-Bench design decisions to enable comparable KAOS
@@ -223,10 +275,15 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
     started_at = time.perf_counter()
     start_timestamp = utc_timestamp()
 
+    chroma_persist_early = config.paper_chroma_persist_dir
+    if chroma_persist_early is None:
+        chroma_persist_early = config.artifacts_dir.parent / ".chroma_openre_bench"
+
     rag_context = _prepare_rag_context(
         rag_enabled=config.rag_enabled,
         rag_backend=config.rag_backend,
         rag_corpus_dir=config.rag_corpus_dir,
+        chroma_persist_dir=chroma_persist_early,
     )
 
     llm_client, llm_source = _resolve_phase2_llm_client(config=config, system=system)
@@ -263,7 +320,7 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
         )
     else:
         phase1_payload = _build_phase1(case, config.seed, config.setting, rag_context)
-    phase2_payload, phase2_meta = _build_phase2(
+    phase2_payload, phase2_meta, argumentation_graph_payload = _build_phase2(
         run_id=config.run_id,
         phase1=phase1_payload,
         setting=config.setting,
@@ -276,6 +333,21 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
         llm_temperature=config.temperature,
         llm_max_tokens=config.max_tokens,
         llm_seed=config.seed,
+        parallel=config.parallel,
+        llm_max_concurrency=config.llm_max_concurrency,
+        llm_backoff_cap_seconds=config.llm_backoff_cap_seconds,
+        llm_backoff_base_seconds=config.llm_backoff_base_seconds,
+        resolution_mode=config.resolution_mode,
+        parser_temperature=config.parser_temperature,
+        attack_detection_temperature=config.attack_detection_temperature,
+        attack_confidence_threshold=config.attack_confidence_threshold,
+        attack_llm_confidence_floor=config.attack_llm_confidence_floor,
+        attack_detection_mode=config.attack_detection_mode,
+        priority_weights=config.priority_weights,
+        paper_bert_conflict_prescreen=config.paper_bert_conflict_prescreen,
+        paper_bert_similarity_tau=config.paper_bert_similarity_tau,
+        paper_phase2_llm_pair_classification=config.paper_phase2_llm_pair_classification,
+        paper_pair_classification_temperature=config.paper_pair_classification_temperature,
     )
     phase3_payload = _build_phase3(
         run_id=config.run_id,
@@ -284,10 +356,19 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
         phase2=phase2_payload,
         setting=config.setting,
     )
+    entailment_client = llm_client if llm_client is not None else mare_llm_client
+
     phase4_payload = _build_phase4(
         phase3_payload=phase3_payload,
         requirement=case.requirement,
         setting=config.setting,
+        rag_corpus_dir=config.rag_corpus_dir,
+        chroma_persist_dir=chroma_persist_early,
+        paper_chroma_hallucination_layer=config.paper_chroma_hallucination_layer,
+        paper_hallucination_tau_h=config.paper_hallucination_similarity_floor,
+        paper_llm_compliance_entailment=config.paper_llm_compliance_entailment,
+        llm_client=entailment_client,
+        llm_model=config.model,
     )
 
     quare_optional_artifacts: dict[str, dict[str, Any]] = {}
@@ -316,11 +397,17 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
                 PHASE5_FILENAME: str(config.artifacts_dir / PHASE5_FILENAME),
             }
         )
+    if argumentation_graph_payload is not None:
+        artifact_paths[ARGUMENTATION_GRAPH_FILENAME] = str(
+            config.artifacts_dir / ARGUMENTATION_GRAPH_FILENAME
+        )
 
     write_json_file(Path(artifact_paths[PHASE1_FILENAME]), phase1_payload)
     write_json_file(Path(artifact_paths[PHASE2_FILENAME]), phase2_payload)
     write_json_file(Path(artifact_paths[PHASE3_FILENAME]), phase3_payload)
     write_json_file(Path(artifact_paths[PHASE4_FILENAME]), phase4_payload)
+    if argumentation_graph_payload is not None:
+        write_json_file(Path(artifact_paths[ARGUMENTATION_GRAPH_FILENAME]), argumentation_graph_payload)
     if quare_optional_artifacts:
         write_json_file(Path(artifact_paths[PHASE0_FILENAME]), quare_optional_artifacts[PHASE0_FILENAME])
         write_json_file(Path(artifact_paths[PHASE25_FILENAME]), quare_optional_artifacts[PHASE25_FILENAME])
@@ -402,6 +489,14 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
             "phase_a_b": True,
             "generation_mode": "deterministic-parity-pipeline",
             "runtime_semantics": runtime_semantics_notes,
+            "resolution_mode": config.resolution_mode,
+            "negotiation_temperature": config.temperature,
+            "parser_temperature": config.parser_temperature,
+            "attack_detection_temperature": config.attack_detection_temperature,
+            "attack_confidence_threshold": config.attack_confidence_threshold,
+            "attack_llm_confidence_floor": config.attack_llm_confidence_floor,
+            "attack_detection_mode": config.attack_detection_mode,
+            "judge_temperature": config.judge_temperature,
             "case_description": case.case_description,
             "system": system,
             "setting": config.setting,
@@ -420,6 +515,11 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
                 for name in (PHASE0_FILENAME, PHASE25_FILENAME, PHASE5_FILENAME)
                 if name in artifact_paths
             },
+            "argumentation_artifacts": {
+                ARGUMENTATION_GRAPH_FILENAME: artifact_paths[ARGUMENTATION_GRAPH_FILENAME]
+            }
+            if ARGUMENTATION_GRAPH_FILENAME in artifact_paths
+            else {},
             "phase2_llm": {
                 "source": phase2_meta.llm_source,
                 "enabled": phase2_meta.llm_enabled,
@@ -445,6 +545,17 @@ def _run_pipeline_for_system(*, config: PipelineConfig, system: str) -> RunRecor
             "rag_corpus_hash": rag_context["corpus_hash"],
             "rag_chunk_count": rag_context["chunk_count"],
             "prompt_contract_hash": prompt_hash,
+            "paper_verification_tools": {
+                "bert_conflict_prescreen": config.paper_bert_conflict_prescreen,
+                "bert_similarity_tau": config.paper_bert_similarity_tau,
+                "chroma_hallucination_layer": config.paper_chroma_hallucination_layer,
+                "hallucination_tau_h": config.paper_hallucination_similarity_floor,
+                "llm_compliance_entailment": config.paper_llm_compliance_entailment,
+                "phase2_llm_pair_classification": config.paper_phase2_llm_pair_classification,
+                "pair_classification_temperature": config.paper_pair_classification_temperature,
+                "chroma_embedding_model": "text-embedding-ada-002",
+                "chroma_persist_dir": str(chroma_persist_early.resolve()),
+            },
         },
     )
 
@@ -511,6 +622,7 @@ def _prepare_rag_context(
     rag_enabled: bool,
     rag_backend: str,
     rag_corpus_dir: Path | None,
+    chroma_persist_dir: Path | None = None,
 ) -> dict[str, Any]:
     """Prepare deterministic RAG context used during generation."""
 
@@ -523,11 +635,65 @@ def _prepare_rag_context(
             "chunks": [],
             "chunk_count": 0,
             "fallback_used": False,
+            "chroma_rag": {"skipped": True, "skip_reason": "rag_disabled"},
         }
 
     corpus_dir = (rag_corpus_dir or Path("../OpenRE-Bench/data/knowledge_base")).resolve()
-    chunks = _load_rag_chunks(corpus_dir)
     corpus_hash = _hash_corpus_dir(corpus_dir)
+    backend_raw = (rag_backend.strip() or "local_tfidf").lower()
+    use_chroma = backend_raw in ("chroma_ada002", "chroma", "openai_ada_chroma")
+
+    if use_chroma:
+        persist = (chroma_persist_dir or Path(".chroma_openre_bench")).resolve()
+        try:
+            settings = load_openai_settings()
+            api_key = settings.resolved_api_key
+        except MissingAPIKeyError:
+            chunks = _load_rag_chunks(corpus_dir)
+            return {
+                "rag_enabled": True,
+                "rag_backend": "local_tfidf",
+                "rag_corpus_dir": str(corpus_dir),
+                "corpus_hash": corpus_hash,
+                "chunks": chunks,
+                "chunk_count": len(chunks),
+                "fallback_used": len(chunks) == 0 or True,
+                "chroma_rag": {"skipped": True, "skip_reason": "missing_openai_api_key"},
+            }
+
+        from openre_bench.verification.chroma_corpus_index import ensure_chroma_embedded_corpus
+
+        chroma_meta = ensure_chroma_embedded_corpus(
+            corpus_dir=corpus_dir,
+            persist_root=persist,
+            openai_api_key=api_key,
+            namespace="phase1_rag",
+        )
+        if chroma_meta.get("skipped"):
+            chunks = _load_rag_chunks(corpus_dir)
+            return {
+                "rag_enabled": True,
+                "rag_backend": "local_tfidf",
+                "rag_corpus_dir": str(corpus_dir),
+                "corpus_hash": corpus_hash,
+                "chunks": chunks,
+                "chunk_count": len(chunks),
+                "fallback_used": True,
+                "chroma_rag": chroma_meta,
+            }
+
+        return {
+            "rag_enabled": True,
+            "rag_backend": "chroma_ada002",
+            "rag_corpus_dir": str(corpus_dir),
+            "corpus_hash": corpus_hash,
+            "chunks": [],
+            "chunk_count": int(chroma_meta.get("chunk_count", 0)),
+            "fallback_used": False,
+            "chroma_rag": chroma_meta,
+        }
+
+    chunks = _load_rag_chunks(corpus_dir)
     fallback_used = len(chunks) == 0
     backend = rag_backend.strip() or "local_tfidf"
     return {
@@ -538,6 +704,7 @@ def _prepare_rag_context(
         "chunks": chunks,
         "chunk_count": len(chunks),
         "fallback_used": fallback_used,
+        "chroma_rag": {"skipped": True, "skip_reason": "lexical_rag_backend"},
     }
 
 
@@ -695,7 +862,57 @@ def _rag_payload(*, query: str, rag_context: dict[str, Any]) -> dict[str, Any]:
             "retrieved_chunks": [],
         }
 
-    chunks = rag_context.get("chunks", [])
+    backend = str(rag_context.get("rag_backend", "")).lower()
+    chroma_meta = rag_context.get("chroma_rag") or {}
+    if backend in ("chroma_ada002", "chroma") and not chroma_meta.get("skipped") and chroma_meta.get(
+        "collection_name"
+    ):
+        try:
+            settings = load_openai_settings()
+            api_key = settings.resolved_api_key
+        except MissingAPIKeyError:
+            return _rag_payload_tfidf_fallback(query=query, rag_context=rag_context)
+
+        from openre_bench.verification.chroma_corpus_index import query_chroma_top_documents
+
+        hits, _sims = query_chroma_top_documents(
+            query=query,
+            persist_path=str(chroma_meta["persist_path"]),
+            collection_name=str(chroma_meta["collection_name"]),
+            openai_api_key=api_key,
+            top_k=3,
+        )
+        if not hits:
+            return _rag_payload_tfidf_fallback(query=query, rag_context=rag_context)
+
+        retrieved = [
+            {
+                "chunk_id": h["chunk_id"],
+                "document": h["document"],
+                "score": round(float(h.get("similarity", 0.0)), 6),
+                "content": _summarize_text(h.get("text", ""), 280),
+            }
+            for h in hits
+        ]
+        best = hits[0]
+        return {
+            "source": "openre_bench.phase1.rag_chroma_ada002",
+            "source_chunk_id": best["chunk_id"],
+            "source_document": best["document"],
+            "retrieved_chunks": retrieved,
+        }
+
+    return _rag_payload_tfidf_fallback(query=query, rag_context=rag_context)
+
+
+def _rag_payload_tfidf_fallback(*, query: str, rag_context: dict[str, Any]) -> dict[str, Any]:
+    chunks = list(rag_context.get("chunks", []))
+    if not chunks:
+        crs = rag_context.get("rag_corpus_dir")
+        if crs:
+            corpus_dir = Path(str(crs))
+            if corpus_dir.exists():
+                chunks = _load_rag_chunks(corpus_dir)
     if not chunks:
         return {
             "source": "openre_bench.phase1.rag_fallback",
@@ -1129,7 +1346,22 @@ def _build_phase2(
     llm_temperature: float,
     llm_max_tokens: int,
     llm_seed: int,
-) -> tuple[dict[str, Any], Phase2ExecutionMeta]:
+    parallel: bool = True,
+    llm_max_concurrency: int = 10,
+    llm_backoff_cap_seconds: float = 60.0,
+    llm_backoff_base_seconds: float = 1.0,
+    resolution_mode: str = "original",
+    parser_temperature: float = 0.7,
+    attack_detection_temperature: float = 1.0,
+    attack_confidence_threshold: float = 0.7,
+    attack_llm_confidence_floor: float = 0.85,
+    attack_detection_mode: str = "full",
+    priority_weights: dict[str, float] | None = None,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
+    paper_phase2_llm_pair_classification: bool = False,
+    paper_pair_classification_temperature: float = 0.7,
+) -> tuple[dict[str, Any], Phase2ExecutionMeta, dict[str, Any] | None]:
     """Build Phase 2 negotiation trace with system-specific behavior."""
 
     agents = list(phase1.keys())
@@ -1152,7 +1384,7 @@ def _build_phase2(
                 "llm_source": "disabled",
             },
         )
-        return artifact.model_dump(mode="json"), Phase2ExecutionMeta()
+        return artifact.model_dump(mode="json"), Phase2ExecutionMeta(), None
 
     negotiation_map: dict[str, NegotiationHistory] = {}
     step_counter = 1
@@ -1165,47 +1397,88 @@ def _build_phase2(
     llm_seed_applied_turns = 0
     round_cap_hits = 0
 
+    pair_jobs: list[dict[str, Any]] = []
     for index, focus_agent in enumerate(agents):
         reviewer_agent = agents[(index + 1) % len(agents)]
-        pair_key = f"{focus_agent}_{reviewer_agent}"
+        pair_jobs.append(
+            {
+                "focus_agent": focus_agent,
+                "reviewer_agent": reviewer_agent,
+                "pair_key": f"{focus_agent}_{reviewer_agent}",
+                "focus_elements": [dict(item) for item in phase1[focus_agent]],
+                "reviewer_elements": [dict(item) for item in phase1[reviewer_agent]],
+            }
+        )
 
-        focus_elements = [dict(item) for item in phase1[focus_agent]]
-        reviewer_elements = [dict(item) for item in phase1[reviewer_agent]]
+    pair_results: list[tuple[str, _NegotiationBuildResult]] = []
+    if system == SYSTEM_QUARE and parallel and pair_jobs:
+        pair_results = _run_parallel_quare_negotiations(
+            run_id=run_id,
+            pair_jobs=pair_jobs,
+            requirement=requirement,
+            setting=setting,
+            round_cap=round_cap,
+            llm_client=llm_client,
+            llm_model=llm_model,
+            llm_temperature=llm_temperature,
+            llm_max_tokens=llm_max_tokens,
+            llm_seed=llm_seed,
+            llm_max_concurrency=llm_max_concurrency,
+            llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+            llm_backoff_base_seconds=llm_backoff_base_seconds,
+            paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+            paper_bert_similarity_tau=paper_bert_similarity_tau,
+            paper_phase2_llm_pair_classification=paper_phase2_llm_pair_classification,
+            paper_pair_classification_temperature=paper_pair_classification_temperature,
+        )
+    else:
+        for job in pair_jobs:
+            if system == SYSTEM_QUARE:
+                result = _build_quare_negotiation_history(
+                    run_id=run_id,
+                    pair_key=job["pair_key"],
+                    focus_agent=job["focus_agent"],
+                    reviewer_agent=job["reviewer_agent"],
+                    focus_elements=job["focus_elements"],
+                    reviewer_elements=job["reviewer_elements"],
+                    requirement=requirement,
+                    setting=setting,
+                    round_cap=round_cap,
+                    step_counter=step_counter,
+                    llm_client=llm_client,
+                    llm_model=llm_model,
+                    llm_temperature=llm_temperature,
+                    llm_max_tokens=llm_max_tokens,
+                    llm_seed=llm_seed,
+                    llm_max_concurrency=llm_max_concurrency,
+                    llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+                    llm_backoff_base_seconds=llm_backoff_base_seconds,
+                    paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+                    paper_bert_similarity_tau=paper_bert_similarity_tau,
+                    paper_phase2_llm_pair_classification=paper_phase2_llm_pair_classification,
+                    paper_pair_classification_temperature=paper_pair_classification_temperature,
+                )
+            else:
+                # iReDev (Jin et al., TOSEM 2025) and MARE share baseline single-round
+                # negotiation.  iReDev's paper focuses on elicitation and specification
+                # and does not define its own negotiation protocol, so we reuse the
+                # MARE negotiation scaffold for Phase 2 comparability.
+                result = _build_mare_negotiation_history(
+                    run_id=run_id,
+                    pair_key=job["pair_key"],
+                    focus_agent=job["focus_agent"],
+                    reviewer_agent=job["reviewer_agent"],
+                    focus_elements=job["focus_elements"],
+                    reviewer_elements=job["reviewer_elements"],
+                    requirement=requirement,
+                    step_counter=step_counter,
+                    paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+                    paper_bert_similarity_tau=paper_bert_similarity_tau,
+                )
+            pair_results.append((job["pair_key"], result))
+            step_counter = result.next_step_id
 
-        if system == SYSTEM_QUARE:
-            result = _build_quare_negotiation_history(
-                run_id=run_id,
-                pair_key=pair_key,
-                focus_agent=focus_agent,
-                reviewer_agent=reviewer_agent,
-                focus_elements=focus_elements,
-                reviewer_elements=reviewer_elements,
-                requirement=requirement,
-                setting=setting,
-                round_cap=round_cap,
-                step_counter=step_counter,
-                llm_client=llm_client,
-                llm_model=llm_model,
-                llm_temperature=llm_temperature,
-                llm_max_tokens=llm_max_tokens,
-                llm_seed=llm_seed,
-            )
-        else:
-            # iReDev (Jin et al., TOSEM 2025) and MARE share baseline single-round
-            # negotiation.  iReDev's paper focuses on elicitation and specification
-            # and does not define its own negotiation protocol, so we reuse the
-            # MARE negotiation scaffold for Phase 2 comparability.
-            result = _build_mare_negotiation_history(
-                run_id=run_id,
-                pair_key=pair_key,
-                focus_agent=focus_agent,
-                reviewer_agent=reviewer_agent,
-                focus_elements=focus_elements,
-                reviewer_elements=reviewer_elements,
-                requirement=requirement,
-                step_counter=step_counter,
-            )
-
+    for pair_key, result in pair_results:
         negotiation_map[pair_key] = result.history
         step_counter = result.next_step_id
         if result.conflict_detected:
@@ -1218,6 +1491,37 @@ def _build_phase2(
         llm_parse_recoveries += result.llm_parse_recoveries
         llm_seed_applied_turns += result.llm_seed_applied_turns
         round_cap_hits += result.round_cap_hits
+
+    argumentation_graph_payload: dict[str, Any] | None = None
+    if (
+        system == SYSTEM_QUARE
+        and _negotiation_enabled(setting)
+        and resolution_mode in {"af_grounded", "af_preferred"}
+    ):
+        af_result = _run_phase2_argumentation_layer(
+            negotiation_map=negotiation_map,
+            llm_client=llm_client,
+            llm_model=llm_model,
+            llm_temperature=llm_temperature,
+            llm_max_tokens=llm_max_tokens,
+            llm_seed=llm_seed,
+            llm_max_concurrency=llm_max_concurrency,
+            llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+            llm_backoff_base_seconds=llm_backoff_base_seconds,
+            resolution_mode=resolution_mode,
+            parser_temperature=parser_temperature,
+            attack_detection_temperature=attack_detection_temperature,
+            attack_confidence_threshold=attack_confidence_threshold,
+            attack_llm_confidence_floor=attack_llm_confidence_floor,
+            attack_detection_mode=attack_detection_mode,
+            priority_weights=priority_weights or {},
+        )
+        if af_result["selected_elements"]:
+            negotiation_map = _inject_argumentation_selection_into_negotiation_map(
+                negotiation_map=negotiation_map,
+                selected_elements=af_result["selected_elements"],
+            )
+        argumentation_graph_payload = af_result["graph_payload"]
 
     round_counts = [item.total_rounds for item in negotiation_map.values()]
     average_rounds = round(sum(round_counts) / len(round_counts), 3) if round_counts else 0.0
@@ -1255,7 +1559,207 @@ def _build_phase2(
             llm_seed_applied_turns=llm_seed_applied_turns,
             llm_source=llm_source if llm_enabled else "disabled",
         ),
+        argumentation_graph_payload,
     )
+
+
+def _run_phase2_argumentation_layer(
+    *,
+    negotiation_map: dict[str, NegotiationHistory],
+    llm_client: Phase2LLMClient | None,
+    llm_model: str,
+    llm_temperature: float,
+    llm_max_tokens: int,
+    llm_seed: int,
+    llm_max_concurrency: int,
+    llm_backoff_cap_seconds: float,
+    llm_backoff_base_seconds: float,
+    resolution_mode: str,
+    parser_temperature: float,
+    attack_detection_temperature: float,
+    attack_confidence_threshold: float,
+    attack_llm_confidence_floor: float,
+    attack_detection_mode: str,
+    priority_weights: dict[str, float],
+) -> dict[str, Any]:
+    """Run argument extraction + attack construction + AF solving for phase2."""
+
+    arguments, parse_meta = parse_phase2_arguments(
+        negotiation_map=negotiation_map,
+        llm_client=llm_client,
+        llm_model=llm_model,
+        llm_temperature=parser_temperature,
+        llm_max_tokens=llm_max_tokens,
+        llm_seed=llm_seed,
+        llm_max_concurrency=llm_max_concurrency,
+        llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+        llm_backoff_base_seconds=llm_backoff_base_seconds,
+    )
+    attacks, attack_meta = build_attack_relations(
+        arguments=arguments,
+        llm_client=llm_client,
+        llm_model=llm_model,
+        llm_temperature=attack_detection_temperature,
+        llm_max_tokens=llm_max_tokens,
+        llm_seed=llm_seed,
+        llm_max_concurrency=llm_max_concurrency,
+        llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+        llm_backoff_base_seconds=llm_backoff_base_seconds,
+        confidence_threshold=attack_confidence_threshold,
+        attack_detection_mode=attack_detection_mode,
+        llm_confidence_floor=attack_llm_confidence_floor,
+    )
+    strategy = "grounded" if resolution_mode == "af_grounded" else "preferred_priority"
+    af_solution = solve_argumentation_framework(
+        arguments=arguments,
+        attacks=attacks,
+        priority_weights=priority_weights,
+        strategy=strategy,
+    )
+    selected_ids = set(af_solution.selected_extension)
+    selected_elements = _selected_elements_from_extension(
+        arguments=arguments,
+        selected_ids=selected_ids,
+    )
+    _assert_phase3_input_compatible_elements(selected_elements)
+    return {
+        "selected_elements": selected_elements,
+        "graph_payload": {
+            "arguments": [asdict(item) for item in arguments],
+            "attacks": [asdict(item) for item in attacks],
+            "grounded_extension": list(af_solution.grounded_extension),
+            "preferred_extensions": [list(item) for item in af_solution.preferred_extensions],
+            "selected_extension": list(af_solution.selected_extension),
+            "meta": {
+                "argument_parse": asdict(parse_meta),
+                "attack_build": asdict(attack_meta),
+                "strategy": af_solution.selection_strategy,
+            },
+        },
+    }
+
+
+def _selected_elements_from_extension(
+    *,
+    arguments: list[Any],
+    selected_ids: set[str],
+) -> list[dict[str, Any]]:
+    merged: dict[str, tuple[int, dict[str, Any]]] = {}
+    for argument in sorted(arguments, key=lambda item: (item.step_id, item.argument_id)):
+        if argument.argument_id not in selected_ids:
+            continue
+        if argument.turn_type == "critique":
+            continue
+        for element in argument.kaos_elements:
+            if not isinstance(element, dict):
+                continue
+            element_id = str(element.get("id", "")).strip()
+            if not element_id:
+                continue
+            candidate = (int(argument.step_id), dict(element))
+            existing = merged.get(element_id)
+            if existing is None or candidate[0] >= existing[0]:
+                merged[element_id] = candidate
+    return [merged[item_id][1] for item_id in sorted(merged)]
+
+
+def _inject_argumentation_selection_into_negotiation_map(
+    *,
+    negotiation_map: dict[str, NegotiationHistory],
+    selected_elements: list[dict[str, Any]],
+) -> dict[str, NegotiationHistory]:
+    """Inject AF-selected elements as latest backward step payload for phase3 extraction."""
+
+    if not selected_elements:
+        return negotiation_map
+    updated: dict[str, NegotiationHistory] = {}
+    for pair_key, history in negotiation_map.items():
+        dumped = history.model_dump(mode="json")
+        steps = dumped.get("steps", [])
+        if isinstance(steps, list) and steps:
+            for idx in range(len(steps) - 1, -1, -1):
+                step = steps[idx]
+                if isinstance(step, dict) and step.get("message_type") == "backward":
+                    step["kaos_elements"] = [dict(item) for item in selected_elements]
+                    steps[idx] = step
+                    break
+        updated[pair_key] = NegotiationHistory.model_validate(dumped)
+    return updated
+
+
+def _assert_phase3_input_compatible_elements(elements: list[dict[str, Any]]) -> None:
+    """Ensure AF-selected elements keep the schema required by phase3 builders."""
+
+    required_keys = {"id", "name", "description"}
+    for element in elements:
+        missing = [key for key in required_keys if key not in element or not str(element.get(key, "")).strip()]
+        if missing:
+            raise ValueError(
+                "AF-selected elements are not phase3-compatible; missing keys: "
+                f"{missing} in element {element}"
+            )
+
+
+def _run_parallel_quare_negotiations(
+    *,
+    run_id: str,
+    pair_jobs: list[dict[str, Any]],
+    requirement: str,
+    setting: str,
+    round_cap: int,
+    llm_client: Phase2LLMClient | None,
+    llm_model: str,
+    llm_temperature: float,
+    llm_max_tokens: int,
+    llm_seed: int,
+    llm_max_concurrency: int,
+    llm_backoff_cap_seconds: float,
+    llm_backoff_base_seconds: float,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
+    paper_phase2_llm_pair_classification: bool = False,
+    paper_pair_classification_temperature: float = 0.7,
+) -> list[tuple[str, _NegotiationBuildResult]]:
+    """Run QUARE pairwise negotiations concurrently and keep deterministic order."""
+
+    async def _runner() -> list[tuple[str, _NegotiationBuildResult]]:
+        semaphore = asyncio.Semaphore(max(1, int(llm_max_concurrency)))
+
+        async def _build_one(job: dict[str, Any]) -> tuple[str, _NegotiationBuildResult]:
+            async with semaphore:
+                result = await asyncio.to_thread(
+                    _build_quare_negotiation_history,
+                    run_id=run_id,
+                    pair_key=job["pair_key"],
+                    focus_agent=job["focus_agent"],
+                    reviewer_agent=job["reviewer_agent"],
+                    focus_elements=job["focus_elements"],
+                    reviewer_elements=job["reviewer_elements"],
+                    requirement=requirement,
+                    setting=setting,
+                    round_cap=round_cap,
+                    step_counter=1,
+                    llm_client=llm_client,
+                    llm_model=llm_model,
+                    llm_temperature=llm_temperature,
+                    llm_max_tokens=llm_max_tokens,
+                    llm_seed=llm_seed,
+                    llm_max_concurrency=llm_max_concurrency,
+                    llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+                    llm_backoff_base_seconds=llm_backoff_base_seconds,
+                    paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+                    paper_bert_similarity_tau=paper_bert_similarity_tau,
+                    paper_phase2_llm_pair_classification=paper_phase2_llm_pair_classification,
+                    paper_pair_classification_temperature=paper_pair_classification_temperature,
+                )
+            return job["pair_key"], result
+
+        tasks = [_build_one(job) for job in pair_jobs]
+        gathered = await asyncio.gather(*tasks)
+        order = {job["pair_key"]: idx for idx, job in enumerate(pair_jobs)}
+        return sorted(gathered, key=lambda item: order[item[0]])
+
+    return asyncio.run(_runner())
 
 
 @dataclass
@@ -1284,6 +1788,8 @@ def _build_mare_negotiation_history(
     reviewer_elements: list[dict[str, Any]],
     requirement: str,
     step_counter: int,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
 ) -> _NegotiationBuildResult:
     """Build baseline-faithful MARE single-turn negotiation history."""
 
@@ -1293,6 +1799,8 @@ def _build_mare_negotiation_history(
         focus_elements=focus_elements,
         reviewer_elements=reviewer_elements,
         requirement=requirement,
+        paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+        paper_bert_similarity_tau=paper_bert_similarity_tau,
     )
     negotiated_elements = _apply_negotiation_adjustments(
         elements=focus_elements,
@@ -1374,6 +1882,13 @@ def _build_quare_negotiation_history(
     llm_temperature: float,
     llm_max_tokens: int,
     llm_seed: int,
+    llm_max_concurrency: int = 10,
+    llm_backoff_cap_seconds: float = 60.0,
+    llm_backoff_base_seconds: float = 1.0,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
+    paper_phase2_llm_pair_classification: bool = False,
+    paper_pair_classification_temperature: float = 0.7,
 ) -> _NegotiationBuildResult:
     """Delegate to quare.py — QUARE multi-turn dialectic negotiation."""
 
@@ -1395,6 +1910,13 @@ def _build_quare_negotiation_history(
         llm_temperature=llm_temperature,
         llm_max_tokens=llm_max_tokens,
         llm_seed=llm_seed,
+        llm_max_concurrency=llm_max_concurrency,
+        llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+        llm_backoff_base_seconds=llm_backoff_base_seconds,
+        paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+        paper_bert_similarity_tau=paper_bert_similarity_tau,
+        paper_phase2_llm_pair_classification=paper_phase2_llm_pair_classification,
+        paper_pair_classification_temperature=paper_pair_classification_temperature,
     )
 
 
@@ -1507,6 +2029,13 @@ def _build_phase4(
     phase3_payload: dict[str, Any],
     requirement: str,
     setting: str,
+    rag_corpus_dir: Path | None = None,
+    chroma_persist_dir: Path | None = None,
+    paper_chroma_hallucination_layer: bool = False,
+    paper_hallucination_tau_h: float = 0.60,
+    paper_llm_compliance_entailment: bool = False,
+    llm_client: Phase2LLMClient | None = None,
+    llm_model: str = "gpt-4o-mini",
 ) -> dict[str, Any]:
     """Build Phase 4 verification report."""
 
@@ -1515,9 +2044,79 @@ def _build_phase4(
 
     logical = _logical_consistency(gsn_elements)
     terminology = _terminology_consistency(gsn_elements)
-    coverage = _compliance_coverage(gsn_elements, requirement)
+    paper_phase4: dict[str, Any] = {
+        "chroma_layer2": None,
+        "compliance_method": "text_overlap",
+    }
+    if paper_llm_compliance_entailment and llm_client is not None:
+        from openre_bench.verification.llm_entailment import compliance_coverage_llm_entailment
+
+        clauses = _extract_requirement_fragments(requirement)
+        if not clauses:
+            clauses = [requirement.strip()] if requirement.strip() else []
+        req_texts = [
+            f"{item.get('name', '')}. {item.get('description', '')}".strip()
+            for item in gsn_elements
+            if isinstance(item, dict)
+        ]
+        coverage = compliance_coverage_llm_entailment(
+            clauses=clauses,
+            requirement_texts=req_texts,
+            llm_client=llm_client,
+            llm_model=llm_model,
+            temperature=0.0,
+            max_tokens=256,
+        )
+        paper_phase4["compliance_method"] = "llm_entailment"
+    else:
+        coverage = _compliance_coverage(gsn_elements, requirement)
+        if paper_llm_compliance_entailment and llm_client is None:
+            paper_phase4["compliance_note"] = "llm_entailment_requested_but_no_client_fallback_overlap"
 
     fact_checking = _fact_checking(gsn_elements)
+    if paper_chroma_hallucination_layer:
+        from openre_bench.verification.chroma_hallucination import chroma_hallucination_pass
+
+        corpus = (rag_corpus_dir or Path("../OpenRE-Bench/data/knowledge_base")).resolve()
+        persist = (chroma_persist_dir or Path(".chroma_openre_bench")).resolve()
+        api_key = ""
+        try:
+            settings = load_openai_settings()
+            api_key = settings.resolved_api_key
+        except MissingAPIKeyError:
+            api_key = ""
+        if api_key:
+            chroma_report = chroma_hallucination_pass(
+                gsn_elements=gsn_elements,
+                corpus_dir=corpus,
+                persist_root=persist,
+                openai_api_key=api_key,
+                tau_h=float(paper_hallucination_tau_h),
+            )
+            paper_phase4["chroma_layer2"] = chroma_report
+            flagged = [
+                entry
+                for entry in chroma_report.get("per_goal", [])
+                if isinstance(entry, dict) and entry.get("flagged_low_support")
+            ]
+            existing = list(fact_checking.get("hallucination_reports", []))
+            for entry in flagged:
+                existing.append(
+                    {
+                        "element_id": entry.get("element_id"),
+                        "issue": "low_corpus_support_chroma",
+                        "best_similarity": entry.get("best_similarity"),
+                        "tau_h": entry.get("tau_h"),
+                    }
+                )
+            fact_checking["hallucination_reports"] = existing
+            fact_checking["chroma_hallucination_layer"] = chroma_report
+        else:
+            paper_phase4["chroma_layer2"] = {
+                "enabled": True,
+                "skipped": True,
+                "skip_reason": "missing_openai_api_key",
+            }
     deterministic_validation = _build_deterministic_validation(
         topology_status=topology_status,
         logical=logical,
@@ -1563,6 +2162,7 @@ def _build_phase4(
         "terminology_consistency": terminology,
         "s_logic": logical["normalized_score"],
         "s_term": terminology["consistency_ratio"],
+        "paper_phase4": paper_phase4,
     }
 
     phase4 = Phase4Artifact(
@@ -1612,15 +2212,6 @@ def default_run_id(case_name: str, seed: int) -> str:
 
     normalized = re.sub(r"[^a-zA-Z0-9]+", "-", case_name.strip().lower()).strip("-")
     return f"{normalized}-{utc_timestamp().replace(':', '').replace('-', '')}-s{seed:03d}"
-
-
-def _extract_requirement_fragments(requirement: str) -> list[str]:
-    """Split requirement text into sentence-like fragments."""
-
-    normalized = requirement.replace("\r", "\n")
-    chunks = re.split(r"[\n\.\?!]+", normalized)
-    fragments = [re.sub(r"\s+", " ", chunk).strip() for chunk in chunks]
-    return [item for item in fragments if len(item) >= 20]
 
 
 def _rotate_fragments(fragments: list[str], seed: int) -> list[str]:
@@ -1719,6 +2310,51 @@ def _verification_executed(setting: str) -> bool:
     return setting == SETTING_NEGOTIATION_INTEGRATION_VERIFICATION
 
 
+_NO_AF_LEAF_PREFIX_RE = re.compile(
+    r"^The system shall ensure [a-z]+ \([^)]+\):\s*",
+    re.IGNORECASE,
+)
+
+
+def _no_af_leaf_body_key(el: dict[str, Any]) -> str:
+    """Normalize QUARE multi-agent leaf description for cross-agent deduplication."""
+
+    desc = str(el.get("description", "")).strip()
+    m = _NO_AF_LEAF_PREFIX_RE.match(desc)
+    body = desc[m.end() :] if m else desc
+    return re.sub(r"\s+", " ", body).strip().lower()
+
+
+def _dedupe_no_af_phase3_elements(elements: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Drop duplicate leaf requirements across agents (same underlying clause body)."""
+
+    if not elements:
+        return []
+    roots = [e for e in elements if int(e.get("hierarchy_level", 1) or 1) == 1]
+    leaves = [e for e in elements if int(e.get("hierarchy_level", 1) or 1) >= 2]
+    seen_body: set[str] = set()
+    kept_leaves: list[dict[str, Any]] = []
+    for leaf in sorted(leaves, key=lambda e: str(e.get("id", ""))):
+        key = _no_af_leaf_body_key(leaf)
+        if not key:
+            kept_leaves.append(leaf)
+            continue
+        if key in seen_body:
+            continue
+        seen_body.add(key)
+        kept_leaves.append(leaf)
+    parents_with_children = {
+        str(l.get("parent_goal_id")) for l in kept_leaves if l.get("parent_goal_id")
+    }
+    kept_roots = [
+        r
+        for r in sorted(roots, key=lambda e: str(e.get("id", "")))
+        if str(r.get("id")) in parents_with_children
+    ]
+    merged = kept_roots + kept_leaves
+    return sorted(merged, key=lambda e: str(e.get("id", "")))
+
+
 def _phase3_source_elements(
     *,
     phase1: dict[str, list[dict[str, Any]]],
@@ -1728,7 +2364,8 @@ def _phase3_source_elements(
     """Select phase3 source elements according to ablation setting semantics."""
 
     if setting == SETTING_MULTI_AGENT_WITHOUT_NEGOTIATION:
-        return [item for elements in phase1.values() for item in elements]
+        flat = [item for elements in phase1.values() for item in elements]
+        return _dedupe_no_af_phase3_elements(flat)
 
     if setting in {
         SETTING_MULTI_AGENT_WITH_NEGOTIATION,
@@ -1854,7 +2491,7 @@ def _compress_negotiated_elements_for_multi_setting(
     return [primary_root, *selected]
 
 
-def _detect_conflict(
+def _detect_conflict_heuristic(
     *,
     focus_agent: str,
     reviewer_agent: str,
@@ -1889,6 +2526,49 @@ def _detect_conflict(
     has_positive_modal = any(token in focus_text.lower() for token in ("shall", "must", "should"))
     has_negative_modal = "not" in reviewer_text.lower() or "never" in reviewer_text.lower()
     return len(overlap) >= 3 and has_positive_modal and has_negative_modal
+
+
+def _detect_conflict(
+    *,
+    focus_agent: str,
+    reviewer_agent: str,
+    focus_elements: list[dict[str, Any]],
+    reviewer_elements: list[dict[str, Any]],
+    requirement: str,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
+    precalc_bert_cosine: float | None = None,
+) -> bool:
+    """Conflict gate: legacy heuristics plus optional BERT cosine prescreen (paper Stage~1)."""
+
+    heur = _detect_conflict_heuristic(
+        focus_agent=focus_agent,
+        reviewer_agent=reviewer_agent,
+        focus_elements=focus_elements,
+        reviewer_elements=reviewer_elements,
+        requirement=requirement,
+    )
+    if not paper_bert_conflict_prescreen:
+        return heur
+
+    focus_text = " ".join(str(item.get("description", "")) for item in focus_elements).strip()
+    reviewer_text = " ".join(str(item.get("description", "")) for item in reviewer_elements).strip()
+    if len(focus_text) < 8 or len(reviewer_text) < 8:
+        return heur
+
+    sim = precalc_bert_cosine
+    if sim is None:
+        try:
+            from openre_bench.verification.bert_pair_similarity import (
+                pairwise_cosine_similarity_bert_uncased,
+            )
+
+            sim = pairwise_cosine_similarity_bert_uncased(focus_text, reviewer_text)
+        except Exception:
+            return heur
+
+    bert_flag = float(sim) >= float(paper_bert_similarity_tau)
+    return bool(heur or bert_flag)
 
 
 def _quality_axis_for_agent(agent_name: str) -> str:
@@ -2325,7 +3005,11 @@ def _summarize_text(text: str, limit: int) -> str:
     compact = re.sub(r"\s+", " ", text).strip()
     if len(compact) <= limit:
         return compact
-    return compact[: max(0, limit - 3)].rstrip() + "..."
+    budget = max(0, limit - 3)
+    cut = compact[:budget].rstrip()
+    if " " in cut and len(cut) == budget:
+        cut = cut.rsplit(" ", 1)[0].rstrip()
+    return cut + "..."
 
 
 def _coerce_non_empty_text(value: Any, *, fallback: str) -> str:

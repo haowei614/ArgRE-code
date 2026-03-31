@@ -183,6 +183,16 @@ def test_extract_requirement_fragments_sentence_split():
     assert len(frags) == 2
 
 
+def test_extract_requirement_fragments_soft_newlines_merged_into_sentences():
+    """Single newlines inside a paragraph must not become spurious fragments."""
+    text = (
+        "First sentence shall be long enough for the minimum fragment length.\n"
+        "Second sentence continues the same paragraph without a blank line."
+    )
+    frags = _extract_requirement_fragments(text)
+    assert len(frags) == 2
+
+
 def test_extract_requirement_fragments_short_fragments_filtered():
     text = "Short. This is a long enough fragment sentence for test."
     frags = _extract_requirement_fragments(text)

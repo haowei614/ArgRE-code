@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 from statistics import mean
 from typing import Any
@@ -79,6 +80,12 @@ CONVERSATION_COVERAGE_JSON = "conversation_coverage.json"
 CONVERSATION_COVERAGE_MD = "conversation_coverage.md"
 
 
+def _paper_tools_default_for_auto() -> bool:
+    from openre_bench.paper_env import paper_tools_enabled
+
+    return paper_tools_enabled()
+
+
 @dataclass
 class AutoReportConfig:
     """Configuration for strict /auto report generation."""
@@ -95,6 +102,12 @@ class AutoReportConfig:
     rag_backend: str
     rag_corpus_dir: Path
     judge_pipeline_path: Path
+    paper_bert_conflict_prescreen: bool = field(default_factory=_paper_tools_default_for_auto)
+    paper_chroma_hallucination_layer: bool = field(default_factory=_paper_tools_default_for_auto)
+    paper_llm_compliance_entailment: bool = field(default_factory=_paper_tools_default_for_auto)
+    paper_phase2_llm_pair_classification: bool = field(default_factory=_paper_tools_default_for_auto)
+    paper_pair_classification_temperature: float = 0.7
+    paper_chroma_persist_dir: Path | None = None
 
 
 @dataclass
@@ -304,6 +317,12 @@ def _run_or_resume_system(
         rag_backend=config.rag_backend,
         rag_corpus_dir=config.rag_corpus_dir,
         judge_pipeline_path=config.judge_pipeline_path,
+        paper_bert_conflict_prescreen=config.paper_bert_conflict_prescreen,
+        paper_chroma_hallucination_layer=config.paper_chroma_hallucination_layer,
+        paper_llm_compliance_entailment=config.paper_llm_compliance_entailment,
+        paper_phase2_llm_pair_classification=config.paper_phase2_llm_pair_classification,
+        paper_pair_classification_temperature=config.paper_pair_classification_temperature,
+        paper_chroma_persist_dir=config.paper_chroma_persist_dir,
     )
 
     try:

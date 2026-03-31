@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
+import asyncio
 import csv
 import hashlib
 import json
 import math
 import re
 import shutil
+import time
 from collections import defaultdict
 from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 from statistics import mean
 from statistics import pstdev
@@ -26,6 +29,7 @@ from openre_bench.comparison_validator import validate_case_input
 from openre_bench.comparison_validator import validate_phase_artifacts
 from openre_bench.comparison_validator import validate_run_record
 from openre_bench.comparison_validator import validate_system_behavior_contract
+from openre_bench.evaluation.af_metrics import compute_af_metrics
 from openre_bench.pipeline import MARE_ROLE_QUALITY_ATTRIBUTES
 from openre_bench.pipeline import PipelineConfig
 from openre_bench.pipeline import run_case_pipeline
@@ -172,6 +176,14 @@ BY_CASE_COLUMNS = [
     "deterministic_is_valid",
     "compliance_coverage",
     "s_term",
+    "tc",
+    "sd",
+    "af_num_arguments",
+    "af_num_attacks",
+    "af_num_rule_attacks",
+    "af_num_llm_attacks",
+    "af_type_distribution",
+    "af_agent_distribution",
     "iso29148_unambiguous",
     "iso29148_correctness",
     "iso29148_verifiability",
@@ -203,6 +215,12 @@ SUMMARY_COLUMNS = [
     "std_topology_valid",
 ]
 
+def _matrix_paper_tools_default() -> bool:
+    from openre_bench.paper_env import paper_tools_enabled
+
+    return paper_tools_enabled()
+
+
 ABLATION_COLUMNS = [
     "case_id",
     "seed",
@@ -233,8 +251,18 @@ class MatrixConfig:
     rag_enabled: bool
     rag_backend: str
     rag_corpus_dir: Path
+    parallel: bool = True
+    max_concurrency: int = 4
     system: str = SYSTEM_MARE
     judge_pipeline_path: Path | None = None
+    attack_confidence_threshold: float = 0.7
+    attack_llm_confidence_floor: float = 0.85
+    paper_bert_conflict_prescreen: bool = field(default_factory=_matrix_paper_tools_default)
+    paper_chroma_hallucination_layer: bool = field(default_factory=_matrix_paper_tools_default)
+    paper_llm_compliance_entailment: bool = field(default_factory=_matrix_paper_tools_default)
+    paper_phase2_llm_pair_classification: bool = field(default_factory=_matrix_paper_tools_default)
+    paper_pair_classification_temperature: float = 0.7
+    paper_chroma_persist_dir: Path | None = None
 
 
 @dataclass
@@ -287,12 +315,25 @@ def run_comparison_matrix(config: MatrixConfig) -> MatrixResult:
     output_dir.mkdir(parents=True, exist_ok=True)
     runs_dir.mkdir(parents=True, exist_ok=True)
 
+    runs_jsonl = output_dir / RUNS_JSONL_NAME
+    by_case_csv = output_dir / BY_CASE_CSV_NAME
+    summary_csv = output_dir / SUMMARY_CSV_NAME
+    ablation_csv = output_dir / ABLATION_CSV_NAME
+    validity_md = output_dir / VALIDITY_MD_NAME
+
     run_rows: list[dict[str, Any]] = []
     metric_rows: list[dict[str, Any]] = []
     errors: list[str] = []
     warnings: list[str] = []
     judge_pipeline_hash = _file_sha256(config.judge_pipeline_path)
 
+    existing_rows = _read_jsonl(runs_jsonl) if runs_jsonl.exists() else []
+    completed_keys = _completed_matrix_keys(existing_rows)
+    for row in existing_rows:
+        run_rows.append(row)
+        metric_rows.append(_metric_row_from_run_row(row))
+
+    flat_tasks: list[_MatrixTask] = []
     for case_path in case_paths:
         case_payload = load_json_file(case_path)
         case_input = CaseInput.model_validate(case_payload)
@@ -300,127 +341,41 @@ def run_comparison_matrix(config: MatrixConfig) -> MatrixResult:
         for seed in config.seeds:
             for setting in config.settings:
                 run_id = _build_run_id(case_input.case_name, setting, seed, config.system)
-                artifacts_dir = runs_dir / run_id
-                run_record_path = artifacts_dir / "run_record.json"
-
-                pipeline_config = PipelineConfig(
-                    case_input=case_path,
-                    artifacts_dir=artifacts_dir,
-                    run_record_path=run_record_path,
-                    run_id=run_id,
-                    setting=setting,
+                task = _MatrixTask(
+                    case_path=case_path,
+                    case_id=case_input.case_name,
                     seed=seed,
-                    model=config.model,
-                    temperature=config.temperature,
-                    round_cap=config.round_cap,
-                    max_tokens=config.max_tokens,
-                    system=config.system,
-                    rag_enabled=config.rag_enabled,
-                    rag_backend=config.rag_backend,
-                    rag_corpus_dir=config.rag_corpus_dir,
+                    setting=setting,
+                    run_id=run_id,
                 )
-                run_record = run_case_pipeline(pipeline_config)
-                _write_run_record_provenance(
-                    run_record_path=run_record_path,
-                    judge_pipeline_hash=judge_pipeline_hash,
-                )
+                if (task.case_id, task.seed, task.setting) in completed_keys:
+                    continue
+                flat_tasks.append(task)
 
-                case_report = validate_case_input(case_path)
-                run_report = validate_run_record(run_record_path)
-                artifact_report = validate_phase_artifacts(artifacts_dir)
-                behavior_report = validate_system_behavior_contract(
-                    system=run_record.system,
-                    artifacts_dir=artifacts_dir,
-                )
+    if config.parallel:
+        run_results = _run_matrix_tasks_parallel(
+            tasks=flat_tasks,
+            config=config,
+            runs_dir=runs_dir,
+            judge_pipeline_hash=judge_pipeline_hash,
+            runs_jsonl=runs_jsonl,
+        )
+    else:
+        run_results = _run_matrix_tasks_serial(
+            tasks=flat_tasks,
+            config=config,
+            runs_dir=runs_dir,
+            judge_pipeline_hash=judge_pipeline_hash,
+            runs_jsonl=runs_jsonl,
+        )
 
-                local_errors = (
-                    case_report.errors
-                    + run_report.errors
-                    + artifact_report.errors
-                    + behavior_report.errors
-                )
-                local_warnings = (
-                    case_report.warnings
-                    + run_report.warnings
-                    + artifact_report.warnings
-                    + behavior_report.warnings
-                )
-                errors.extend(f"{run_id}: {item}" for item in local_errors)
-                warnings.extend(f"{run_id}: {item}" for item in local_warnings)
+    for result in run_results:
+        if result.run_row is not None and result.metric_row is not None:
+            run_rows.append(result.run_row)
+            metric_rows.append(result.metric_row)
+        errors.extend(result.errors)
+        warnings.extend(result.warnings)
 
-                metrics = _compute_run_metrics(artifacts_dir)
-                validation_passed = not local_errors
-                non_comparable_reason = _non_comparable_reason_text(
-                    run_record.comparability.non_comparable_reasons
-                )
-
-                run_row: dict[str, Any] = {
-                    **run_record.model_dump(mode="json"),
-                    "judge_pipeline_hash": judge_pipeline_hash,
-                    "blind_eval_run_id": "",
-                    "artifact_blinded": False,
-                    "blinding_scheme_version": "",
-                    "trace_audit_path": "",
-                    "validation_passed": validation_passed,
-                    "validation_errors": local_errors,
-                    "validation_warnings": local_warnings,
-                    "metrics": metrics,
-                    "non_comparable_reason": non_comparable_reason,
-                }
-                run_rows.append(run_row)
-
-                metric_rows.append(
-                    {
-                        "run_id": run_record.run_id,
-                        "case_id": run_record.case_id,
-                        "seed": run_record.seed,
-                        "system": run_record.system,
-                        "setting": run_record.setting,
-                        "model": run_record.model,
-                        "temperature": run_record.temperature,
-                        "max_tokens": run_record.max_tokens,
-                        "round_cap": run_record.round_cap,
-                        "rag_enabled": run_record.rag_enabled,
-                        "rag_fallback_used": run_record.rag_fallback_used,
-                        "fallback_tainted": run_record.execution_flags.fallback_tainted,
-                        "retry_used": run_record.execution_flags.retry_used,
-                        "retry_count": run_record.execution_flags.retry_count,
-                        "runtime_seconds": run_record.runtime_seconds,
-                        "n_phase1_agents": metrics["n_phase1_agents"],
-                        "n_phase1_elements": metrics["n_phase1_elements"],
-                        "n_phase2_negotiations": metrics["n_phase2_negotiations"],
-                        "n_phase2_steps": metrics["n_phase2_steps"],
-                        "n_phase3_elements": metrics["n_phase3_elements"],
-                        "n_phase3_connections": metrics["n_phase3_connections"],
-                        "conflict_resolution_rate": metrics["conflict_resolution_rate"],
-                        "chv": metrics["chv"],
-                        "mdc": metrics["mdc"],
-                        "semantic_preservation_f1": metrics["semantic_preservation_f1"],
-                        "semantic_p2_vs_p1_f1": metrics["semantic_p2_vs_p1_f1"],
-                        "s_logic": metrics["s_logic"],
-                        "topology_is_valid": metrics["topology_is_valid"],
-                        "deterministic_is_valid": metrics["deterministic_is_valid"],
-                        "compliance_coverage": metrics["compliance_coverage"],
-                        "s_term": metrics["s_term"],
-                        "iso29148_unambiguous": metrics["iso29148_unambiguous"],
-                        "iso29148_correctness": metrics["iso29148_correctness"],
-                        "iso29148_verifiability": metrics["iso29148_verifiability"],
-                        "iso29148_set_consistency": metrics["iso29148_set_consistency"],
-                        "iso29148_set_feasibility": metrics["iso29148_set_feasibility"],
-                        "blind_eval_run_id": "",
-                        "judge_pipeline_hash": judge_pipeline_hash,
-                        "validation_passed": validation_passed,
-                        "non_comparable_reason": non_comparable_reason,
-                    }
-                )
-
-    runs_jsonl = output_dir / RUNS_JSONL_NAME
-    by_case_csv = output_dir / BY_CASE_CSV_NAME
-    summary_csv = output_dir / SUMMARY_CSV_NAME
-    ablation_csv = output_dir / ABLATION_CSV_NAME
-    validity_md = output_dir / VALIDITY_MD_NAME
-
-    _write_jsonl(runs_jsonl, run_rows)
     _write_csv(by_case_csv, BY_CASE_COLUMNS, metric_rows)
     summary_rows = _build_summary_rows(metric_rows)
     _write_csv(summary_csv, SUMMARY_COLUMNS, summary_rows)
@@ -464,6 +419,289 @@ def run_comparison_matrix(config: MatrixConfig) -> MatrixResult:
         errors=errors,
         warnings=warnings,
     )
+
+
+@dataclass(frozen=True)
+class _MatrixTask:
+    case_path: Path
+    case_id: str
+    seed: int
+    setting: str
+    run_id: str
+
+
+@dataclass
+class _MatrixTaskResult:
+    run_row: dict[str, Any] | None
+    metric_row: dict[str, Any] | None
+    errors: list[str]
+    warnings: list[str]
+
+
+def _run_matrix_tasks_serial(
+    *,
+    tasks: list[_MatrixTask],
+    config: MatrixConfig,
+    runs_dir: Path,
+    judge_pipeline_hash: str,
+    runs_jsonl: Path,
+) -> list[_MatrixTaskResult]:
+    """Run matrix tasks serially (debug mode parity)."""
+
+    results: list[_MatrixTaskResult] = []
+    for task in tasks:
+        result = _execute_matrix_task(
+            task=task,
+            config=config,
+            runs_dir=runs_dir,
+            judge_pipeline_hash=judge_pipeline_hash,
+            runs_jsonl=runs_jsonl,
+            force_disable_nested_parallel=False,
+        )
+        results.append(result)
+    return results
+
+
+def _run_matrix_tasks_parallel(
+    *,
+    tasks: list[_MatrixTask],
+    config: MatrixConfig,
+    runs_dir: Path,
+    judge_pipeline_hash: str,
+    runs_jsonl: Path,
+) -> list[_MatrixTaskResult]:
+    """Run flat matrix tasks with asyncio.gather + semaphore throttling."""
+
+    async def _runner() -> list[_MatrixTaskResult]:
+        if not tasks:
+            return []
+        semaphore = asyncio.Semaphore(max(1, int(config.max_concurrency)))
+        append_lock = asyncio.Lock()
+
+        async def _run_one(task: _MatrixTask) -> _MatrixTaskResult:
+            async with semaphore:
+                result = await asyncio.to_thread(
+                    _execute_matrix_task,
+                    task=task,
+                    config=config,
+                    runs_dir=runs_dir,
+                    judge_pipeline_hash=judge_pipeline_hash,
+                    runs_jsonl=None,
+                    force_disable_nested_parallel=True,
+                )
+                if result.run_row is not None:
+                    async with append_lock:
+                        _append_jsonl_row(runs_jsonl, result.run_row)
+                return result
+
+        gathered = await asyncio.gather(*[_run_one(task) for task in tasks])
+        return list(gathered)
+
+    return asyncio.run(_runner())
+
+
+def _execute_matrix_task(
+    *,
+    task: _MatrixTask,
+    config: MatrixConfig,
+    runs_dir: Path,
+    judge_pipeline_hash: str,
+    runs_jsonl: Path | None,
+    force_disable_nested_parallel: bool,
+) -> _MatrixTaskResult:
+    """Execute one matrix run, validate artifacts, and build report rows."""
+
+    artifacts_dir = runs_dir / task.run_id
+    run_record_path = artifacts_dir / "run_record.json"
+    started = time.perf_counter()
+
+    try:
+        pipeline_config = PipelineConfig(
+            case_input=task.case_path,
+            artifacts_dir=artifacts_dir,
+            run_record_path=run_record_path,
+            run_id=task.run_id,
+            setting=task.setting,
+            seed=task.seed,
+            model=config.model,
+            temperature=config.temperature,
+            round_cap=config.round_cap,
+            max_tokens=config.max_tokens,
+            system=config.system,
+            # Avoid nested parallel explosion in matrix-level concurrent mode.
+            parallel=False if force_disable_nested_parallel else config.parallel,
+            llm_max_concurrency=max(1, int(config.max_concurrency)),
+            rag_enabled=config.rag_enabled,
+            rag_backend=config.rag_backend,
+            rag_corpus_dir=config.rag_corpus_dir,
+            attack_confidence_threshold=config.attack_confidence_threshold,
+            attack_llm_confidence_floor=config.attack_llm_confidence_floor,
+            paper_bert_conflict_prescreen=config.paper_bert_conflict_prescreen,
+            paper_chroma_hallucination_layer=config.paper_chroma_hallucination_layer,
+            paper_llm_compliance_entailment=config.paper_llm_compliance_entailment,
+            paper_phase2_llm_pair_classification=config.paper_phase2_llm_pair_classification,
+            paper_pair_classification_temperature=config.paper_pair_classification_temperature,
+            paper_chroma_persist_dir=config.paper_chroma_persist_dir,
+        )
+        run_record = run_case_pipeline(pipeline_config)
+        _write_run_record_provenance(
+            run_record_path=run_record_path,
+            judge_pipeline_hash=judge_pipeline_hash,
+        )
+
+        case_report = validate_case_input(task.case_path)
+        run_report = validate_run_record(run_record_path)
+        artifact_report = validate_phase_artifacts(artifacts_dir)
+        behavior_report = validate_system_behavior_contract(
+            system=run_record.system,
+            artifacts_dir=artifacts_dir,
+        )
+
+        local_errors = (
+            case_report.errors
+            + run_report.errors
+            + artifact_report.errors
+            + behavior_report.errors
+        )
+        local_warnings = (
+            case_report.warnings
+            + run_report.warnings
+            + artifact_report.warnings
+            + behavior_report.warnings
+        )
+        metrics = _compute_run_metrics(artifacts_dir)
+        validation_passed = not local_errors
+        non_comparable_reason = _non_comparable_reason_text(
+            run_record.comparability.non_comparable_reasons
+        )
+
+        run_row: dict[str, Any] = {
+            **run_record.model_dump(mode="json"),
+            "judge_pipeline_hash": judge_pipeline_hash,
+            "blind_eval_run_id": "",
+            "artifact_blinded": False,
+            "blinding_scheme_version": "",
+            "trace_audit_path": "",
+            "validation_passed": validation_passed,
+            "validation_errors": local_errors,
+            "validation_warnings": local_warnings,
+            "metrics": metrics,
+            "non_comparable_reason": non_comparable_reason,
+        }
+        metric_row = _metric_row_from_run_row(run_row)
+
+        if runs_jsonl is not None:
+            _append_jsonl_row(runs_jsonl, run_row)
+
+        elapsed = time.perf_counter() - started
+        print(
+            f"[DONE] case={task.case_id} seed={task.seed} setting={task.setting} "
+            f"time={elapsed:.1f}s"
+        )
+        return _MatrixTaskResult(
+            run_row=run_row,
+            metric_row=metric_row,
+            errors=[f"{task.run_id}: {item}" for item in local_errors],
+            warnings=[f"{task.run_id}: {item}" for item in local_warnings],
+        )
+    except Exception as exc:  # pragma: no cover - defensive aggregation path
+        print(
+            f"[FAIL] case={task.case_id} seed={task.seed} setting={task.setting} "
+            f"error={exc.__class__.__name__}"
+        )
+        return _MatrixTaskResult(
+            run_row=None,
+            metric_row=None,
+            errors=[f"{task.run_id}: task_failed: {exc}"],
+            warnings=[],
+        )
+
+
+def _metric_row_from_run_row(run_row: dict[str, Any]) -> dict[str, Any]:
+    """Build one metrics-by-case CSV row from a run JSONL record."""
+
+    metrics = run_row.get("metrics", {})
+    execution_flags = run_row.get("execution_flags", {})
+    return {
+        "run_id": run_row.get("run_id", ""),
+        "case_id": run_row.get("case_id", ""),
+        "seed": _to_int(run_row.get("seed", 0), default=0),
+        "system": run_row.get("system", ""),
+        "setting": run_row.get("setting", ""),
+        "model": run_row.get("model", ""),
+        "temperature": run_row.get("temperature", ""),
+        "max_tokens": run_row.get("max_tokens", ""),
+        "round_cap": run_row.get("round_cap", ""),
+        "rag_enabled": bool(run_row.get("rag_enabled", False)),
+        "rag_fallback_used": bool(run_row.get("rag_fallback_used", False)),
+        "fallback_tainted": bool(execution_flags.get("fallback_tainted", False)),
+        "retry_used": bool(execution_flags.get("retry_used", False)),
+        "retry_count": _to_int(execution_flags.get("retry_count", 0), default=0),
+        "runtime_seconds": run_row.get("runtime_seconds", 0.0),
+        "n_phase1_agents": _to_int(metrics.get("n_phase1_agents", 0), default=0),
+        "n_phase1_elements": _to_int(metrics.get("n_phase1_elements", 0), default=0),
+        "n_phase2_negotiations": _to_int(metrics.get("n_phase2_negotiations", 0), default=0),
+        "n_phase2_steps": _to_int(metrics.get("n_phase2_steps", 0), default=0),
+        "n_phase3_elements": _to_int(metrics.get("n_phase3_elements", 0), default=0),
+        "n_phase3_connections": _to_int(metrics.get("n_phase3_connections", 0), default=0),
+        "conflict_resolution_rate": _to_float(metrics.get("conflict_resolution_rate", 0.0), default=0.0),
+        "chv": _to_float(metrics.get("chv", 0.0), default=0.0),
+        "mdc": _to_float(metrics.get("mdc", 0.0), default=0.0),
+        "semantic_preservation_f1": _to_float(metrics.get("semantic_preservation_f1", 0.0), default=0.0),
+        "semantic_p2_vs_p1_f1": _to_float(metrics.get("semantic_p2_vs_p1_f1", 0.0), default=0.0),
+        "s_logic": _to_float(metrics.get("s_logic", 0.0), default=0.0),
+        "topology_is_valid": _to_int(metrics.get("topology_is_valid", 0), default=0),
+        "deterministic_is_valid": _to_int(metrics.get("deterministic_is_valid", 0), default=0),
+        "compliance_coverage": _to_float(metrics.get("compliance_coverage", 0.0), default=0.0),
+        "s_term": _to_float(metrics.get("s_term", 0.0), default=0.0),
+        "tc": _to_float(metrics.get("tc", 0.0), default=0.0),
+        "sd": _to_float(metrics.get("sd", 0.0), default=0.0),
+        "af_num_arguments": _to_int(metrics.get("af_num_arguments", 0), default=0),
+        "af_num_attacks": _to_int(metrics.get("af_num_attacks", 0), default=0),
+        "af_num_rule_attacks": _to_int(metrics.get("af_num_rule_attacks", 0), default=0),
+        "af_num_llm_attacks": _to_int(metrics.get("af_num_llm_attacks", 0), default=0),
+        "af_type_distribution": json.dumps(
+            metrics.get("af_type_distribution", {}),
+            ensure_ascii=False,
+            sort_keys=True,
+        ),
+        "af_agent_distribution": json.dumps(
+            metrics.get("af_agent_distribution", {}),
+            ensure_ascii=False,
+            sort_keys=True,
+        ),
+        "iso29148_unambiguous": _to_float(metrics.get("iso29148_unambiguous", 0.0), default=0.0),
+        "iso29148_correctness": _to_float(metrics.get("iso29148_correctness", 0.0), default=0.0),
+        "iso29148_verifiability": _to_float(metrics.get("iso29148_verifiability", 0.0), default=0.0),
+        "iso29148_set_consistency": _to_float(metrics.get("iso29148_set_consistency", 0.0), default=0.0),
+        "iso29148_set_feasibility": _to_float(metrics.get("iso29148_set_feasibility", 0.0), default=0.0),
+        "blind_eval_run_id": run_row.get("blind_eval_run_id", ""),
+        "judge_pipeline_hash": run_row.get("judge_pipeline_hash", ""),
+        "validation_passed": bool(run_row.get("validation_passed", False)),
+        "non_comparable_reason": run_row.get("non_comparable_reason", ""),
+    }
+
+
+def _completed_matrix_keys(rows: list[dict[str, Any]]) -> set[tuple[str, int, str]]:
+    """Extract completed (case, seed, setting) keys from existing runs JSONL."""
+
+    keys: set[tuple[str, int, str]] = set()
+    for row in rows:
+        case_id = str(row.get("case_id", "")).strip()
+        seed = _to_int(row.get("seed", -1), default=-1)
+        setting = str(row.get("setting", "")).strip()
+        if case_id and seed >= 0 and setting:
+            keys.add((case_id, seed, setting))
+    return keys
+
+
+def _append_jsonl_row(path: Path, row: dict[str, Any]) -> None:
+    """Append a single JSON row to JSONL file."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as file_handle:
+        file_handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+
 
 
 def _compute_run_metrics(artifacts_dir: Path) -> dict[str, Any]:
@@ -531,6 +769,7 @@ def _compute_run_metrics(artifacts_dir: Path) -> dict[str, Any]:
         deterministic_valid=deterministic_valid,
         compliance_coverage=compliance_coverage,
     )
+    af_metrics = compute_af_metrics(artifacts_dir)
 
     return {
         "n_phase1_agents": n_phase1_agents,
@@ -549,6 +788,14 @@ def _compute_run_metrics(artifacts_dir: Path) -> dict[str, Any]:
         "deterministic_is_valid": deterministic_valid,
         "compliance_coverage": round(compliance_coverage, 6),
         "s_term": round(s_term, 6),
+        "tc": round(_to_float(af_metrics.get("tc", 0.0), default=0.0), 6),
+        "sd": round(_to_float(af_metrics.get("sd", 0.0), default=0.0), 6),
+        "af_num_arguments": _to_int(af_metrics.get("af_num_arguments", 0), default=0),
+        "af_num_attacks": _to_int(af_metrics.get("af_num_attacks", 0), default=0),
+        "af_num_rule_attacks": _to_int(af_metrics.get("af_num_rule_attacks", 0), default=0),
+        "af_num_llm_attacks": _to_int(af_metrics.get("af_num_llm_attacks", 0), default=0),
+        "af_type_distribution": af_metrics.get("af_type_distribution", {}),
+        "af_agent_distribution": af_metrics.get("af_agent_distribution", {}),
         "iso29148_unambiguous": iso29148_scores["unambiguous"],
         "iso29148_correctness": iso29148_scores["correctness"],
         "iso29148_verifiability": iso29148_scores["verifiability"],

@@ -50,7 +50,11 @@ def _summarize_text(text: str, limit: int) -> str:
     compact = re.sub(r"\s+", " ", text).strip()
     if len(compact) <= limit:
         return compact
-    return compact[: max(0, limit - 3)].rstrip() + "..."
+    budget = max(0, limit - 3)
+    cut = compact[:budget].rstrip()
+    if " " in cut and len(cut) == budget:
+        cut = cut.rsplit(" ", 1)[0].rstrip()
+    return cut + "..."
 
 
 def _text_overlap_score(left: str, right: str) -> float:
@@ -99,13 +103,45 @@ def _sha256_payload(payload: dict[str, Any]) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _extract_requirement_fragments(requirement: str) -> list[str]:
-    """Split requirement text into sentence-like fragments."""
+def _looks_like_section_header(text: str) -> bool:
+    """True for outline-style headings without normative substance."""
 
-    normalized = requirement.replace("\r", "\n")
-    chunks = re.split(r"[\n\.\?\!]+", normalized)
-    fragments = [re.sub(r"\s+", " ", chunk).strip() for chunk in chunks]
-    return [item for item in fragments if len(item) >= 20]
+    t = text.strip()
+    if len(t) < 20:
+        return False
+    if len(t) <= 96 and t.endswith(":"):
+        if not re.search(r"\b(shall|must|should|will|ensure|system)\b", t, re.I):
+            return True
+    if re.match(r"^(?:#+\s*)?\d+\.\s+[A-Za-z][^:]{0,50}:\s*$", t):
+        return True
+    return False
+
+
+def _extract_requirement_fragments(requirement: str) -> list[str]:
+    """Split requirement text into sentence-like fragments.
+
+    Paragraphs are split on blank lines; soft single newlines inside a paragraph
+    are merged so markdown-style line wraps do not become spurious fragments.
+    Sentence boundaries use . ? ! only (not every newline).
+    """
+
+    normalized = requirement.replace("\r", "\n").strip()
+    if not normalized:
+        return []
+    fragments: list[str] = []
+    for para in re.split(r"\n\s*\n+", normalized):
+        merged = re.sub(r"\s+", " ", para.replace("\n", " ")).strip()
+        if not merged:
+            continue
+        parts = re.split(r"(?<=[.!?])\s+", merged)
+        for part in parts:
+            compact = re.sub(r"\s+", " ", part).strip()
+            if len(compact) < 20:
+                continue
+            if _looks_like_section_header(compact):
+                continue
+            fragments.append(compact)
+    return fragments
 
 
 def _rotate_fragments(fragments: list[str], seed: int) -> list[str]:

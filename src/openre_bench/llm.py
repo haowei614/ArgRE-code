@@ -9,7 +9,10 @@ This module owns every concern related to LLM inference:
 
 from __future__ import annotations
 
+import asyncio
 import json
+import random
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
 
@@ -214,6 +217,15 @@ class LLMClient:
         return text
 
 
+@dataclass(frozen=True)
+class AsyncLLMExecutionConfig:
+    """Concurrency and retry controls for async LLM execution wrappers."""
+
+    max_concurrency: int = 10
+    backoff_cap_seconds: float = 60.0
+    backoff_base_seconds: float = 1.0
+
+
 def _extract_text(response: Any) -> str:
     """Extract assistant text from LiteLLM response payload."""
 
@@ -285,6 +297,81 @@ def chat_with_optional_seed(
             ),
             False,
         )
+
+
+async def chat_with_optional_seed_async(
+    *,
+    llm_client: LLMContract,
+    messages: list[dict[str, str]],
+    temperature: float,
+    max_tokens: int,
+    seed: int,
+    semaphore: asyncio.Semaphore | None = None,
+) -> tuple[str, bool]:
+    """Async wrapper around ``chat_with_optional_seed`` with optional semaphore."""
+
+    async def _invoke() -> tuple[str, bool]:
+        return await asyncio.to_thread(
+            chat_with_optional_seed,
+            llm_client=llm_client,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            seed=seed,
+        )
+
+    if semaphore is None:
+        return await _invoke()
+    async with semaphore:
+        return await _invoke()
+
+
+async def chat_with_optional_seed_with_backoff_async(
+    *,
+    llm_client: LLMContract,
+    messages: list[dict[str, str]],
+    temperature: float,
+    max_tokens: int,
+    seed: int,
+    retry_limit: int,
+    semaphore: asyncio.Semaphore | None = None,
+    backoff_cap_seconds: float = 60.0,
+    backoff_base_seconds: float = 1.0,
+) -> tuple[tuple[str, bool] | None, int, str]:
+    """Run optional-seed chat with bounded exponential backoff retries.
+
+    Returns:
+        (response_tuple_or_none, retry_count, last_error_message)
+    """
+
+    retries = 0
+    last_error = ""
+    max_attempts = max(1, int(retry_limit) + 1)
+    cap = max(0.0, float(backoff_cap_seconds))
+    base = max(0.001, float(backoff_base_seconds))
+
+    for attempt in range(max_attempts):
+        try:
+            response = await chat_with_optional_seed_async(
+                llm_client=llm_client,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                seed=seed,
+                semaphore=semaphore,
+            )
+            return response, retries, ""
+        except (LLMClientError, RuntimeError, ValueError, TypeError) as exc:
+            last_error = str(exc)
+            if attempt >= max_attempts - 1:
+                break
+            retries += 1
+            exponential = min(cap, base * (2**attempt))
+            # Add a little jitter to avoid synchronized retries.
+            jitter = random.uniform(0.0, min(1.0, exponential * 0.25))
+            await asyncio.sleep(min(cap, exponential + jitter))
+
+    return None, retries, last_error
 
 
 # ---------------------------------------------------------------------------

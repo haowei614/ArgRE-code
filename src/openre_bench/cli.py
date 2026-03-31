@@ -149,8 +149,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--rag-backend",
         type=str,
-        default="local_tfidf",
-        help="RAG backend label stored in run metadata.",
+        default="",
+        help=(
+            "RAG backend: chroma_ada002 (paper default when OPENRE_PAPER_TOOLS is on) or local_tfidf. "
+            "Empty = use environment default."
+        ),
     )
     parser.add_argument(
         "--rag-corpus-dir",
@@ -208,10 +211,41 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to judge pipeline script used for sha256 provenance hashing.",
     )
     parser.add_argument(
+        "--attack-confidence-threshold",
+        type=float,
+        default=0.7,
+        help="Nominal LLM confidence threshold for cross-pair attacks (theta; default 0.7).",
+    )
+    parser.add_argument(
+        "--attack-llm-confidence-floor",
+        type=float,
+        default=0.85,
+        help="Floor combined with --attack-confidence-threshold to form theta_eff for LLM edges. Use 0.0 for sensitivity runs so theta_eff equals --attack-confidence-threshold.",
+    )
+    parser.add_argument(
         "--report-dir",
         type=str,
         default="report",
         help="Directory for /auto outputs (logs, runs, analysis, proofs).",
+    )
+    parser.add_argument(
+        "--disable-paper-faithful-argre-tools",
+        action="store_true",
+        help=(
+            "Disable paper-default tooling: BERT prescreen, Chroma Phase~1 RAG + Phase~4 screen, "
+            "LLM entailment compliance, Phase~2 pair classification."
+        ),
+    )
+    parser.add_argument(
+        "--paper-faithful-argre-tools",
+        action="store_true",
+        help="Force all paper-described tooling on (overrides OPENRE_PAPER_TOOLS).",
+    )
+    parser.add_argument(
+        "--paper-chroma-persist-dir",
+        type=str,
+        default="",
+        help="Chroma persistent storage directory (default: <artifacts-parent>/.chroma_openre_bench).",
     )
     return parser
 
@@ -219,6 +253,23 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
+    from openre_bench.paper_env import default_rag_backend
+    from openre_bench.paper_env import paper_tools_enabled
+
+    if getattr(args, "disable_paper_faithful_argre_tools", False):
+        _pb = _pch = _pll = _p2 = False
+    elif getattr(args, "paper_faithful_argre_tools", False):
+        _pb = _pch = _pll = _p2 = True
+    else:
+        _pt = paper_tools_enabled()
+        _pb = _pch = _pll = _p2 = _pt
+
+    rag_backend_resolved = str(getattr(args, "rag_backend", "")).strip() or default_rag_backend()
+    chroma_persist = (
+        Path(args.paper_chroma_persist_dir)
+        if str(getattr(args, "paper_chroma_persist_dir", "")).strip()
+        else None
+    )
     auto_requested = bool(args.auto) or str(args.command).strip().lower() in {"auto", "/auto"}
 
     if args.version:
@@ -279,9 +330,14 @@ def main() -> int:
                     round_cap=args.round_cap,
                     max_tokens=args.max_tokens,
                     rag_enabled=bool(args.rag_enabled),
-                    rag_backend=args.rag_backend,
+                    rag_backend=rag_backend_resolved,
                     rag_corpus_dir=Path(args.rag_corpus_dir),
                     judge_pipeline_path=Path(args.judge_script),
+                    paper_bert_conflict_prescreen=_pb,
+                    paper_chroma_hallucination_layer=_pch,
+                    paper_llm_compliance_entailment=_pll,
+                    paper_phase2_llm_pair_classification=_p2,
+                    paper_chroma_persist_dir=chroma_persist,
                 )
             )
         except Exception as exc:
@@ -395,8 +451,15 @@ def main() -> int:
             max_tokens=args.max_tokens,
             system=args.system,
             rag_enabled=bool(args.rag_enabled),
-            rag_backend=args.rag_backend,
+            rag_backend=rag_backend_resolved,
             rag_corpus_dir=Path(args.rag_corpus_dir),
+            attack_confidence_threshold=float(args.attack_confidence_threshold),
+            attack_llm_confidence_floor=float(args.attack_llm_confidence_floor),
+            paper_bert_conflict_prescreen=_pb,
+            paper_chroma_hallucination_layer=_pch,
+            paper_llm_compliance_entailment=_pll,
+            paper_phase2_llm_pair_classification=_p2,
+            paper_chroma_persist_dir=chroma_persist,
         )
         run_record = run_case_pipeline(pipeline_config)
 
@@ -452,9 +515,16 @@ def main() -> int:
             max_tokens=args.max_tokens,
             system=args.system,
             rag_enabled=bool(args.rag_enabled),
-            rag_backend=args.rag_backend,
+            rag_backend=rag_backend_resolved,
             rag_corpus_dir=Path(args.rag_corpus_dir),
             judge_pipeline_path=Path(args.judge_script),
+            attack_confidence_threshold=float(args.attack_confidence_threshold),
+            attack_llm_confidence_floor=float(args.attack_llm_confidence_floor),
+            paper_bert_conflict_prescreen=_pb,
+            paper_chroma_hallucination_layer=_pch,
+            paper_llm_compliance_entailment=_pll,
+            paper_phase2_llm_pair_classification=_p2,
+            paper_chroma_persist_dir=chroma_persist,
         )
         try:
             matrix_result = run_comparison_matrix(matrix_config)

@@ -6,6 +6,8 @@ Extracted from the monolithic ``_core.py`` for single-system cohesion.
 from __future__ import annotations
 
 import json
+import random
+import time
 from dataclasses import dataclass
 from typing import Any
 
@@ -63,6 +65,13 @@ def build_quare_negotiation_history(
     llm_temperature: float,
     llm_max_tokens: int,
     llm_seed: int,
+    llm_max_concurrency: int = 10,
+    llm_backoff_cap_seconds: float = 60.0,
+    llm_backoff_base_seconds: float = 1.0,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
+    paper_phase2_llm_pair_classification: bool = False,
+    paper_pair_classification_temperature: float = 0.7,
 ) -> _NegotiationBuildResult:
     """Build QUARE-specific multi-turn dialectic negotiation history."""
 
@@ -77,6 +86,47 @@ def build_quare_negotiation_history(
     llm_parse_recoveries = 0
     llm_seed_applied_turns = 0
 
+    focus_text = " ".join(str(item.get("description", "")) for item in current_elements).strip()
+    reviewer_text = " ".join(str(item.get("description", "")) for item in reviewer_elements).strip()
+    bert_cosine: float | None = None
+    if paper_bert_conflict_prescreen or paper_phase2_llm_pair_classification:
+        try:
+            from openre_bench.verification.bert_pair_similarity import (
+                pairwise_cosine_similarity_bert_uncased,
+            )
+
+            if len(focus_text) >= 8 and len(reviewer_text) >= 8:
+                bert_cosine = pairwise_cosine_similarity_bert_uncased(focus_text, reviewer_text)
+        except Exception:
+            bert_cosine = None
+
+    stage2_classification: dict[str, Any] | None = None
+    if (
+        paper_phase2_llm_pair_classification
+        and llm_client is not None
+        and bert_cosine is not None
+        and bert_cosine >= float(paper_bert_similarity_tau)
+    ):
+        try:
+            from openre_bench.verification.pair_classification import classify_pair_conflict_type_llm
+
+            stage2_classification = classify_pair_conflict_type_llm(
+                text_a=focus_text,
+                text_b=reviewer_text,
+                llm_client=llm_client,
+                llm_model=llm_model,
+                temperature=float(paper_pair_classification_temperature),
+                max_tokens=256,
+            )
+        except Exception as exc:
+            stage2_classification = {"label": "none", "error": str(exc)[:200]}
+
+    pair_prescreening: dict[str, Any] = {
+        "bert_cosine_similarity": bert_cosine,
+        "bert_similarity_tau": float(paper_bert_similarity_tau),
+        "stage2_llm_classification": stage2_classification,
+    }
+
     conflict_detected = False
     conflict_resolved = False
     initial_conflict = _detect_conflict(
@@ -85,6 +135,9 @@ def build_quare_negotiation_history(
         focus_elements=current_elements,
         reviewer_elements=reviewer_elements,
         requirement=requirement,
+        paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+        paper_bert_similarity_tau=paper_bert_similarity_tau,
+        precalc_bert_cosine=bert_cosine,
     )
 
     for round_number in range(1, max_rounds + 1):
@@ -95,6 +148,9 @@ def build_quare_negotiation_history(
             focus_elements=current_elements,
             reviewer_elements=reviewer_elements,
             requirement=requirement,
+            paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+            paper_bert_similarity_tau=paper_bert_similarity_tau,
+            precalc_bert_cosine=bert_cosine,
         )
         if initial_conflict and round_number == 1:
             forward_conflict = True
@@ -172,6 +228,12 @@ def build_quare_negotiation_history(
             llm_temperature=llm_temperature,
             llm_max_tokens=llm_max_tokens,
             llm_seed=llm_seed,
+            llm_max_concurrency=llm_max_concurrency,
+            llm_backoff_cap_seconds=llm_backoff_cap_seconds,
+            llm_backoff_base_seconds=llm_backoff_base_seconds,
+            paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+            paper_bert_similarity_tau=paper_bert_similarity_tau,
+            precalc_bert_cosine=bert_cosine,
         )
         llm_retry_count += llm_turn_result.retry_count
         llm_parse_recoveries += llm_turn_result.parse_recoveries
@@ -311,6 +373,7 @@ def build_quare_negotiation_history(
         steps=steps,
         final_consensus=conflict_resolved or not conflict_detected,
         total_rounds=total_rounds,
+        pair_prescreening=pair_prescreening,
     )
 
     return _NegotiationBuildResult(
@@ -364,6 +427,12 @@ def _run_quare_llm_turn(
     llm_temperature: float,
     llm_max_tokens: int,
     llm_seed: int,
+    llm_max_concurrency: int = 10,
+    llm_backoff_cap_seconds: float = 60.0,
+    llm_backoff_base_seconds: float = 1.0,
+    paper_bert_conflict_prescreen: bool = False,
+    paper_bert_similarity_tau: float = 0.85,
+    precalc_bert_cosine: float | None = None,
 ) -> _QuareLLMTurnResult:
     """Run one QUARE dialectic reviewer turn with deterministic fallback."""
 
@@ -373,6 +442,9 @@ def _run_quare_llm_turn(
         focus_elements=focus_elements,
         reviewer_elements=reviewer_elements,
         requirement=requirement,
+        paper_bert_conflict_prescreen=paper_bert_conflict_prescreen,
+        paper_bert_similarity_tau=paper_bert_similarity_tau,
+        precalc_bert_cosine=precalc_bert_cosine,
     )
     baseline_elements = _apply_negotiation_adjustments(
         elements=focus_elements,
@@ -403,6 +475,9 @@ def _run_quare_llm_turn(
     parse_recoveries = 0
     last_error = ""
     max_attempts = max(1, PHASE2_LLM_RETRY_LIMIT + 1)
+    backoff_cap = max(0.0, float(llm_backoff_cap_seconds))
+    backoff_base = max(0.001, float(llm_backoff_base_seconds))
+    _ = llm_max_concurrency
 
     for attempt in range(max_attempts):
         try:
@@ -422,6 +497,10 @@ def _run_quare_llm_turn(
             )
         except (LLMClientError, RuntimeError, ValueError) as exc:
             last_error = f"request_failed: {exc}"
+            if attempt < max_attempts - 1:
+                delay = min(backoff_cap, backoff_base * (2**attempt))
+                jitter = random.uniform(0.0, min(1.0, delay * 0.25))
+                time.sleep(min(backoff_cap, delay + jitter))
             continue
 
         try:
