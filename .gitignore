@@ -1,17 +1,119 @@
-paper
-artifacts/
+# --- Tooling / local worktrees (never commit) ---
+.claude/
+
+# --- Secrets & local env (never commit) ---
+.env
+.env.*
+!.env.example
 .api_key
+*.pem
+secrets/
+credentials.json
 
+# --- Python ---
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-wheel-metadata/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+pytestdebug.log
 
-# IDE/editor configuration
+# --- Virtual environments ---
+.venv/
+venv/
+ENV/
+env/
+.venv_smoke/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- Experiment & run outputs (regenerate locally) ---
+artifacts/
+experiment_outputs/
+report/
+
+# --- Vector / embedding stores (Chroma, caches) ---
+data/vector_store/
+.chroma_openre_bench/
+**/.chroma*/
+chroma_data/
+
+# --- ML model caches (Hugging Face, torch, transformers) ---
+.cache/
+models/
+*.bin
+*.pt
+*.pth
+*.onnx
+*.safetensors
+~/.cache/huggingface/
+~/.cache/torch/
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# --- IDE / editors ---
 .vscode/
 .idea/
-.vs/
+*.swp
+*.swo
+*.swn
 *.iml
 *.code-workspace
+.project
+.pydevproject
+.settings/
 
-# Local runtime environments and caches
-.venv_smoke/
+# --- Tooling ---
 .matplotlib_cache/
+*.log
+uv.lock.bak
+
+# --- Personal / scratch (adjust patterns to taste) ---
+notes_private/
+scratch/
+*.local.md
+TODO_private.txt
+
+# Paper LaTeX (local only; not distributed via public ArgRE-code repo)
+quare-af.tex
+
+# --- Optional: large paper PDFs under paper/ (remove next line to track them) ---
+paper/

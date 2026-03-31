@@ -1,171 +1,214 @@
-# OpenRE-Bench
+# ArgRE: Formal Argumentation for Conflict Resolution in Multi-Agent Requirements Negotiation
 
-OpenRE-Bench is a paper-first implementation effort for **MARE (Multi-Agents Collaboration Framework for Requirements Engineering)** and QUARE-vs-MARE comparison experiments.
+**This repository is the ArgRE research artifact:** a multi-agent requirements negotiation pipeline with a **formal argumentation layer** (Dung-style attack graphs, grounded / preferred semantics), **paper-aligned optional tooling** (BERT prescreen, Chroma + `text-embedding-ada-002`, LLM entailment for compliance), and a **comparison harness** against MARE-, iReDev-, and QUARE-style baselines on shared case studies.
 
-## Paper-First Rule
+**Code / release:** [github.com/haowei614/ArgRE-code](https://github.com/haowei614/ArgRE-code)
 
-- `paper/submitting-paper-no-commit.pdf` is the single source of truth for comparison logic.
-- `paper/2405.03256v1.pdf` is the source of truth for MARE architecture and semantics.
-- If markdown and paper conflict, follow the paper and update markdown.
+> **Paper (IEEE Access, placeholder DOI):** *ArgRE: Formal Argumentation for Conflict Resolution in Multi-Agent Requirements Negotiation*  
+> **Authors:** *[Replace with author list and affiliations]*  
+> **Abstract (brief):** ArgRE integrates abstract argumentation into multi-agent requirements negotiation so that conflicts among quality objectives are made explicit as attack relations and resolved under grounded or preferred semantics, while preserving semantic alignment with negotiated outputs and supporting threshold-gated LLM-based attack detection. The implementation keeps **parity with the OpenRE-Bench-style pipeline** so baseline comparisons stay fair on the same case inputs and phase artifacts.
 
-## Current Implementation Scope
+### Naming note
 
-- `src/openre_bench/` provides paper-faithful MARE runtime orchestration for the 5-agent/9-action workflow with LLM-driven multi-agent execution (and explicit fallback taint tracking) while preserving schema-compatible artifacts, validation, matrix runs, and reporting.
-- `--system mare` and `--system quare` are both supported with strict provenance/comparability metadata.
-- QUARE runs can execute live LLM turns in phase 2 negotiation when negotiation is enabled and OpenAI credentials are available; fallback state is recorded in execution flags.
-- `/auto` provides resumable end-to-end orchestration with finality gates and per-agent conversation logs under `report/logs/<run_key>/`.
-- MARE multi-agent settings execute all paper roles/actions with shared-workspace provenance captured in `run_record.notes.runtime_semantics`.
+The installable Python package and CLI remain **`openre_bench`** / `openre_bench` (historical name from the OpenRE-Bench comparison stack). **ArgRE** refers to the method and argumentation extensions described in the paper; you invoke it through the same CLI (e.g. `--system quare`, AF resolution modes, paper flags in `paper_env.py`).
 
-## Tech Stack
+### Relationship to OpenRE-Bench
 
-- Language/runtime: Python 3.11+
-- Package and environment manager: `uv`
-- Packaging: `pyproject.toml` (`hatchling`)
-- LLM client layer: `litellm`
-- LLM inference provider: OpenAI API key (`OPENAI_API_KEY`) or local `.api_key`
-- Dev tools: `ruff`, `pytest` (managed through `uv`)
+**OpenRE-Bench** names the **shared benchmark / parity baseline** lineage (MARE, iReDev, QUARE on common cases). This repo **implements ArgRE on top of that stack**—it is not a generic “OpenRE-Bench-only” snapshot without AF. For protocol anchors and comparison notes, see `AGENTS.md` and `docs/`.
 
-## Quick Start (uv)
+---
 
-1. `uv sync --all-groups`
-2. `uv run openre_bench --version`
-3. `cp .env.example .env` and set `OPENAI_API_KEY`, or create `.api_key` with your raw key
-4. `uv run openre_bench --check-openai`
-5. `uv run ruff check .`
-6. `uv run pytest`
+## Repository layout
 
-## OpenAI Configuration
+| Path | Purpose |
+|------|---------|
+| `src/openre_bench/` | ArgRE + baseline code: CLI `openre_bench`, phase pipelines (`pipeline/`), argumentation (`argumentation/`), verification (`verification/`), matrix harness & metrics |
+| `data/case_studies/` | Five case inputs (`*_input.json`) |
+| `data/knowledge_base/` | RAG / standards-oriented corpus (paths used by Phase 1 RAG and verification) |
+| `data/paper/paper_quare_af_tables.json` | Paper-canonical aggregates for table alignment (used with `generate_tables.py --paper-align`) |
+| `tests/` | `pytest` regression suite |
+| `scripts/` | AF experiments, θ heatmaps, ablations, evaluation pack helpers |
+| `generate_tables.py` | LaTeX + `results_for_paper.md` generation |
+| `experiments/` | Small controlled experiments (e.g. semantics divergence) and notes |
+| `evaluation/` | Additional analysis scripts (e.g. significance tests) |
+| `docs/` | Methodology and comparison-protocol notes |
+| `pyproject.toml` / `requirements.txt` | Dependencies (primary: `pyproject.toml`; `requirements.txt` for `pip`) |
 
-OpenRE-Bench uses `litellm` and routes inference to OpenAI through:
+The IEEE Access LaTeX manuscript (`quare-af.tex`) is **not** included in this public repository; numeric alignment for some tables uses `data/paper/paper_quare_af_tables.json` instead.
 
-- Key precedence: `.api_key` -> environment variables
-- `OPENAI_API_KEY` (required when `.api_key` is absent)
-- `OPENAI_KEY` (optional fallback env key name)
-- `.api_key` (optional dotenv-style key file; highest precedence)
-- `OPENAI_MODEL` (optional, default `gpt-4o-mini`)
-- `OPENAI_BASE_URL` (optional custom endpoint)
+Phases are implemented across `pipeline/_core.py`, `pipeline/quare.py`, `pipeline/mare.py`, and `pipeline/iredev.py` rather than separate `phase1.py` … `phase5.py` files.
 
-Useful checks:
+---
 
-- `uv run openre_bench --check-openai`
-- `uv run openre_bench --llm-ping`
+## Prerequisites
 
-## Comparison Anchors (QUARE vs OpenRE-Bench)
+- **Python** 3.11+
+- **OpenAI API access** (via API key) for LLM runs and Chroma embedding calls (`text-embedding-ada-002`)
+- Disk space for **Hugging Face / PyTorch** caches when BERT or `transformers` models load
 
-Use the paper first, then these derived guides:
+---
 
-- `paper/OpenRE-Bench_Analysis_Notes.md`
-- `paper/OpenRE-Bench_Comparison_Protocol.md`
-- `paper/fair-comparison-checklist.md`
+## Installation
 
-These documents are implementation aids. They must be corrected whenever drift is found.
+**Option A — pip**
 
-## Success Criteria Anchor (OpenRE-Bench I/O Parity)
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e .
+```
 
-For comparison implementation work, completion is anchored to OpenRE-Bench contract parity:
+**Option B — uv (recommended in `AGENTS.md`)**
 
-- Input parity: accept `case_name`, `case_description`, `requirement` from `../OpenRE-Bench/data/case_studies/*.json`-style inputs.
-- Output parity: emit
-  - `phase1_initial_models.json`
-  - `phase2_negotiation_trace.json`
-  - `phase3_integrated_kaos_model.json`
-  - `phase4_verification_report.json`
-- Evaluation parity: run under controlled settings and report RQ-aligned metrics with explicit comparability state.
+```bash
+uv sync --all-groups
+```
 
-## Core Commands
+Verify:
 
-Validate one run:
+```bash
+openre_bench --version
+openre_bench --check-openai   # requires OPENAI_API_KEY or .api_key
+```
 
-`uv run openre_bench --validate-comparison --case-input <case.json> --run-record <run.json> --artifacts-dir <artifacts_dir>`
+Set credentials (choose one):
 
-Run one case:
+- Export `OPENAI_API_KEY`, or  
+- Copy `.env.example` to `.env` if present, or  
+- Place the key in `.api_key` (this file is gitignored).
 
-`uv run openre_bench --run-case --case-input ../OpenRE-Bench/data/case_studies/ATM_input.json --artifacts-dir artifacts/atm-run --run-record artifacts/atm-run/run_record.json --system mare`
+**Paper-default tooling:** With no env override, the stack defaults to paper-aligned options (see `src/openre_bench/paper_env.py`). For **fast local tests**, CI-style behavior, or reduced API use:
 
-Dual runtime identities:
+```bash
+export OPENRE_PAPER_TOOLS=0
+```
 
-- `--system mare`
-- `--system quare`
+or use CLI `--disable-paper-faithful-argre-tools` where applicable.
 
-## Comparison Matrix Harness
+---
 
-Run matrix experiments:
+## Reproduce main experiments (ArgRE / matrix)
 
-`uv run openre_bench --run-comparison-matrix --cases-dir ../OpenRE-Bench/data/case_studies --output-dir artifacts/smoke-matrix --matrix-seeds 101,202,303`
+1. **Full comparison matrix** (cases × settings × seeds; produces `runs_jsonl`, CSVs, validity log):
 
-Default settings:
+```bash
+openre_bench --run-comparison-matrix \
+  --cases-dir data/case_studies \
+  --output-dir report/my_matrix_run \
+  --matrix-seeds 101,202,303 \
+  --matrix-settings single_agent,multi_agent_without_negotiation,multi_agent_with_negotiation,negotiation_integration_verification \
+  --system quare \
+  --model gpt-4o-mini \
+  --rag-corpus-dir data/knowledge_base
+```
 
-- `single_agent`
-- `multi_agent_without_negotiation`
-- `multi_agent_with_negotiation`
-- `negotiation_integration_verification`
+For **AF-grounded / AF-preferred** runs, use the project’s AF experiment driver (resolution modes and floors match paper θ / θ_eff discussion):
 
-Key outputs:
+```bash
+python scripts/run_af_experiments.py --help
+```
 
-- `comparison_runs.jsonl`
-- `comparison_metrics_by_case.csv`
-- `comparison_metrics_summary.csv`
-- `comparison_ablation_table.csv`
-- `comparison_validity_log.md`
+Adjust `--attack-llm-confidence-floor` (e.g. `0.85` for main paper setting, `0.0` for θ_eff sensitivity) and seeds to match the paper.
 
-## Trace Audit Export
+2. **Single case scaffold**
 
-`uv run openre_bench --export-trace-audit --matrix-output-dir artifacts/smoke-matrix`
+```bash
+openre_bench --run-case \
+  --case-input data/case_studies/AD_input.json \
+  --artifacts-dir artifacts/ad_run \
+  --run-record artifacts/ad_run/run_record.json \
+  --system quare
+```
 
-Output:
+---
 
-- `comparison_trace_audit.md`
+## Threshold (θ_eff) sensitivity sweep
 
-## `/auto` Strict Report Workflow
+1. Run matrix (or targeted runs) with **`--attack-llm-confidence-floor 0.0`** so effective threshold follows `--attack-confidence-threshold` across values such as `0.50, 0.60, 0.70, 0.80, 0.85` (see paper).
 
-Run end-to-end resumable QUARE-vs-MARE reporting:
+2. Collect per-cell `argumentation_graph.json` paths as needed, then generate the heatmap (see docstring in):
 
-`uv run openre_bench /auto --cases-dir ../OpenRE-Bench/data/case_studies --rag-corpus-dir ../OpenRE-Bench/data/knowledge_base --matrix-seeds 101,202,303`
+```bash
+python scripts/theta_sweep_heatmap.py
+```
 
-Important outputs:
+Helper:
 
-- `report/logs/<run_key>/` execution logs
-- `report/logs/<run_key>/conversation_index.jsonl`
-- `report/logs/<run_key>/conversation_coverage.json`
-- `report/logs/<run_key>/conversation_coverage.md`
-- `report/logs/<run_key>/conversations/<system>/<case>/<setting>/seed-<seed>/<run_id>/`
-- `report/runs/<run_key>/proofs/finality_threshold_verdict.json`
-- `report/runs/<run_key>/proofs/conversation_log_evidence.json`
-- `report/runs/<run_key>/proofs/quare_vs_mare_deltas.json`
-- `report/README.md`, `report/analysis.md`, `report/proofs/*.json` (latest run mirror)
+```bash
+python scripts/collect_theta_sweep_heatmap_inputs.py
+```
 
-## Blind Evaluation Preparation
+Published table mode vs measured JSON is controlled inside `theta_sweep_heatmap.py` (`PUBLISHED_TABLES_ONLY`, `DATA_DIR`, etc.).
 
-`uv run openre_bench --blind-eval-prepare --matrix-output-dir artifacts/smoke-matrix --blind-output-dir artifacts/smoke-matrix/blind-eval --judge-script src/openre_bench/comparison_harness.py`
+---
 
-Outputs:
+## Evaluation metrics
 
-- `blinded_comparison_runs.jsonl`
-- `blinded_comparison_metrics_by_case.csv`
-- `blind_mapping_private.json`
-- `blind_eval_protocol.md`
+- **Matrix metrics** (BERTScore F1, compliance, AF statistics, etc.) are computed when running `--run-comparison-matrix` via `comparison_harness.py` into the output directory (`runs.jsonl`, `by_case.csv`, …).
 
-## MARE Summary (Paper Target)
+- **Strict checks**
 
-From `paper/2405.03256v1.pdf`, MARE defines:
+```bash
+uv run ruff check .
+uv run pytest
+```
 
-- Four tasks: elicitation, modeling, verification, specification
-- Five roles: `Stakeholders`, `Collector`, `Modeler`, `Checker`, `Documenter`
-- Nine actions: `SpeakUserStories`, `ProposeQuestion`, `AnswerQuestion`, `WriteReqDraft`, `ExtractEntity`, `ExtractRelation`, `CheckRequirement`, `WriteSRS`, `WriteCheckReport`
+- **Paper-facing tables** (aligned to `data/paper/paper_quare_af_tables.json` and the ArgRE paper):
 
-This architecture is now enforced in MARE multi-agent runtime semantics and validated by guardrails/tests.
+```bash
+python generate_tables.py --paper-align --runs-jsonl report/af_experiment/comparison_runs.jsonl --output-dir report/af_experiment/tables
+```
 
-## Repository Layout
+This records in `results_for_paper.md` that ArgRE table blocks match the JSON when `--paper-align` is used; baseline columns may use registered constants in `generate_tables.py`—see that script for details.
 
-- `paper/` paper artifacts and comparison protocol notes
-- `src/openre_bench/` implementation scaffold (CLI, pipeline, validator, matrix harness, `/auto`)
-- `tests/` regression tests
-- `report/` generated run/report evidence
-- `ROADMAP.md` current milestone status and remaining gap
+---
 
-## Status
+## Key dependencies (runtime)
 
-Current stage: **paper-first parity scaffold with strict reporting/finality gates**.
+Declared in `pyproject.toml` / `requirements.txt`:
 
-- Implemented: schema contracts, validator, matrix harness, `/auto` orchestration, conversation-log completeness gates, reproducibility proofs.
-- Runtime fidelity status: MARE 5-agent/9-action semantics are implemented with contract-preserving outputs and strict guardrails.
+| Package | Role |
+|---------|------|
+| `litellm` | LLM calls (OpenAI-compatible; set `OPENAI_API_KEY`) |
+| `pydantic-settings` | Settings |
+| `numpy`, `scipy`, `scikit-learn` | Metrics / geometry |
+| `bert-score` (+ `transformers` / PyTorch) | BERTScore F1, BERT prescreen embeddings |
+| `chromadb` | Phase 1 RAG (optional backend) & Phase 4 corpus similarity |
+
+There is **no** direct `sentence-transformers` dependency; semantic prescreening uses **`bert-base-uncased`** via `transformers` in `verification/bert_pair_similarity.py`.
+
+---
+
+## Citation (BibTeX, placeholder DOI)
+
+```bibtex
+@article{argre2026ieee,
+  title        = {ArgRE: Formal Argumentation for Conflict Resolution in Multi-Agent Requirements Negotiation},
+  author       = {Author, A. and Author, B.},
+  journal      = {IEEE Access},
+  year         = {2026},
+  volume       = {XX},
+  number       = {X},
+  pages        = {XXXX--XXXX},
+  doi          = {10.1109/ACCESS.2026.XXXXXXX},
+  publisher    = {IEEE}
+}
+```
+
+Replace authors, volume, pages, and DOI after publication.
+
+---
+
+## License
+
+This repository is released under the **GNU Affero General Public License v3.0** — see [`LICENSE`](LICENSE).
+
+If you need **MIT** or **Apache-2.0** for institutional or IEEE policy reasons, you must **replace** `LICENSE` and obtain agreement from all copyright holders; do not state MIT/Apache in the README while the bundled license file remains AGPL.
+
+---
+
+## Additional pointers
+
+- Contributor / automation notes: [`AGENTS.md`](AGENTS.md)  
+- Comparison protocol and paper anchors (local `paper/` optional): `AGENTS.md`, `docs/`
