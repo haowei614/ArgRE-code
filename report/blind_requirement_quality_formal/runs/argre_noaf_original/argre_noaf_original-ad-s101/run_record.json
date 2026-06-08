@@ -1,0 +1,128 @@
+{
+  "run_id": "argre_noaf_original-ad-s101",
+  "case_id": "AD",
+  "system": "quare",
+  "setting": "negotiation_integration_verification",
+  "seed": 101,
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "round_cap": 3,
+  "system_identity": {
+    "system_name": "quare",
+    "implementation": "deterministic-parity-pipeline",
+    "implementation_version": "0.1.0",
+    "python_version": "3.13.12",
+    "platform": "macOS-15.6.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "provenance": {
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "seed": 101,
+    "prompt_hash": "6f7c3d08dd4902b87a272c2eccb1bd9c98f613d00e6f8fe18a8c4e034061ae13",
+    "corpus_hash": "91b26f1997c0a902e0428783f8209735f20c243dfe60df6eb00f3b8c00fce5b7",
+    "corpus_path": "/Users/haowei/ArgRE-code/data/knowledge_base"
+  },
+  "execution_flags": {
+    "rag_fallback_used": false,
+    "llm_fallback_used": false,
+    "fallback_tainted": false,
+    "retry_used": false,
+    "retry_count": 0
+  },
+  "comparability": {
+    "is_comparable": true,
+    "non_comparable_reasons": []
+  },
+  "max_tokens": 4000,
+  "rag_enabled": true,
+  "rag_backend": "local_tfidf",
+  "rag_fallback_used": false,
+  "start_timestamp": "2026-06-07T04:45:00Z",
+  "end_timestamp": "2026-06-07T04:45:15Z",
+  "runtime_seconds": 14.485731,
+  "artifacts_dir": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101",
+  "artifact_paths": {
+    "phase1_initial_models.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase1_initial_models.json",
+    "phase2_negotiation_trace.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase2_negotiation_trace.json",
+    "phase3_integrated_kaos_model.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase3_integrated_kaos_model.json",
+    "phase4_verification_report.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase4_verification_report.json",
+    "phase0_external_spec_rules.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase0_external_spec_rules.json",
+    "phase2_conflict_map.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase2_conflict_map.json",
+    "phase5_software_materials.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase5_software_materials.json"
+  },
+  "artifact_blinded": false,
+  "blinding_scheme_version": "",
+  "blind_eval_run_id": "",
+  "judge_pipeline_hash": "",
+  "trace_audit_path": "",
+  "notes": {
+    "phase_a_b": true,
+    "generation_mode": "deterministic-parity-pipeline",
+    "runtime_semantics": {
+      "mode": "quare_dialectic_scaffold_v1"
+    },
+    "resolution_mode": "original",
+    "negotiation_temperature": 0.7,
+    "parser_temperature": 0.7,
+    "attack_detection_temperature": 1.0,
+    "attack_confidence_threshold": 0.7,
+    "attack_llm_confidence_floor": 0.85,
+    "attack_detection_mode": "full",
+    "judge_temperature": 0.0,
+    "case_description": "Autonomous Driving System (Baidu Apollo Planning & Control Module)",
+    "system": "quare",
+    "setting": "negotiation_integration_verification",
+    "negotiation_enabled": true,
+    "verification_executed": true,
+    "quare_only_behaviors": {
+      "phase0_external_spec_processing": true,
+      "dynamic_round_control": true,
+      "phase25_conflict_map_generation": true,
+      "phase5_software_materials_generation": true,
+      "phase2_dialectic_negotiation": true
+    },
+    "quare_optional_artifacts": {
+      "phase0_external_spec_rules.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase0_external_spec_rules.json",
+      "phase2_conflict_map.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase2_conflict_map.json",
+      "phase5_software_materials.json": "report/blind_requirement_quality_runs/argre_noaf_original/runs/argre_noaf_original-ad-s101/phase5_software_materials.json"
+    },
+    "argumentation_artifacts": {},
+    "phase2_llm": {
+      "source": "openai",
+      "enabled": true,
+      "seed": 101,
+      "seed_applied_turns": 7,
+      "turns": 7,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0
+    },
+    "mare_runtime_llm": {
+      "source": "disabled",
+      "enabled": false,
+      "seed": 101,
+      "seed_applied_turns": 0,
+      "turns": 0,
+      "fallback_turns": 0,
+      "retry_count": 0,
+      "parse_recoveries": 0,
+      "execution_mode": "deterministic_emulation"
+    },
+    "rag_corpus_dir": "/Users/haowei/ArgRE-code/data/knowledge_base",
+    "rag_corpus_hash": "91b26f1997c0a902e0428783f8209735f20c243dfe60df6eb00f3b8c00fce5b7",
+    "rag_chunk_count": 308,
+    "prompt_contract_hash": "6f7c3d08dd4902b87a272c2eccb1bd9c98f613d00e6f8fe18a8c4e034061ae13",
+    "paper_verification_tools": {
+      "bert_conflict_prescreen": false,
+      "bert_similarity_tau": 0.85,
+      "chroma_hallucination_layer": false,
+      "hallucination_tau_h": 0.6,
+      "llm_compliance_entailment": false,
+      "phase2_llm_pair_classification": false,
+      "pair_classification_temperature": 0.7,
+      "chroma_embedding_model": "text-embedding-ada-002",
+      "chroma_persist_dir": "/Users/haowei/ArgRE-code/report/blind_requirement_quality_runs/argre_noaf_original/runs/.chroma_openre_bench"
+    }
+  }
+}

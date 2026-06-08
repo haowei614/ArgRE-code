@@ -60,7 +60,9 @@ env/
 # --- Experiment & run outputs (regenerate locally) ---
 artifacts/
 experiment_outputs/
-report/
+report/*
+!report/blind_requirement_quality_formal/
+!report/blind_requirement_quality_formal/**
 
 # --- Vector / embedding stores (Chroma, caches) ---
 data/vector_store/
