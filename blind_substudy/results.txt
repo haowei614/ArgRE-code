@@ -1,0 +1,18 @@
+pair                ArgRE   NoAF   diff
+AD-P01               3.00   3.00  +0.00
+AD-P04               3.00   3.00  +0.00
+AD-P05               2.00   3.33  -1.33
+ATM-P03              4.00   3.33  +0.67
+ATM-P05              3.33   3.33  +0.00
+ATM-P06              3.33   2.67  +0.67
+ATM-P08              3.67   3.67  +0.00
+Bookkeeping-P03      3.00   3.00  +0.00
+Bookkeeping-P05      2.67   2.67  +0.00
+Bookkeeping-P06      3.33   3.33  +0.00
+
+ArgRE      mean 3.13  SD 0.52
+ArgRE-NoAF mean 3.13  SD 0.31
+mean diff  +0.00
+exact ties (identical-text pairs): 7/10
+Wilcoxon (zeros discarded): W=3.00, p=1.0000, n_nonzero=3
+Krippendorff's alpha (ordinal): 0.36

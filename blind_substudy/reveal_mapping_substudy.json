@@ -1,0 +1,177 @@
+{
+  "note": "Reveal mapping from blind item IDs to (pair, condition) slots. Kept private from raters until scoring was complete; published here for reproducibility.",
+  "sampling_seed": 20260611,
+  "items": [
+    {
+      "blind_id": "REQ-01",
+      "case_study": "Bookkeeping",
+      "requirement_text": "The system must ensure double-entry bookkeeping principles are followed and maintain an audit trail of all transactions.",
+      "maps_to": [
+        {
+          "pair_id": "Bookkeeping-P03",
+          "condition": "ArgRE"
+        },
+        {
+          "pair_id": "Bookkeeping-P03",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-02",
+      "case_study": "Bookkeeping",
+      "requirement_text": "The system must support multiple currencies and handle currency conversion.",
+      "maps_to": [
+        {
+          "pair_id": "Bookkeeping-P05",
+          "condition": "ArgRE"
+        },
+        {
+          "pair_id": "Bookkeeping-P05",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-03",
+      "case_study": "AD",
+      "requirement_text": "[System Context] The system is a Level 4 autonomous driving platform operating in mixed traffic environments.",
+      "maps_to": [
+        {
+          "pair_id": "AD-P04",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-04",
+      "case_study": "ATM",
+      "requirement_text": "Each transaction must be recorded, and the client must have the ability to review all transactions performed against a given account.",
+      "maps_to": [
+        {
+          "pair_id": "ATM-P08",
+          "condition": "ArgRE"
+        },
+        {
+          "pair_id": "ATM-P08",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-05",
+      "case_study": "ATM",
+      "requirement_text": "The application should automatically withdraw funds from a related saving-account if the requested withdrawal amount on the checking-account is more than its current balance.",
+      "maps_to": [
+        {
+          "pair_id": "ATM-P06",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-06",
+      "case_study": "AD",
+      "requirement_text": "It must execute an MRM to safely pull over or stop in a low-risk zone within a specific time window.",
+      "maps_to": [
+        {
+          "pair_id": "AD-P01",
+          "condition": "ArgRE"
+        },
+        {
+          "pair_id": "AD-P01",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-07",
+      "case_study": "ATM",
+      "requirement_text": "If the saving-account balance is insufficient to cover the requested withdrawal amount, the application should inform the user and terminate the transaction.",
+      "maps_to": [
+        {
+          "pair_id": "ATM-P03",
+          "condition": "ArgRE-NoAF"
+        },
+        {
+          "pair_id": "ATM-P06",
+          "condition": "ArgRE"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-08",
+      "case_study": "AD",
+      "requirement_text": "The EfficiencyAgent prioritizes \"Smoothness\" and \"Speed\" using the QP function to minimize Jerk.",
+      "maps_to": [
+        {
+          "pair_id": "AD-P05",
+          "condition": "ArgRE"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-09",
+      "case_study": "ATM",
+      "requirement_text": "The bank client must be able to deposit an amount to and withdraw an amount from his or her accounts using the bank application.",
+      "maps_to": [
+        {
+          "pair_id": "ATM-P03",
+          "condition": "ArgRE"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-10",
+      "case_study": "Bookkeeping",
+      "requirement_text": "Users must be able to generate financial reports such as balance sheets, income statements, and cash flow statements.",
+      "maps_to": [
+        {
+          "pair_id": "Bookkeeping-P06",
+          "condition": "ArgRE"
+        },
+        {
+          "pair_id": "Bookkeeping-P06",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-11",
+      "case_study": "AD",
+      "requirement_text": "It must strictly adhere to the \"Apollo Pilot Safety Report\" and the \"EM Motion Planner\" specifications.",
+      "maps_to": [
+        {
+          "pair_id": "AD-P05",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-12",
+      "case_study": "AD",
+      "requirement_text": "[Conflict Scenario for Negotiation] - The SafetyAgent prioritizes \"Passive Safety\" and strictly enforcing safe distances and MRM execution.",
+      "maps_to": [
+        {
+          "pair_id": "AD-P04",
+          "condition": "ArgRE"
+        }
+      ]
+    },
+    {
+      "blind_id": "REQ-13",
+      "case_study": "ATM",
+      "requirement_text": "Recorded transactions must include the date, time, transaction type, amount and account balance after the transaction.",
+      "maps_to": [
+        {
+          "pair_id": "ATM-P05",
+          "condition": "ArgRE"
+        },
+        {
+          "pair_id": "ATM-P05",
+          "condition": "ArgRE-NoAF"
+        }
+      ]
+    }
+  ]
+}

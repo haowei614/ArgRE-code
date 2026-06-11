@@ -1,0 +1,56 @@
+{
+  "sampling_seed": 20260611,
+  "design": "4 non-identical pairs (all) + 6 identical pairs stratified AD:1 ATM:2 Bookkeeping:3, duplicate-text pairs collapsed before sampling",
+  "selected_pairs": [
+    {
+      "pair_id": "AD-P01",
+      "case_study": "AD",
+      "identical_after_normalization": true
+    },
+    {
+      "pair_id": "AD-P04",
+      "case_study": "AD",
+      "identical_after_normalization": false
+    },
+    {
+      "pair_id": "AD-P05",
+      "case_study": "AD",
+      "identical_after_normalization": false
+    },
+    {
+      "pair_id": "ATM-P03",
+      "case_study": "ATM",
+      "identical_after_normalization": false
+    },
+    {
+      "pair_id": "ATM-P05",
+      "case_study": "ATM",
+      "identical_after_normalization": true
+    },
+    {
+      "pair_id": "ATM-P06",
+      "case_study": "ATM",
+      "identical_after_normalization": false
+    },
+    {
+      "pair_id": "ATM-P08",
+      "case_study": "ATM",
+      "identical_after_normalization": true
+    },
+    {
+      "pair_id": "Bookkeeping-P03",
+      "case_study": "Bookkeeping",
+      "identical_after_normalization": true
+    },
+    {
+      "pair_id": "Bookkeeping-P05",
+      "case_study": "Bookkeeping",
+      "identical_after_normalization": true
+    },
+    {
+      "pair_id": "Bookkeeping-P06",
+      "case_study": "Bookkeeping",
+      "identical_after_normalization": true
+    }
+  ]
+}
