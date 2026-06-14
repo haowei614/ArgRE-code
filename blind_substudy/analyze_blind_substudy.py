@@ -69,6 +69,7 @@ try:
 except ImportError:
     print("scipy not installed; install for Wilcoxon test (pip install scipy)")
 
+
 def krippendorff_alpha_ordinal(data):
     """Compute Krippendorff's alpha with the ordinal distance function."""
     categories = [1, 2, 3, 4, 5]

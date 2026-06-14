@@ -50,7 +50,6 @@ To reproduce the analysis, run `python3 analyze_blind_substudy.py`. Report descr
 - Gap persists: ArgRE text itself is rated as better justified, which is a
   stronger DJS result. Either outcome is reportable.
 
-
 ## Results
 
 Under text-only blind scoring the DJS gap collapsed from 1.25 (4.32 vs 3.07) to 0.00 (3.13 vs 3.13); 7/10 pairs tied (6 by construction); Wilcoxon p = 1.00; Krippendorff's ordinal alpha = 0.36.
