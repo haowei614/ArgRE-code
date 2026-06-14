@@ -1,0 +1,508 @@
+{
+  "summary": {
+    "annotator_count_with_any_judgments": 2,
+    "detected_attack_items": 25,
+    "negative_control_items": 5,
+    "items_with_majority_vote": 24
+  },
+  "precision": {
+    "value": 0.9473684210526315,
+    "numerator": 18,
+    "denominator": 19,
+    "missing_or_no_majority": 6
+  },
+  "precision_by_pattern": {
+    "P1": {
+      "value": 1.0,
+      "numerator": 2,
+      "denominator": 2,
+      "missing_or_no_majority": 0
+    },
+    "P2": {
+      "value": 1.0,
+      "numerator": 15,
+      "denominator": 15,
+      "missing_or_no_majority": 6
+    },
+    "P3": {
+      "value": 0.5,
+      "numerator": 1,
+      "denominator": 2,
+      "missing_or_no_majority": 0
+    }
+  },
+  "precision_by_case_study": {
+    "AD": {
+      "value": 0.875,
+      "numerator": 7,
+      "denominator": 8,
+      "missing_or_no_majority": 1
+    },
+    "ATM": {
+      "value": 1.0,
+      "numerator": 7,
+      "denominator": 7,
+      "missing_or_no_majority": 1
+    },
+    "Bookkeeping": {
+      "value": 1.0,
+      "numerator": 4,
+      "denominator": 4,
+      "missing_or_no_majority": 4
+    }
+  },
+  "negative_control_accuracy": {
+    "value": 1.0,
+    "numerator": 5,
+    "denominator": 5,
+    "missing_or_no_majority": 0
+  },
+  "agreement": {
+    "method": "Cohen's kappa",
+    "annotators": [
+      "R1",
+      "R2"
+    ],
+    "complete_item_count": 30,
+    "ternary_categories": [
+      "Real conflict",
+      "Not a real conflict",
+      "Borderline"
+    ],
+    "ternary_kappa": 0.5784543325526933,
+    "binary_categories": [
+      "Real conflict",
+      "Not a real conflict"
+    ],
+    "binary_borderline_merged_with_real_conflict_kappa": 0.8888888888888888
+  },
+  "latex_table": "\\begin{tabular}{lcc}\n\\toprule\nMetric & Value & n \\\\\n\\midrule\nDetected attacks precision & 0.947 & 18/19 \\\\\nP1 precision & 1.000 & 2/2 \\\\\nP2 precision & 1.000 & 15/15 \\\\\nP3 precision & 0.500 & 1/2 \\\\\nAD precision & 0.875 & 7/8 \\\\\nATM precision & 1.000 & 7/7 \\\\\nBookkeeping precision & 1.000 & 4/4 \\\\\nNegative-control accuracy & 1.000 & 5/5 \\\\\n\\midrule\nCohen's kappa (3-category) & 0.578 & 30 \\\\\nCohen's kappa (binary) & 0.889 & 30 \\\\\n\\bottomrule\n\\end{tabular}",
+  "item_votes": {
+    "CV-01": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-02": {
+      "votes": [
+        "Not a real conflict",
+        "Not a real conflict"
+      ],
+      "vote_counts": {
+        "Not a real conflict": 2
+      },
+      "majority": "Not a real conflict",
+      "n_votes": 2,
+      "hidden_label": "no_attack",
+      "hidden_pattern": null,
+      "case_study": "AD"
+    },
+    "CV-03": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P1",
+      "case_study": "AD"
+    },
+    "CV-04": {
+      "votes": [
+        "Real conflict",
+        "Borderline"
+      ],
+      "vote_counts": {
+        "Real conflict": 1,
+        "Borderline": 1
+      },
+      "majority": "",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-05": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P3",
+      "case_study": "AD"
+    },
+    "CV-06": {
+      "votes": [
+        "Not a real conflict",
+        "Not a real conflict"
+      ],
+      "vote_counts": {
+        "Not a real conflict": 2
+      },
+      "majority": "Not a real conflict",
+      "n_votes": 2,
+      "hidden_label": "no_attack",
+      "hidden_pattern": null,
+      "case_study": "ATM"
+    },
+    "CV-07": {
+      "votes": [
+        "Not a real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Not a real conflict": 1,
+        "Real conflict": 1
+      },
+      "majority": "",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-08": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-09": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-10": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-11": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P1",
+      "case_study": "ATM"
+    },
+    "CV-12": {
+      "votes": [
+        "Real conflict",
+        "Borderline"
+      ],
+      "vote_counts": {
+        "Real conflict": 1,
+        "Borderline": 1
+      },
+      "majority": "",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-13": {
+      "votes": [
+        "Not a real conflict",
+        "Not a real conflict"
+      ],
+      "vote_counts": {
+        "Not a real conflict": 2
+      },
+      "majority": "Not a real conflict",
+      "n_votes": 2,
+      "hidden_label": "no_attack",
+      "hidden_pattern": null,
+      "case_study": "ATM"
+    },
+    "CV-14": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "AD"
+    },
+    "CV-15": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-16": {
+      "votes": [
+        "Real conflict",
+        "Borderline"
+      ],
+      "vote_counts": {
+        "Real conflict": 1,
+        "Borderline": 1
+      },
+      "majority": "",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-17": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-18": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "ATM"
+    },
+    "CV-19": {
+      "votes": [
+        "Not a real conflict",
+        "Not a real conflict"
+      ],
+      "vote_counts": {
+        "Not a real conflict": 2
+      },
+      "majority": "Not a real conflict",
+      "n_votes": 2,
+      "hidden_label": "no_attack",
+      "hidden_pattern": null,
+      "case_study": "Bookkeeping"
+    },
+    "CV-20": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "AD"
+    },
+    "CV-21": {
+      "votes": [
+        "Borderline",
+        "Borderline"
+      ],
+      "vote_counts": {
+        "Borderline": 2
+      },
+      "majority": "Borderline",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P3",
+      "case_study": "AD"
+    },
+    "CV-22": {
+      "votes": [
+        "Real conflict",
+        "Borderline"
+      ],
+      "vote_counts": {
+        "Real conflict": 1,
+        "Borderline": 1
+      },
+      "majority": "",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "AD"
+    },
+    "CV-23": {
+      "votes": [
+        "Not a real conflict",
+        "Not a real conflict"
+      ],
+      "vote_counts": {
+        "Not a real conflict": 2
+      },
+      "majority": "Not a real conflict",
+      "n_votes": 2,
+      "hidden_label": "no_attack",
+      "hidden_pattern": null,
+      "case_study": "AD"
+    },
+    "CV-24": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "AD"
+    },
+    "CV-25": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-26": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-27": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "AD"
+    },
+    "CV-28": {
+      "votes": [
+        "Real conflict",
+        "Borderline"
+      ],
+      "vote_counts": {
+        "Real conflict": 1,
+        "Borderline": 1
+      },
+      "majority": "",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-29": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "Bookkeeping"
+    },
+    "CV-30": {
+      "votes": [
+        "Real conflict",
+        "Real conflict"
+      ],
+      "vote_counts": {
+        "Real conflict": 2
+      },
+      "majority": "Real conflict",
+      "n_votes": 2,
+      "hidden_label": "detected_attack",
+      "hidden_pattern": "P2",
+      "case_study": "AD"
+    }
+  }
+}

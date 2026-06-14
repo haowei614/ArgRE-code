@@ -1,0 +1,639 @@
+{
+  "metadata": {
+    "sample_seed": 20260614,
+    "detected_attack_items": 25,
+    "negative_control_items": 5
+  },
+  "items": {
+    "CV-01": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "ResponsibilityAgent_SafetyAgent-s4",
+      "argument_b_id": "ResponsibilityAgent_SafetyAgent-s3",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-02": {
+      "label": "no_attack",
+      "pattern": null,
+      "raw_pattern": null,
+      "case_study": "AD",
+      "source_seed": 101,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        101
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s101/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s101/argumentation_graph.json"
+      ],
+      "argument_a_id": "ResponsibilityAgent_SafetyAgent-s1",
+      "argument_b_id": "ResponsibilityAgent_SafetyAgent-s3",
+      "confidence": null,
+      "reason": "Negative control: no attack relation in either direction.",
+      "grounded_source_accepted": null,
+      "grounded_target_accepted": null
+    },
+    "CV-03": {
+      "label": "detected_attack",
+      "pattern": "P1",
+      "raw_pattern": "rule:refinement_prev_version",
+      "case_study": "AD",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s4",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s3",
+      "confidence": 0.92,
+      "reason": "Refinement supersedes previous version from same agent.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-04": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "ResponsibilityAgent_SafetyAgent-s2",
+      "argument_b_id": "ResponsibilityAgent_SafetyAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-05": {
+      "label": "detected_attack",
+      "pattern": "P3",
+      "raw_pattern": "rule:refinement_counter_critique",
+      "case_study": "AD",
+      "source_seed": 101,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        101
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s101/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s101/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s5",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s4",
+      "confidence": 0.9,
+      "reason": "Refinement counter-attacks the directly addressed critique.",
+      "grounded_source_accepted": false,
+      "grounded_target_accepted": true
+    },
+    "CV-06": {
+      "label": "no_attack",
+      "pattern": null,
+      "raw_pattern": null,
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s1",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s2",
+      "confidence": null,
+      "reason": "Negative control: no attack relation in either direction.",
+      "grounded_source_accepted": null,
+      "grounded_target_accepted": null
+    },
+    "CV-07": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s4",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s3",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-08": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "TrustworthinessAgent_ResponsibilityAgent-s4",
+      "argument_b_id": "TrustworthinessAgent_ResponsibilityAgent-s3",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-09": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s2",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-10": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "TrustworthinessAgent_ResponsibilityAgent-s6",
+      "argument_b_id": "TrustworthinessAgent_ResponsibilityAgent-s5",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-11": {
+      "label": "detected_attack",
+      "pattern": "P1",
+      "raw_pattern": "rule:refinement_prev_version",
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "TrustworthinessAgent_ResponsibilityAgent-s2",
+      "argument_b_id": "TrustworthinessAgent_ResponsibilityAgent-s1",
+      "confidence": 0.92,
+      "reason": "Refinement supersedes previous version from same agent.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-12": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "EfficiencyAgent_GreenAgent-s2",
+      "argument_b_id": "EfficiencyAgent_GreenAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-13": {
+      "label": "no_attack",
+      "pattern": null,
+      "raw_pattern": null,
+      "case_study": "ATM",
+      "source_seed": 101,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        101
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s101/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s101/argumentation_graph.json"
+      ],
+      "argument_a_id": "TrustworthinessAgent_ResponsibilityAgent-s1",
+      "argument_b_id": "TrustworthinessAgent_ResponsibilityAgent-s2",
+      "confidence": null,
+      "reason": "Negative control: no attack relation in either direction.",
+      "grounded_source_accepted": null,
+      "grounded_target_accepted": null
+    },
+    "CV-14": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "AD",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s2",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": false,
+      "grounded_target_accepted": true
+    },
+    "CV-15": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 101,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        101
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s101/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s101/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s4",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s3",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-16": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s6",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s5",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-17": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "ResponsibilityAgent_SafetyAgent-s2",
+      "argument_b_id": "ResponsibilityAgent_SafetyAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-18": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "ATM",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-atm-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s2",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-19": {
+      "label": "no_attack",
+      "pattern": null,
+      "raw_pattern": null,
+      "case_study": "Bookkeeping",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s1",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s2",
+      "confidence": null,
+      "reason": "Negative control: no attack relation in either direction.",
+      "grounded_source_accepted": null,
+      "grounded_target_accepted": null
+    },
+    "CV-20": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "AD",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "TrustworthinessAgent_ResponsibilityAgent-s6",
+      "argument_b_id": "TrustworthinessAgent_ResponsibilityAgent-s5",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-21": {
+      "label": "detected_attack",
+      "pattern": "P3",
+      "raw_pattern": "rule:refinement_counter_critique",
+      "case_study": "AD",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s4",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s2",
+      "confidence": 0.9,
+      "reason": "Refinement counter-attacks the directly addressed critique.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-22": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "AD",
+      "source_seed": 101,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        101
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s101/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s101/argumentation_graph.json"
+      ],
+      "argument_a_id": "ResponsibilityAgent_SafetyAgent-s2",
+      "argument_b_id": "ResponsibilityAgent_SafetyAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-23": {
+      "label": "no_attack",
+      "pattern": null,
+      "raw_pattern": null,
+      "case_study": "AD",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s1",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s3",
+      "confidence": null,
+      "reason": "Negative control: no attack relation in either direction.",
+      "grounded_source_accepted": null,
+      "grounded_target_accepted": null
+    },
+    "CV-24": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "AD",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s6",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s5",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-25": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "ResponsibilityAgent_SafetyAgent-s6",
+      "argument_b_id": "ResponsibilityAgent_SafetyAgent-s5",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-26": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 101,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        101
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s101/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s101/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s2",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-27": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "AD",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "SafetyAgent_EfficiencyAgent-s2",
+      "argument_b_id": "SafetyAgent_EfficiencyAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-28": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s4",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s3",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-29": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "Bookkeeping",
+      "source_seed": 202,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        202
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-bookkeeping-s202/argumentation_graph.json"
+      ],
+      "argument_a_id": "GreenAgent_TrustworthinessAgent-s2",
+      "argument_b_id": "GreenAgent_TrustworthinessAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    },
+    "CV-30": {
+      "label": "detected_attack",
+      "pattern": "P2",
+      "raw_pattern": "rule:critique_direct",
+      "case_study": "AD",
+      "source_seed": 303,
+      "source_seed_count": 1,
+      "all_source_seeds": [
+        303
+      ],
+      "source_file": "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json",
+      "all_source_files": [
+        "report/blind_requirement_quality_runs/argre_af_preferred/runs/argre_af_preferred-ad-s303/argumentation_graph.json"
+      ],
+      "argument_a_id": "TrustworthinessAgent_ResponsibilityAgent-s2",
+      "argument_b_id": "TrustworthinessAgent_ResponsibilityAgent-s1",
+      "confidence": 0.95,
+      "reason": "Critique directly challenges referenced or adjacent prior proposal/refinement.",
+      "grounded_source_accepted": true,
+      "grounded_target_accepted": false
+    }
+  }
+}
