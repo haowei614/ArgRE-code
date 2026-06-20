@@ -1,0 +1,18 @@
+\begin{table}[!t]
+\centering
+\caption{Prompt and Model Sensitivity (AD case, seed 101)}
+\label{tab:prompt-sensitivity}
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llccccccc}
+\toprule
+\textbf{Variant} & \textbf{Model} & $|\mathcal{A}|$ & $|\mathcal{R}_{att}|$ & $|\mathcal{E}_g|$ & \textbf{BERT} & \textbf{TC} & \textbf{Compl.} & \textbf{CRR} \\
+\midrule
+A (Original)     & 4o-mini & 14 & 7 & 7 & 0.947 & 0.0 & 47.6 & 100.0 \\
+B (Synonym+Reorder) & 4o-mini & 14 & 7 & 7 & 0.947 & 0.0 & 47.6 & 100.0 \\
+C (Formal)       & 4o-mini & 14 & 7 & 7 & 0.947 & 0.0 & 47.6 & 100.0 \\
+\bottomrule
+\end{tabular}
+\endgroup
+\end{table}

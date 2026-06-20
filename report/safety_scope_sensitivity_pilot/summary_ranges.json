@@ -1,0 +1,49 @@
+{
+  "bert_percent_range": {
+    "min": 94.7324,
+    "max": 94.7324
+  },
+  "num_arguments_range": {
+    "min": 14.0,
+    "max": 14.0
+  },
+  "num_attacks_range": {
+    "min": 7.0,
+    "max": 7.0
+  },
+  "p1_count_range": {
+    "min": 5.0,
+    "max": 5.0
+  },
+  "p2_count_range": {
+    "min": 2.0,
+    "max": 2.0
+  },
+  "p3_count_range": {
+    "min": 0.0,
+    "max": 0.0
+  },
+  "grounded_extension_size_range": {
+    "min": 7.0,
+    "max": 7.0
+  },
+  "tc_percent_range": {
+    "min": 0.0,
+    "max": 0.0
+  },
+  "delta_max": {
+    "num_arguments": 0.0,
+    "num_attacks": 0.0,
+    "grounded_extension_size": 0.0,
+    "semantic_preservation_f1": 0.0,
+    "tc_percent": 0.0
+  },
+  "compliance_percent_range": {
+    "min": 47.619,
+    "max": 47.619
+  },
+  "crr_percent_range": {
+    "min": 100.0,
+    "max": 100.0
+  }
+}

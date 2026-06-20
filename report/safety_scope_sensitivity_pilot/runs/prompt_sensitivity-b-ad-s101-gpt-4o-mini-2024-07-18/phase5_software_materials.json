@@ -1,0 +1,119 @@
+{
+  "phase": "5_software_materials_generation",
+  "case_id": "AD",
+  "setting": "negotiation_integration_verification",
+  "generated_at": "2026-06-20T07:31:56Z",
+  "materials": {
+    "srs_outline": [
+      "System Scope and Stakeholders",
+      "Quality-Attribute Requirements (Safety/Efficiency/Green/Trustworthiness/Responsibility)",
+      "Negotiation and Conflict Resolution Decisions",
+      "Verification and Compliance Evidence"
+    ],
+    "implementation_checklist": [
+      "Preserve canonical phase artifact compatibility",
+      "Enforce strict provenance and taint controls",
+      "Trace each integrated requirement to a verification signal"
+    ],
+    "traceability_matrix": [
+      {
+        "element_id": "EFF-L1-002",
+        "quality_attribute": "Efficiency",
+        "statement": "Efficiency objective for AD: Project: Baidu Apollo Autonomous Driving System (Planning & Control Module)",
+        "verification_anchor": "pending"
+      },
+      {
+        "element_id": "EFF-L2-002-01",
+        "quality_attribute": "Efficiency",
+        "statement": "The system shall ensure efficiency (latency optimization): Project: Baidu Apollo Autonomous Driving System (Planning & Control Module)",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "EFF-L2-002-02",
+        "quality_attribute": "Efficiency",
+        "statement": "The system shall ensure efficiency (throughput stability): [System Context] The system is a Level 4 autonomous driving platform operating in mixed traffic environments.",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "EFF-L2-002-03",
+        "quality_attribute": "Efficiency",
+        "statement": "The system shall ensure efficiency (resource utilization): It must strictly adhere to the \"Apollo Pilot Safety Report\" and the \"EM Motion Planner\" specifications.",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "EFF-L2-002-04",
+        "quality_attribute": "Efficiency",
+        "statement": "The system shall ensure efficiency (latency optimization): [Safety Requirements - Based on Apollo Pilot Safety Report] 1.",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "EFF-L2-002-05",
+        "quality_attribute": "Efficiency",
+        "statement": "The system shall ensure efficiency (throughput stability): Multi-Layer Safety Architecture: - The system must implement \"Passive Safety\" (collision protection), \"Active Safety\"...",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "EFF-L2-002-06",
+        "quality_attribute": "Efficiency",
+        "statement": "The system shall ensure efficiency (resource utilization): Minimal Risk Maneuver (MRM): - Upon detecting a critical system failure (e.g., sensor loss, localization failure) or...",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L1-001",
+        "quality_attribute": "Safety",
+        "statement": "Safety objective for AD: - Non-convex obstacle constraints must be handled using iterative quadratic programming (QP).",
+        "verification_anchor": "pending"
+      },
+      {
+        "element_id": "SAF-L2-001-01",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (hazard prevention): - Non-convex obstacle constraints must be handled using iterative quadratic programming (QP).",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L2-001-02",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (fault tolerance): [Conflict Scenario for Negotiation] - The SafetyAgent prioritizes \"Passive Safety\" and strictly enforcing safe distances and...",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L2-001-03",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (risk mitigation): - The EfficiencyAgent prioritizes \"Smoothness\" and \"Speed\" using the QP function to minimize Jerk.",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L2-001-04",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (hazard prevention): - **Potential Conflict**: An emergency MRM (Safety) triggered by a fault might violate the Jerk/Smoothness constraints...",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L2-001-05",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (fault tolerance): Project: Baidu Apollo Autonomous Driving System (Planning & Control Module)",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L2-001-06",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (risk mitigation): [System Context] The system is a Level 4 autonomous driving platform operating in mixed traffic environments.",
+        "verification_anchor": "candidate_resolution"
+      },
+      {
+        "element_id": "SAF-L2-001-07",
+        "quality_attribute": "Safety",
+        "statement": "The system shall ensure safety (hazard prevention): It must strictly adhere to the \"Apollo Pilot Safety Report\" and the \"EM Motion Planner\" specifications.",
+        "verification_anchor": "candidate_resolution"
+      }
+    ]
+  },
+  "quality_signals": {
+    "topology_is_valid": true,
+    "deterministic_is_valid": true,
+    "compliance_coverage": 0.47619,
+    "s_logic": 1.0,
+    "detected_conflict_pairs": 2,
+    "resolved_conflict_pairs": 2
+  }
+}

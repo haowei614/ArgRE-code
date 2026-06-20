@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "A": {
+      "label": "A (Original)",
+      "safety_scope": "Focus only on safety concerns: hazard prevention, fault tolerance, risk mitigation, unsafe states, fail-safe behavior, and safety validation."
+    },
+    "B": {
+      "label": "B (Synonym+Reorder)",
+      "safety_scope": "Concentrate exclusively on system safety aspects: risk mitigation strategies, fault-tolerant design, hazard identification and prevention, fail-safe mechanisms, unsafe state detection, and safety verification."
+    },
+    "C": {
+      "label": "C (Formal)",
+      "safety_scope": "Your sole responsibility is evaluating safety-related requirements. This includes assessing hazard scenarios, ensuring fault tolerance and fail-safe behavior, identifying unsafe system states, validating risk mitigation measures, and confirming safety compliance."
+    }
+  },
+  "patched_field": "QUARE_AGENT_SYSTEM_SCOPES['SafetyAgent']",
+  "unchanged_fields": [
+    "all non-SafetyAgent scopes",
+    "_build_quare_llm_messages template",
+    "user payload JSON schema",
+    "temperature",
+    "theta_eff",
+    "round_cap"
+  ],
+  "system_prompt_template": "You are {reviewer_agent} in QUARE Phase-2 dialectic negotiation. Review the focus model only through your assigned quality scope. {reviewer_agent_scope} When identifying conflicts, prioritize this scope and avoid optimizing other quality attributes unless they directly affect it. Return exactly one JSON object. Do not emit markdown fences or prose."
+}

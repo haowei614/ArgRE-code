@@ -63,6 +63,8 @@ experiment_outputs/
 report/*
 !report/blind_requirement_quality_formal/
 !report/blind_requirement_quality_formal/**
+!report/safety_scope_sensitivity_pilot/
+!report/safety_scope_sensitivity_pilot/**
 
 # --- Vector / embedding stores (Chroma, caches) ---
 data/vector_store/
