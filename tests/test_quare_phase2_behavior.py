@@ -10,6 +10,8 @@ from openre_bench.comparison_validator import validate_run_record
 from openre_bench.comparison_validator import validate_system_behavior_contract
 from openre_bench.pipeline import PipelineConfig
 from openre_bench.pipeline import run_case_pipeline
+from openre_bench.pipeline.quare import QUARE_AGENT_SYSTEM_SCOPES
+from openre_bench.pipeline.quare import _build_quare_llm_messages
 from openre_bench.schemas import SETTING_MULTI_AGENT_WITH_NEGOTIATION
 from openre_bench.schemas import SETTING_NEGOTIATION_INTEGRATION_VERIFICATION
 from openre_bench.schemas import SYSTEM_MARE
@@ -215,6 +217,43 @@ class NoConflictResolvedTupleLLMClient:
             "element_updates": [],
         }
         return json.dumps(payload)
+
+
+def test_quare_llm_prompt_includes_agent_scopes():
+    messages = _build_quare_llm_messages(
+        focus_agent="SafetyAgent",
+        reviewer_agent="EfficiencyAgent",
+        requirement="The system shall avoid unsafe states while meeting latency goals.",
+        focus_elements=[
+            {
+                "id": "SAFE-L2-001",
+                "name": "Safety Requirement",
+                "description": "The system shall enter a fail-safe state on sensor faults.",
+                "hierarchy_level": 2,
+                "validation_status": "pending",
+            }
+        ],
+        reviewer_elements=[
+            {
+                "id": "EFF-L2-001",
+                "name": "Efficiency Requirement",
+                "description": "The system shall respond within 100ms.",
+                "hierarchy_level": 2,
+                "validation_status": "pending",
+            }
+        ],
+        llm_model="test-model",
+    )
+
+    system_prompt = messages[0]["content"]
+    user_payload = json.loads(messages[1]["content"])
+
+    assert "You are EfficiencyAgent" in system_prompt
+    assert QUARE_AGENT_SYSTEM_SCOPES["EfficiencyAgent"] in system_prompt
+    assert "Return exactly one JSON object" in system_prompt
+    assert user_payload["focus_agent_scope"] == QUARE_AGENT_SYSTEM_SCOPES["SafetyAgent"]
+    assert user_payload["reviewer_agent_scope"] == QUARE_AGENT_SYSTEM_SCOPES["EfficiencyAgent"]
+    assert user_payload["output_schema"]["analysis_text"] == "string"
 
 
 class DescriptionRewriteLLMClient:

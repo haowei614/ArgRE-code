@@ -42,6 +42,29 @@ __all__ = [
     "build_quare_optional_artifacts",
 ]
 
+QUARE_AGENT_SYSTEM_SCOPES: dict[str, str] = {
+    "SafetyAgent": (
+        "Focus only on safety concerns: hazard prevention, fault tolerance, risk "
+        "mitigation, unsafe states, fail-safe behavior, and safety validation."
+    ),
+    "EfficiencyAgent": (
+        "Focus only on efficiency concerns: latency, throughput, resource utilization, "
+        "performance bottlenecks, operational overhead, and scalability constraints."
+    ),
+    "GreenAgent": (
+        "Focus only on sustainability concerns: energy use, resource lifecycle, carbon "
+        "or environmental impact, waste reduction, and sustainable operation trade-offs."
+    ),
+    "TrustworthinessAgent": (
+        "Focus only on trustworthiness concerns: security assurance, data integrity, "
+        "reliability, availability, auditability, and evidence quality."
+    ),
+    "ResponsibilityAgent": (
+        "Focus only on responsibility concerns: regulatory compliance, accountability, "
+        "stakeholder transparency, ethical impact, governance, and duty allocation."
+    ),
+}
+
 
 # ---------------------------------------------------------------------------
 # QUARE multi-turn dialectic negotiation
@@ -602,6 +625,20 @@ def _run_quare_llm_turn(
 # ---------------------------------------------------------------------------
 
 
+def _quare_agent_scope(agent_name: str) -> str:
+    """Return the quality scope used to constrain one QUARE agent turn."""
+
+    normalized = str(agent_name).strip()
+    return QUARE_AGENT_SYSTEM_SCOPES.get(
+        normalized,
+        (
+            "Focus only on the quality concerns assigned to this QUARE agent. "
+            "Do not optimize unrelated quality attributes unless they directly affect "
+            "the assigned concern."
+        ),
+    )
+
+
 def _build_quare_llm_messages(
     *,
     focus_agent: str,
@@ -638,7 +675,9 @@ def _build_quare_llm_messages(
         "task": "QUARE Phase-2 dialectic negotiation",
         "model": llm_model,
         "focus_agent": focus_agent,
+        "focus_agent_scope": _quare_agent_scope(focus_agent),
         "reviewer_agent": reviewer_agent,
+        "reviewer_agent_scope": _quare_agent_scope(reviewer_agent),
         "requirement": _summarize_text(requirement, 420),
         "focus_elements": focus_payload,
         "reviewer_elements": reviewer_payload,
@@ -662,6 +701,11 @@ def _build_quare_llm_messages(
         {
             "role": "system",
             "content": (
+                f"You are {reviewer_agent} in QUARE Phase-2 dialectic negotiation. "
+                "Review the focus model only through your assigned quality scope. "
+                f"{_quare_agent_scope(reviewer_agent)} "
+                "When identifying conflicts, prioritize this scope and avoid optimizing "
+                "other quality attributes unless they directly affect it. "
                 "Return exactly one JSON object. Do not emit markdown fences or prose."
             ),
         },
